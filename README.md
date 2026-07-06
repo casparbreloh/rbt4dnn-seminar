@@ -1,6 +1,7 @@
 # rbt4dnn-seminar
 
-Seminar replication and extension work for **RBT4DNN: Requirements-based Testing of Neural Networks**.
+Seminar replication and extension work for **RBT4DNN: Requirements-based
+Testing of Neural Networks**.
 
 This repository builds on the original RBT4DNN paper artifact:
 
@@ -10,12 +11,18 @@ This repository builds on the original RBT4DNN paper artifact:
 ## Layout
 
 ```text
-data/
-  results.csv              compact table shared by the notebooks
-  rbt4dnn-artifact/        selected upstream artifact files
-docs/
-  artifact.md              what was copied and what stays external
+artifact/
+  generated-images/
+    mnist/                 M1-M7, Allreq_M1-M6, Alldata_M1-M6
+    celeba-hq/             C1-C7
+    sgsm/                  S1-S7
+    imagenet/              I1-I4
+  results/                 upstream result files
+  scripts/                 upstream scripts and notebooks
+  upstream-readme.md       original artifact README
+  upstream-requirements.txt
 experiments/
+  results.csv              compact table shared by the notebooks
   replication-mnist/       MNIST replication notebook and runner
   valid-failure/           pass rate plus precondition-match analysis
   cost-analysis/           cost per valid requirement-matching failure
@@ -23,9 +30,17 @@ packages/
   <future package>/        optional uv workspace packages later
 ```
 
+Think of `artifact/` as the original RBT4DNN artifact, but with clearer
+subfolders. Think of `experiments/` as the seminar layer on top.
+
+This repo includes all generated-image PNGs available in the local artifact
+copy: 14,500 images across MNIST, CelebA-HQ, SGSM, and ImageNet. It does not
+include original training datasets or model checkpoints, because those are not
+part of the local artifact copy and should stay external.
+
 New extension experiments should get their own folder under `experiments/`.
-Small shared tables belong in `data/`; large generated outputs belong in ignored
-`outputs/` or outside the repo.
+Large new outputs should go into ignored `outputs/` unless they are small,
+final results worth committing.
 
 ## Environment
 
@@ -41,8 +56,8 @@ uv sync
 - [Valid failure overview](https://colab.research.google.com/github/casparbreloh/rbt4dnn-seminar/blob/main/experiments/valid-failure/valid_failure_overview.ipynb)
 - [Cost per valid failure](https://colab.research.google.com/github/casparbreloh/rbt4dnn-seminar/blob/main/experiments/cost-analysis/cost_valid_failure.ipynb)
 
-The notebooks clone this repository automatically in Colab if `data/results.csv`
-is not already available.
+The notebooks clone this repository automatically in Colab if
+`experiments/results.csv` is not already available.
 
 ## Main extension idea
 
@@ -62,8 +77,16 @@ For MNIST M3 (`very thick 7`), the per-requirement LoRA finds many valid failure
 uv run python experiments/replication-mnist/rerun_mnist_model.py
 ```
 
-This uses the copied MNIST generated images under `data/rbt4dnn-artifact/mnist-images/`.
+This uses the copied MNIST generated images under
+`artifact/generated-images/mnist/`.
 
 ## Scope
 
-This is not a full fork of the original artifact. It keeps the seminar experiments small and focused while preserving the upstream files needed for the reported tables. Full datasets, model checkpoints, and non-MNIST generated images remain external; see `docs/artifact.md`.
+This is not a full fork of every external asset used by the paper. It keeps the
+local artifact contents that matter for the seminar work: scripts, upstream
+results, and all locally available generated images. Full datasets and model
+checkpoints remain external.
+
+The upstream repository did not include a clear license file in the local
+artifact snapshot. Copied upstream files are therefore treated as attributed
+research artifact excerpts, not as relicensed material.
