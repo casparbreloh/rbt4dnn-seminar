@@ -3,7 +3,7 @@
 This repository includes selected files from the RBT4DNN artifact:
 
 ```text
-rbt4dnn-artifact/
+data/rbt4dnn-artifact/
   README.md
   requirements.txt
   results/
