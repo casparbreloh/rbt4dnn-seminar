@@ -22,6 +22,14 @@ This repository builds on the original RBT4DNN paper artifact:
 - `rbt4dnn-artifact/`  
   Selected upstream artifact files needed for this seminar work.
 
+## Environment
+
+This repo is managed with [`uv`](https://docs.astral.sh/uv/). The root project is also a uv workspace, so later experiments can add packages under `packages/*` without changing the repository layout.
+
+```bash
+uv sync
+```
+
 ## Open in Colab
 
 - [MNIST replication](https://colab.research.google.com/github/casparbreloh/rbt4dnn-seminar/blob/main/replication_mnist.ipynb)
@@ -45,10 +53,7 @@ For MNIST M3 (`very thick 7`), the per-requirement LoRA finds many valid failure
 ## Reproduce the MNIST rerun
 
 ```bash
-python -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-python rerun_mnist_model.py
+uv run python rerun_mnist_model.py
 ```
 
 This uses the copied MNIST generated images under `rbt4dnn-artifact/mnist-images/`.
