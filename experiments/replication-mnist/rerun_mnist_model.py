@@ -28,7 +28,7 @@ PAPER = {
 }
 BASE = (
     Path(__file__).resolve().parents[2]
-    / 'artifact'
+    / 'reference'
     / 'generated-images'
     / 'mnist'
 )

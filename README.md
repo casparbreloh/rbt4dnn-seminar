@@ -3,24 +3,22 @@
 Seminar replication and extension work for **RBT4DNN: Requirements-based
 Testing of Neural Networks**.
 
-This repository builds on the original RBT4DNN paper artifact:
+This repository builds on the original RBT4DNN paper/code release:
 
-- Paper artifact: https://github.com/less-lab-uva/RBT4DNN
+- Original code/data release: https://github.com/less-lab-uva/RBT4DNN
 - Paper: https://arxiv.org/abs/2504.02737
 
 ## Layout
 
 ```text
-artifact/
+reference/
   generated-images/
     mnist/                 M1-M7, Allreq_M1-M6, Alldata_M1-M6
     celeba-hq/             C1-C7
     sgsm/                  S1-S7
     imagenet/              I1-I4
-  results/                 upstream result files
-  scripts/                 upstream scripts and notebooks
-  upstream-readme.md       original artifact README
-  upstream-requirements.txt
+  reported-results/        paper result files copied for comparison
+  scripts/                 reference scripts copied from RBT4DNN
 experiments/
   results.csv              compact table shared by the notebooks
   replication-mnist/       MNIST replication notebook and runner
@@ -30,13 +28,16 @@ packages/
   <future package>/        optional uv workspace packages later
 ```
 
-Think of `artifact/` as the original RBT4DNN artifact, but with clearer
-subfolders. Think of `experiments/` as the seminar layer on top.
+Think of `reference/` as the exact paper material this repo depends on.
+Think of `experiments/` as our seminar work on top.
 
-This repo includes all generated-image PNGs available in the local artifact
-copy: 14,500 images across MNIST, CelebA-HQ, SGSM, and ImageNet. It does not
-include original training datasets or model checkpoints, because those are not
-part of the local artifact copy and should stay external.
+This is not a mirror of the original repository. It keeps the generated images,
+reported result files, and reference scripts needed for reproducibility and
+comparison. It does not keep the original README, original requirements file,
+training datasets, or model checkpoints.
+
+The generated images are exact copies from the local RBT4DNN release we have:
+14,500 PNGs across MNIST, CelebA-HQ, SGSM, and ImageNet.
 
 New extension experiments should get their own folder under `experiments/`.
 Large new outputs should go into ignored `outputs/` unless they are small,
@@ -78,15 +79,10 @@ uv run python experiments/replication-mnist/rerun_mnist_model.py
 ```
 
 This uses the copied MNIST generated images under
-`artifact/generated-images/mnist/`.
+`reference/generated-images/mnist/`.
 
 ## Scope
 
-This is not a full fork of every external asset used by the paper. It keeps the
-local artifact contents that matter for the seminar work: scripts, upstream
-results, and all locally available generated images. Full datasets and model
-checkpoints remain external.
-
-The upstream repository did not include a clear license file in the local
-artifact snapshot. Copied upstream files are therefore treated as attributed
-research artifact excerpts, not as relicensed material.
+This repo is our seminar repo. Copied paper material is kept only where it
+supports exact reproduction, comparison, or auditability. Full datasets and
+model checkpoints remain external.
