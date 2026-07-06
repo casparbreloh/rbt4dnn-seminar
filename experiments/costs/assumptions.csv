@@ -1,0 +1,8 @@
+parameter,value,unit
+gpu_hour_cost_usd,3.00,USD/hour
+per_requirement_train_hours,1.00,hours
+shared_train_hours,1.50,hours
+generation_hours_per_1000,0.10,hours/1000 images
+human_validation_cost_per_image_usd,0.03,USD/image
+engineer_hours_per_requirement,2.00,hours
+engineer_hourly_rate_usd,25.00,USD/hour

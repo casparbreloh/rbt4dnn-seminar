@@ -12,18 +12,18 @@ This repository builds on the original RBT4DNN paper/code release:
 
 ```text
 reference/
-  generated-images/
+  images/
     mnist/                 M1-M7, Allreq_M1-M6, Alldata_M1-M6
     celeba-hq/             C1-C7
     sgsm/                  S1-S7
     imagenet/              I1-I4
-  reported-results/        paper result files copied for comparison
-  scripts/                 reference scripts copied from RBT4DNN
+  results/                 paper result files copied for comparison
+  code/                    reference scripts copied from RBT4DNN
 experiments/
-  results.csv              compact table shared by the notebooks
-  replication-mnist/       MNIST replication notebook and runner
-  valid-failure/           pass rate plus precondition-match analysis
-  cost-analysis/           cost per valid requirement-matching failure
+  input.csv                compact table shared by the notebooks
+  mnist/                   MNIST replication notebook, runner, result CSV
+  valid-failures/          precondition-aware failure result CSV
+  costs/                   assumptions and cost result CSV
 packages/
   <future package>/        optional uv workspace packages later
 ```
@@ -40,8 +40,9 @@ The generated images are exact copies from the local RBT4DNN release we have:
 14,500 PNGs across MNIST, CelebA-HQ, SGSM, and ImageNet.
 
 New extension experiments should get their own folder under `experiments/`.
-Large new outputs should go into ignored `outputs/` unless they are small,
-final results worth committing.
+Each experiment folder should keep its notebook plus small committed outputs
+such as `results.csv`. Large new outputs should go into ignored `outputs/`
+unless they are final results worth committing.
 
 ## Environment
 
@@ -53,12 +54,12 @@ uv sync
 
 ## Open in Colab
 
-- [MNIST replication](https://colab.research.google.com/github/casparbreloh/rbt4dnn-seminar/blob/main/experiments/replication-mnist/replication_mnist.ipynb)
-- [Valid failure overview](https://colab.research.google.com/github/casparbreloh/rbt4dnn-seminar/blob/main/experiments/valid-failure/valid_failure_overview.ipynb)
-- [Cost per valid failure](https://colab.research.google.com/github/casparbreloh/rbt4dnn-seminar/blob/main/experiments/cost-analysis/cost_valid_failure.ipynb)
+- [MNIST replication](https://colab.research.google.com/github/casparbreloh/rbt4dnn-seminar/blob/main/experiments/mnist/notebook.ipynb)
+- [Valid failure overview](https://colab.research.google.com/github/casparbreloh/rbt4dnn-seminar/blob/main/experiments/valid-failures/notebook.ipynb)
+- [Cost per valid failure](https://colab.research.google.com/github/casparbreloh/rbt4dnn-seminar/blob/main/experiments/costs/notebook.ipynb)
 
 The notebooks clone this repository automatically in Colab if
-`experiments/results.csv` is not already available.
+`experiments/input.csv` is not already available.
 
 ## Main extension idea
 
@@ -75,11 +76,11 @@ For MNIST M3 (`very thick 7`), the per-requirement LoRA finds many valid failure
 ## Reproduce the MNIST rerun
 
 ```bash
-uv run python experiments/replication-mnist/rerun_mnist_model.py
+uv run python experiments/mnist/run.py
 ```
 
 This uses the copied MNIST generated images under
-`reference/generated-images/mnist/`.
+`reference/images/mnist/`.
 
 ## Scope
 
