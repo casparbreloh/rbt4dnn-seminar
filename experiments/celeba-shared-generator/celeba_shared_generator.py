@@ -5,16 +5,14 @@ import time
 from dataclasses import dataclass, replace
 from pathlib import Path
 from statistics import mean, stdev
-from typing import Any
 
 import torch
 import torch.nn.functional as F
 from PIL import Image
 from torch import nn
-from torch.utils.data import DataLoader, Dataset
+from torch.utils.data import DataLoader, Dataset, Subset
 from torchvision import transforms
 from torchvision.utils import make_grid, save_image
-from transformers import CLIPModel, CLIPProcessor
 
 from shared import CsvRow, find_repo_root, requirement_rows, write_csv, write_text
 
@@ -25,13 +23,14 @@ RESULT_FIELDS = [
     "n_seeds",
     "n_train_images",
     "n_generated_images_per_seed",
-    "clip_top1_mean",
-    "clip_top1_std",
-    "clip_own_similarity_mean",
-    "clip_margin_mean",
+    "classifier_top1_mean",
+    "classifier_top1_std",
+    "classifier_confidence_mean",
+    "classifier_margin_mean",
     "nearest_train_mse_mean",
     "nearest_train_mse_min",
     "exact_train_matches_total",
+    "classifier_val_accuracy",
     "train_seconds_total",
 ]
 SEED_RESULT_FIELDS = [
@@ -39,12 +38,13 @@ SEED_RESULT_FIELDS = [
     "requirement",
     "n_train_images",
     "n_generated_images",
-    "clip_top1",
-    "clip_own_similarity",
-    "clip_margin",
+    "classifier_top1",
+    "classifier_confidence",
+    "classifier_margin",
     "nearest_train_mse_mean",
     "nearest_train_mse_min",
     "exact_train_matches",
+    "classifier_val_accuracy",
     "last_loss",
     "train_seconds",
 ]
@@ -62,21 +62,14 @@ class TrainConfig:
     latent_noise: float = 0.12
     samples_per_requirement: int = 24
     seed: int = 7
+    classifier_epochs: int = 10
 
 
 @dataclass(frozen=True)
-class ClipEvaluator:
-    processor: Any
-    model: Any
-    text_features: torch.Tensor
-    text_order: list[str]
+class ClassifierEvaluator:
+    model: nn.Module
+    val_accuracy: float
     device: torch.device
-
-
-def pooled_features(output: Any) -> torch.Tensor:
-    if isinstance(output, torch.Tensor):
-        return output
-    return output.pooler_output
 
 
 class RequirementImages(Dataset[tuple[torch.Tensor, torch.Tensor]]):
@@ -162,6 +155,27 @@ class ConditionalVAE(nn.Module):
         std = torch.exp(0.5 * logvar)
         z = mu + torch.randn_like(std) * std
         return self.decode(z, labels), mu, logvar
+
+
+class RequirementClassifier(nn.Module):
+    def __init__(self, n_labels: int) -> None:
+        super().__init__()
+        self.net = nn.Sequential(
+            nn.Conv2d(3, 32, 4, 2, 1),
+            nn.ReLU(),
+            nn.Conv2d(32, 64, 4, 2, 1),
+            nn.ReLU(),
+            nn.Conv2d(64, 128, 4, 2, 1),
+            nn.ReLU(),
+            nn.Conv2d(128, 192, 4, 2, 1),
+            nn.ReLU(),
+            nn.AdaptiveAvgPool2d(1),
+            nn.Flatten(),
+            nn.Linear(192, n_labels),
+        )
+
+    def forward(self, images: torch.Tensor) -> torch.Tensor:
+        return self.net(images)
 
 
 def requirement_folder(root: Path, requirement: str) -> Path:
@@ -251,7 +265,76 @@ def train_model(root: Path, config: TrainConfig) -> tuple[ConditionalVAE, list[C
                 "kl_loss": f"{total_kl / n_batches:.6f}",
             }
         )
+        if epoch == 1 or epoch == config.epochs or epoch % 10 == 0:
+            print(
+                "generator",
+                f"seed={config.seed}",
+                f"epoch={epoch}/{config.epochs}",
+                f"loss={total_loss / n_batches:.3f}",
+                flush=True,
+            )
     return model, log_rows, time.perf_counter() - start
+
+
+def split_indices(dataset: RequirementImages) -> tuple[list[int], list[int]]:
+    by_label: dict[int, list[int]] = {label: [] for label in range(len(REQUIREMENTS))}
+    for index, (_, label) in enumerate(dataset.items):
+        by_label[label].append(index)
+
+    train: list[int] = []
+    val: list[int] = []
+    for indices in by_label.values():
+        cutoff = max(1, int(len(indices) * 0.8))
+        train.extend(indices[:cutoff])
+        val.extend(indices[cutoff:])
+    return train, val
+
+
+def train_classifier(root: Path, config: TrainConfig) -> ClassifierEvaluator:
+    seed_everything(config.seed)
+    device = torch.device(device_name())
+    dataset = RequirementImages(root, config.image_size)
+    train_indices, val_indices = split_indices(dataset)
+    train_loader = DataLoader(
+        Subset(dataset, train_indices),
+        batch_size=config.batch_size,
+        shuffle=True,
+    )
+    val_loader = DataLoader(Subset(dataset, val_indices), batch_size=config.batch_size)
+    model = RequirementClassifier(len(REQUIREMENTS)).to(device)
+    optimizer = torch.optim.AdamW(model.parameters(), lr=config.learning_rate)
+
+    for epoch in range(1, config.classifier_epochs + 1):
+        model.train()
+        total_loss = 0.0
+        for images, labels in train_loader:
+            images = images.to(device)
+            labels = labels.to(device)
+            loss = F.cross_entropy(model(images), labels)
+            optimizer.zero_grad()
+            loss.backward()
+            optimizer.step()
+            total_loss += loss.item()
+        if epoch == 1 or epoch == config.classifier_epochs:
+            print(
+                "classifier",
+                f"epoch={epoch}/{config.classifier_epochs}",
+                f"loss={total_loss / len(train_loader):.3f}",
+                flush=True,
+            )
+
+    model.eval()
+    correct = total = 0
+    with torch.no_grad():
+        for images, labels in val_loader:
+            images = images.to(device)
+            labels = labels.to(device)
+            predictions = model(images).argmax(dim=1)
+            correct += int((predictions == labels).sum().item())
+            total += int(labels.numel())
+    accuracy = correct / total if total else 0.0
+    print(f"classifier val accuracy={accuracy:.3f}", flush=True)
+    return ClassifierEvaluator(model, accuracy, device)
 
 
 @torch.no_grad()
@@ -333,49 +416,39 @@ def nearest_training_metrics(
 
 
 @torch.no_grad()
-def build_clip_evaluator(root: Path) -> ClipEvaluator:
-    device = torch.device(device_name())
-    prompts = prompt_by_requirement(root)
-    processor = CLIPProcessor.from_pretrained("openai/clip-vit-base-patch32")
-    model = CLIPModel.from_pretrained("openai/clip-vit-base-patch32")
-    getattr(model, "to")(device)
-    model.eval()
-    text_order = REQUIREMENTS
-    text_inputs = processor(
-        text=[prompts[item] for item in text_order],
-        return_tensors="pt",
-        padding=True,
-    ).to(device)
-    text_features = pooled_features(model.get_text_features(**text_inputs))
-    text_features = text_features / text_features.norm(dim=-1, keepdim=True)
-    return ClipEvaluator(processor, model, text_features, text_order, device)
-
-
-@torch.no_grad()
-def clip_metrics(evaluator: ClipEvaluator, generated: Path, requirement: str) -> CsvRow:
+def classifier_metrics(
+    evaluator: ClassifierEvaluator,
+    generated: Path,
+    requirement: str,
+    image_size: int,
+) -> CsvRow:
     files = sorted(generated.glob("*.png"))
     top1 = 0
-    own_scores: list[float] = []
+    confidences: list[float] = []
     margins: list[float] = []
-    own_index = evaluator.text_order.index(requirement)
+    own_index = REQUIREMENTS.index(requirement)
+    transform = transforms.Compose(
+        [transforms.Resize((image_size, image_size)), transforms.ToTensor()]
+    )
     for start in range(0, len(files), 32):
-        images = [Image.open(path).convert("RGB") for path in files[start : start + 32]]
-        image_inputs = evaluator.processor(images=images, return_tensors="pt").to(evaluator.device)
-        image_features = pooled_features(evaluator.model.get_image_features(**image_inputs))
-        image_features = image_features / image_features.norm(dim=-1, keepdim=True)
-        scores = image_features @ evaluator.text_features.T
+        tensors = []
+        for path in files[start : start + 32]:
+            with Image.open(path) as image:
+                tensors.append(transform(image.convert("RGB")))
+        batch = torch.stack(tensors).to(evaluator.device)
+        scores = evaluator.model(batch).softmax(dim=1)
         top1 += int((scores.argmax(dim=1) == own_index).sum().item())
         own = scores[:, own_index]
         masked = scores.clone()
         masked[:, own_index] = -999
         margin = own - masked.max(dim=1).values
-        own_scores.extend(own.tolist())
+        confidences.extend(own.tolist())
         margins.extend(margin.tolist())
 
     return {
-        "clip_top1": f"{top1 / len(files):.6f}",
-        "clip_own_similarity": f"{mean(own_scores):.6f}",
-        "clip_margin": f"{mean(margins):.6f}",
+        "classifier_top1": f"{top1 / len(files):.6f}",
+        "classifier_confidence": f"{mean(confidences):.6f}",
+        "classifier_margin": f"{mean(margins):.6f}",
     }
 
 
@@ -398,13 +471,13 @@ def evaluate_generated(
     train_seconds: float,
     seed: int,
     config: TrainConfig,
-    evaluator: ClipEvaluator,
+    evaluator: ClassifierEvaluator,
 ) -> list[CsvRow]:
     last_loss = log_rows[-1]["loss"] if log_rows else ""
     rows = []
     for requirement, folder in generated_folders(root).items():
         novelty = nearest_training_metrics(root, requirement, folder, config.image_size)
-        clip = clip_metrics(evaluator, folder, requirement)
+        classifier = classifier_metrics(evaluator, folder, requirement, config.image_size)
         rows.append(
             {
                 "seed": str(seed),
@@ -413,12 +486,13 @@ def evaluate_generated(
                     len(list(requirement_folder(root, requirement).glob("*.png")))
                 ),
                 "n_generated_images": str(len(list(folder.glob("*.png")))),
-                "clip_top1": clip["clip_top1"],
-                "clip_own_similarity": clip["clip_own_similarity"],
-                "clip_margin": clip["clip_margin"],
+                "classifier_top1": classifier["classifier_top1"],
+                "classifier_confidence": classifier["classifier_confidence"],
+                "classifier_margin": classifier["classifier_margin"],
                 "nearest_train_mse_mean": novelty["nearest_train_mse_mean"],
                 "nearest_train_mse_min": novelty["nearest_train_mse_min"],
                 "exact_train_matches": novelty["exact_train_matches"],
+                "classifier_val_accuracy": f"{evaluator.val_accuracy:.6f}",
                 "last_loss": last_loss,
                 "train_seconds": f"{train_seconds:.2f}",
             }
@@ -433,11 +507,12 @@ def aggregate_seed_rows(rows: list[CsvRow]) -> list[CsvRow]:
 
     out = []
     for requirement, req_rows in sorted(by_requirement.items()):
-        top1 = [float(row["clip_top1"]) for row in req_rows]
-        own = [float(row["clip_own_similarity"]) for row in req_rows]
-        margins = [float(row["clip_margin"]) for row in req_rows]
+        top1 = [float(row["classifier_top1"]) for row in req_rows]
+        confidence = [float(row["classifier_confidence"]) for row in req_rows]
+        margins = [float(row["classifier_margin"]) for row in req_rows]
         nearest_means = [float(row["nearest_train_mse_mean"]) for row in req_rows]
         nearest_mins = [float(row["nearest_train_mse_min"]) for row in req_rows]
+        val_accuracy = [float(row["classifier_val_accuracy"]) for row in req_rows]
         train_seconds = [float(row["train_seconds"]) for row in req_rows]
         out.append(
             {
@@ -445,15 +520,16 @@ def aggregate_seed_rows(rows: list[CsvRow]) -> list[CsvRow]:
                 "n_seeds": str(len(req_rows)),
                 "n_train_images": req_rows[0]["n_train_images"],
                 "n_generated_images_per_seed": req_rows[0]["n_generated_images"],
-                "clip_top1_mean": f"{mean(top1):.6f}",
-                "clip_top1_std": f"{stdev(top1):.6f}" if len(top1) > 1 else "0.000000",
-                "clip_own_similarity_mean": f"{mean(own):.6f}",
-                "clip_margin_mean": f"{mean(margins):.6f}",
+                "classifier_top1_mean": f"{mean(top1):.6f}",
+                "classifier_top1_std": f"{stdev(top1):.6f}" if len(top1) > 1 else "0.000000",
+                "classifier_confidence_mean": f"{mean(confidence):.6f}",
+                "classifier_margin_mean": f"{mean(margins):.6f}",
                 "nearest_train_mse_mean": f"{mean(nearest_means):.6f}",
                 "nearest_train_mse_min": f"{min(nearest_mins):.6f}",
                 "exact_train_matches_total": str(
                     sum(int(row["exact_train_matches"]) for row in req_rows)
                 ),
+                "classifier_val_accuracy": f"{mean(val_accuracy):.6f}",
                 "train_seconds_total": f"{sum(train_seconds):.2f}",
             }
         )
@@ -480,27 +556,30 @@ def write_outputs(
 
 
 def summary(rows: list[CsvRow], sample_grid: Path) -> str:
-    mean_top1 = mean(float(row["clip_top1_mean"]) for row in rows)
+    mean_top1 = mean(float(row["classifier_top1_mean"]) for row in rows)
+    mean_val_accuracy = mean(float(row["classifier_val_accuracy"]) for row in rows)
     exact_matches = sum(int(row["exact_train_matches_total"]) for row in rows)
-    hardest = min(rows, key=lambda row: float(row["clip_top1_mean"]))
+    hardest = min(rows, key=lambda row: float(row["classifier_top1_mean"]))
     lines = [
         "# CelebA-HQ Shared Generator Summary",
         "",
         "A single conditional VAE was trained on copied CelebA-HQ RBT4DNN LoRA images.",
         "",
-        "Evaluation uses CLIP requirement-text alignment and nearest-train image checks. "
-        "This is not a replacement for the paper's attribute-classifier pass rate.",
+        "Evaluation uses a small requirement classifier trained on the copied paper images "
+        "plus nearest-train image checks. This is not a replacement for the paper's "
+        "attribute-classifier pass rate.",
         "",
-        f"Mean CLIP top-1 requirement alignment: {mean_top1:.3f}.",
+        f"Classifier validation accuracy on copied paper images: {mean_val_accuracy:.3f}.",
+        f"Mean generated-image classifier top-1 alignment: {mean_top1:.3f}.",
         f"Exact generated/training image matches: {exact_matches}.",
-        f"Hardest requirement by CLIP top-1: {hardest['requirement']} "
-        f"({hardest['clip_top1_mean']}).",
+        f"Hardest requirement by classifier top-1: {hardest['requirement']} "
+        f"({hardest['classifier_top1_mean']}).",
         f"Sample grid: `{sample_grid.relative_to(sample_grid.parents[2])}`.",
         "",
     ]
     lines += [
-        f"- {row['requirement']}: CLIP top-1 {row['clip_top1_mean']} "
-        f"(std {row['clip_top1_std']}, margin {row['clip_margin_mean']})"
+        f"- {row['requirement']}: classifier top-1 {row['classifier_top1_mean']} "
+        f"(std {row['classifier_top1_std']}, margin {row['classifier_margin_mean']})"
         for row in rows
     ]
     return "\n".join(lines) + "\n"
@@ -517,11 +596,15 @@ def train_and_evaluate(
     seed_rows: list[CsvRow] = []
     all_log_rows: list[CsvRow] = []
     sample_grid: Path | None = None
-    evaluator = build_clip_evaluator(root)
+    print(f"device={device_name()}", flush=True)
+    evaluator = train_classifier(root, config)
     for seed in seeds:
+        print(f"training generator seed={seed}", flush=True)
         seed_config = replace(config, seed=seed)
         model, log_rows, train_seconds = train_model(root, seed_config)
+        print(f"generating images seed={seed}", flush=True)
         generate_images(root, model, seed_config)
+        print(f"evaluating images seed={seed}", flush=True)
         seed_rows.extend(
             evaluate_generated(root, log_rows, train_seconds, seed, seed_config, evaluator)
         )

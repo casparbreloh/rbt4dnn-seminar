@@ -27,17 +27,7 @@ def main() -> None:
     ).strip()
     print(commit, flush=True)
 
-    run(
-        [
-            sys.executable,
-            "-m",
-            "pip",
-            "install",
-            "-q",
-            "transformers>=4.45",
-            "pillow>=10.0",
-        ]
-    )
+    run([sys.executable, "-m", "pip", "install", "-q", "pillow>=10.0"])
     run(
         [
             sys.executable,
