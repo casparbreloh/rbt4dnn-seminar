@@ -8,6 +8,10 @@ Seminar work around **RBT4DNN: Requirements-based Testing of Neural Networks**.
 This repo is notebook-first. The notebooks are the experiment entry points; the
 small shared helpers live directly in `src/`.
 
+The repo is meant to be the public review artifact. Private notes, slides, and
+paper drafts can live in Google Drive, but the experiments and inspectable
+results should not depend on private Drive links.
+
 ## Notebooks
 
 - [Replication](https://colab.research.google.com/github/casparbreloh/rbt4dnn-seminar/blob/main/experiments/replication/notebook.ipynb)
@@ -22,16 +26,10 @@ experiment folder so later Codex runs can inspect the actual findings.
 
 ## Data
 
-The repo includes the copied generated images, copied paper result files, a
-compact `data/requirements.csv`, and `data/rbt4dnn.lance`. The Lance dataset
-stores external references to `data/images/...`, not another copy of the PNG
-bytes.
-
-Rebuild the Lance dataset with:
-
-```bash
-uv run python src/dataset.py
-```
+The repo includes copied generated images, copied paper result files, and a
+compact `data/requirements.csv` table used by the notebooks. ImageNet examples
+are kept for completeness, while the requirement table covers the MNIST,
+CelebA-HQ, and SGSM rows used by the current analyses.
 
 The original upstream scripts are preserved as `data/original-rbt4dnn-code.tar.gz`
 for provenance, but they are not maintained as this repo's code.

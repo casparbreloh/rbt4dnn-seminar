@@ -1,6 +1,6 @@
 # Precondition Validity Summary
 
-Lance rows checked: 14500
+Requirement/method rows with pass and precondition metrics: 31
 
 ## Highest Valid-Failure Rates
 

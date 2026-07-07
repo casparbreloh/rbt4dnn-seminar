@@ -4,8 +4,6 @@ import csv
 from collections.abc import Iterable, Mapping
 from pathlib import Path
 
-import lance
-
 ROOT_MARKER = Path("data/requirements.csv")
 
 CsvRow = dict[str, str]
@@ -42,37 +40,51 @@ def write_text(path: Path, text: str) -> None:
     path.write_text(text)
 
 
-def open_lance(root: Path | None = None) -> lance.LanceDataset:
-    root = find_repo_root(root)
-    return lance.dataset(root / "data" / "rbt4dnn.lance")
-
-
 def requirement_rows(root: Path | None = None) -> list[CsvRow]:
-    ds = open_lance(root)
-    columns = [
-        "dataset",
-        "requirement",
-        "requirement_type",
-        "requirement_text",
-        "method",
-        "method_label",
-        "reported_n_images",
-        "pass_rate_mean",
-        "precondition_match_mean",
-        "local_replication_pass_rate_n100",
-        "paper_reference_pass_rate",
-        "notes",
-    ]
-    table = ds.to_table(columns=columns)
-    grouped: dict[tuple[str, str, str], dict[str, object]] = {}
-    for row in table.to_pylist():
-        key = (row["dataset"], row["requirement"], row["method"])
-        if key not in grouped:
-            grouped[key] = {name: row.get(name) for name in columns}
-            grouped[key]["available_images"] = 0
-        grouped[key]["available_images"] = int(str(grouped[key]["available_images"])) + 1
+    root = find_repo_root(root)
+    rows = []
+    for row in read_csv_rows(root / ROOT_MARKER):
+        method = row["variant"]
+        rows.append(
+            {
+                "dataset": image_dataset_name(row["dataset"]),
+                "requirement": row["requirement"],
+                "requirement_type": row["requirement_type"],
+                "requirement_text": row["requirement_text"],
+                "method": method,
+                "method_label": row["variant_label"],
+                "reported_n_images": row["n_images"],
+                "pass_rate_mean": row["pass_rate_mean"],
+                "precondition_match_mean": row["precondition_match_mean"],
+                "local_replication_pass_rate_n100": row["local_replication_pass_rate_n100"],
+                "paper_reference_pass_rate": row["paper_reference_pass_rate"],
+                "notes": row["notes"],
+                "available_images": str(
+                    count_available_images(root, row["dataset"], row["requirement"], method)
+                ),
+            }
+        )
+    return rows
 
-    out: list[CsvRow] = []
-    for row in grouped.values():
-        out.append({key: "" if value is None else str(value) for key, value in row.items()})
-    return sorted(out, key=lambda row: (row["dataset"], row["requirement"], row["method"]))
+
+def image_dataset_name(dataset: str) -> str:
+    return "celeba-hq" if dataset == "celeba" else dataset
+
+
+def image_folder(dataset: str, requirement: str, method: str) -> str:
+    if dataset == "mnist" and method == "allreq":
+        return f"Allreq_{requirement}"
+    if dataset == "mnist" and method == "alldata":
+        return f"Alldata_{requirement}"
+    return requirement
+
+
+def count_available_images(root: Path, dataset: str, requirement: str, method: str) -> int:
+    folder = (
+        root
+        / "data"
+        / "images"
+        / image_dataset_name(dataset)
+        / image_folder(dataset, requirement, method)
+    )
+    return len(list(folder.glob("*.png")))

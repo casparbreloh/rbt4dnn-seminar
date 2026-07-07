@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from shared import CsvRow, find_repo_root, open_lance, requirement_rows, write_csv, write_text
+from shared import CsvRow, find_repo_root, requirement_rows, write_csv, write_text
 
 FIELDS = [
     "dataset",
@@ -70,7 +70,6 @@ def write_results(root: Path | None = None) -> tuple[Path, Path]:
 
 
 def summary(root: Path, rows: list[CsvRow]) -> str:
-    ds = open_lance(root)
     low_precondition = sorted(rows, key=lambda item: float(item["precondition_match"]))[:5]
     highest_valid_failure = rows[:5]
     misleading_pass = sorted(
@@ -81,7 +80,7 @@ def summary(root: Path, rows: list[CsvRow]) -> str:
     lines = [
         "# Precondition Validity Summary",
         "",
-        f"Lance rows checked: {ds.count_rows()}",
+        f"Requirement/method rows with pass and precondition metrics: {len(rows)}",
         "",
         "## Highest Valid-Failure Rates",
         "",
