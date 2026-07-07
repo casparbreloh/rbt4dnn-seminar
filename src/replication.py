@@ -1,10 +1,9 @@
 from __future__ import annotations
 
-import argparse
 from pathlib import Path
 from typing import TypedDict
 
-from rbt4dnn_seminar.paths import CsvRow, find_repo_root, read_csv_rows, requirements_csv, write_csv
+from paths import CsvRow, find_repo_root, read_csv_rows, requirements_csv, write_csv
 
 TARGET = {
     "M1": 2,
@@ -26,13 +25,6 @@ PAPER = {
 }
 
 
-class ReplicationSummaryRow(TypedDict):
-    requirement: str
-    local_pass_rate_n100: str
-    paper_pass_rate: str
-    delta: str
-
-
 class EvaluationRow(TypedDict):
     requirement: str
     n_images: int
@@ -41,8 +33,8 @@ class EvaluationRow(TypedDict):
     failures: list[tuple[str, int]]
 
 
-def summarize_replication(rows: list[CsvRow]) -> list[ReplicationSummaryRow]:
-    out_rows: list[ReplicationSummaryRow] = []
+def summarize_replication(rows: list[CsvRow]) -> list[CsvRow]:
+    out_rows: list[CsvRow] = []
     for row in rows:
         if (
             row["dataset"] == "mnist"
@@ -125,33 +117,3 @@ def evaluate_mnist_images(
                 }
             )
     return rows
-
-
-def print_mnist_evaluation(rows: list[EvaluationRow]) -> None:
-    print(f"{'req':12s} {'n':>4s} {'pass%':>7s} {'paper':>6s}  fails(pred)", flush=True)
-    for row in rows:
-        paper = row["paper_pass_rate"]
-        paper_text = f"{paper:.3f}" if isinstance(paper, float) else "-"
-        print(
-            f"{row['requirement']:12s} {row['n_images']:>4d} "
-            f"{100 * row['pass_rate']:>6.1f}% {paper_text:>6s}  {row['failures'][:6]}",
-            flush=True,
-        )
-
-
-def main(argv: list[str] | None = None) -> None:
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--batch", type=int, default=25)
-    parser.add_argument("--variants", nargs="*", default=["", "Allreq_", "Alldata_"])
-    parser.add_argument("--summary-only", action="store_true")
-    args = parser.parse_args(argv)
-
-    if args.summary_only:
-        print(write_replication_summary())
-        return
-
-    print_mnist_evaluation(evaluate_mnist_images(batch_size=args.batch, variants=args.variants))
-
-
-if __name__ == "__main__":
-    main()

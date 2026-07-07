@@ -1,11 +1,9 @@
 from __future__ import annotations
 
-import argparse
 from dataclasses import dataclass
 from pathlib import Path
-from typing import TypedDict
 
-from rbt4dnn_seminar.paths import CsvRow, find_repo_root, read_csv_rows, requirements_csv, write_csv
+from paths import CsvRow, find_repo_root, read_csv_rows, requirements_csv, write_csv
 
 
 @dataclass(frozen=True)
@@ -13,29 +11,6 @@ class CostAssumption:
     parameter: str
     value: float
     unit: str
-
-
-class ValidFailureRow(TypedDict):
-    dataset: str
-    requirement: str
-    variant: str
-    n_images: str
-    pass_rate: str
-    precondition_match: str
-    valid_failures: str
-    nonmatching_failure_share: str
-
-
-class CostRow(TypedDict):
-    dataset: str
-    requirement: str
-    variant: str
-    n_images: str
-    pass_rate: str
-    precondition_match: str
-    valid_failures: str
-    estimated_cost_usd: str
-    cost_per_valid_failure_usd: str
 
 
 DEFAULT_ASSUMPTIONS = (
@@ -69,6 +44,7 @@ COST_FIELDS = [
     "estimated_cost_usd",
     "cost_per_valid_failure_usd",
 ]
+CostTableRow = dict[str, str]
 
 
 def assumption_values(
@@ -104,9 +80,9 @@ def estimated_cost(
 def build_cost_rows(
     rows: list[CsvRow],
     assumptions: tuple[CostAssumption, ...] = DEFAULT_ASSUMPTIONS,
-) -> tuple[list[ValidFailureRow], list[CostRow]]:
-    valid_rows: list[ValidFailureRow] = []
-    cost_rows: list[CostRow] = []
+) -> tuple[list[CostTableRow], list[CostTableRow]]:
+    valid_rows: list[CostTableRow] = []
+    cost_rows: list[CostTableRow] = []
     for row in rows:
         pass_rate = optional_float(row["pass_rate_mean"])
         precondition_match = optional_float(row["precondition_match_mean"])
@@ -150,7 +126,7 @@ def build_cost_rows(
     return valid_rows, cost_rows
 
 
-def cost_per_failure_sort_key(row: CostRow) -> float:
+def cost_per_failure_sort_key(row: CostTableRow) -> float:
     value = row["cost_per_valid_failure_usd"]
     return float(value) if value != "" else float("inf")
 
@@ -175,35 +151,3 @@ def write_cost_analysis(
     write_csv(out_dir / "valid-failures.csv", VALID_FAILURE_FIELDS, valid_rows)
     write_csv(out_dir / "results.csv", COST_FIELDS, cost_rows)
     return out_dir / "results.csv"
-
-
-def print_cost_summary(root: Path | None = None) -> None:
-    root = find_repo_root(root)
-    write_cost_analysis(root)
-    valid_rows, cost_rows = build_cost_rows(read_csv_rows(requirements_csv(root)))
-
-    print("largest estimated valid-failure yields")
-    for row in valid_rows[:8]:
-        print(
-            f"{row['dataset']} {row['requirement']} {row['variant']} | {float(row['valid_failures']):.1f}"
-        )
-
-    print()
-    print("cheapest estimated valid failures")
-    print("dataset req variant | valid failures | cost | cost/failure")
-    for row in cost_rows[:12]:
-        print(
-            f"{row['dataset']} {row['requirement']} {row['variant']} | "
-            f"{float(row['valid_failures']):.1f} | ${float(row['estimated_cost_usd']):.2f} | "
-            f"${float(row['cost_per_valid_failure_usd']):.2f}"
-        )
-    print(root / "experiments" / "cost-analysis" / "results.csv")
-
-
-def main(argv: list[str] | None = None) -> None:
-    argparse.ArgumentParser().parse_args(argv)
-    print_cost_summary()
-
-
-if __name__ == "__main__":
-    main()

@@ -12,7 +12,7 @@ import lance
 import pyarrow as pa
 from lance import Blob, blob_array, blob_field
 
-from rbt4dnn_seminar.paths import CsvRow, find_repo_root, read_csv_rows
+from paths import CsvRow, find_repo_root, read_csv_rows
 
 
 @contextmanager
