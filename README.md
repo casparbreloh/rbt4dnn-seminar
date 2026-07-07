@@ -20,6 +20,19 @@ results should not depend on private Drive links.
 - [Cost analysis](https://colab.research.google.com/github/casparbreloh/rbt4dnn-seminar/blob/main/experiments/cost-analysis/notebook.ipynb)
 - [MNIST shared generator](https://colab.research.google.com/github/casparbreloh/rbt4dnn-seminar/blob/main/experiments/mnist-shared-generator/notebook.ipynb)
 
+## Results
+
+- MNIST replication: copied generated images reproduce the paper pass rates closely
+  (`M1-M7` deltas between `-0.012` and `+0.013`).
+- Precondition validity: pass rate alone can be misleading; the strongest estimated
+  valid-failure yields are `SGSM S2`, `MNIST M3`, and `SGSM S1`.
+- Cost analysis: under the stated assumptions, the cheapest estimated valid
+  failures are `SGSM S2` at `$0.05`, `MNIST M3` at `$0.12`, and `SGSM S1`
+  at `$0.14` per estimated valid failure.
+- Shared-generator extension: one small conditional MNIST generator reaches mean
+  pass `0.938` versus `0.942` for the paper's per-requirement LoRA reference,
+  with `0` exact generated/training image matches.
+
 The notebooks clone this repo automatically in Colab if the data is not already
 available. Finished notebooks write `results.csv` and `summary.md` into their
 experiment folder so later Codex runs can inspect the actual findings.
