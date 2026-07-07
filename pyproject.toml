@@ -26,7 +26,7 @@ members = ["packages/*"]
 [tool.ruff]
 line-length = 100
 target-version = "py311"
-extend-exclude = ["experiments/replication/paper-code"]
+extend-exclude = ["experiments/replication/original"]
 
 [tool.ty.src]
 include = ["scripts", "experiments/replication/run.py"]

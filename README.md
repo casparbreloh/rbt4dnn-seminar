@@ -22,7 +22,7 @@ data/
   requirements.csv         compact requirement/method result table
 experiments/
   replication/             MNIST artifact-level replication
-    paper-code/            copied upstream scripts for audit/reference
+    original/              copied upstream scripts for audit/reference
   cost-analysis/           valid-failure and cost-per-failure analysis
 scripts/
   build-dataset.py         rebuilds the compact Lance dataset
@@ -36,10 +36,10 @@ our seminar work on top.
 
 This is not a mirror of the original repository. It keeps the generated images,
 reported result files, and copied reference scripts needed for reproducibility
-and comparison. The copied scripts live under `experiments/replication/` because
-they document the original artifact, but they are not maintained as this repo's
-own code. This repo does not keep the original README, original requirements
-file, training datasets, or model checkpoints.
+and comparison. The copied scripts live under `experiments/replication/original/`
+because they document the original artifact, but they are not maintained as this
+repo's own code. This repo does not keep the original README, original
+requirements file, training datasets, or model checkpoints.
 
 The generated images are exact copies from the local RBT4DNN release we have:
 14,500 PNGs across MNIST, CelebA-HQ, SGSM, and ImageNet.
