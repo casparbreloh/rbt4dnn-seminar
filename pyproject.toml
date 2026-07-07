@@ -17,6 +17,7 @@ dependencies = [
 [dependency-groups]
 dev = [
     "ruff>=0.6",
+    "ty>=0.0.56",
 ]
 
 [tool.uv.workspace]
@@ -24,3 +25,8 @@ members = ["packages/*"]
 
 [tool.ruff]
 line-length = 100
+target-version = "py311"
+extend-exclude = ["experiments/replication/paper-code"]
+
+[tool.ty.src]
+include = ["scripts", "experiments/replication/run.py"]

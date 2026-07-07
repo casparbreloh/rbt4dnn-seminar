@@ -44,10 +44,7 @@ def input_key(dataset: str, requirement: str, method: str) -> tuple[str, str, st
 def load_input_rows() -> dict[tuple[str, str, str], dict[str, str]]:
     with REQUIREMENTS.open(newline="") as f:
         rows = csv.DictReader(f)
-        return {
-            (row["dataset"], row["requirement"], row["variant"]): row
-            for row in rows
-        }
+        return {(row["dataset"], row["requirement"], row["variant"]): row for row in rows}
 
 
 def optional_float(value: str) -> float | None:
