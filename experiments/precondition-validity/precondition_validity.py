@@ -13,30 +13,36 @@ FIELDS = [
     "pass_rate",
     "precondition_match",
     "raw_failure_rate",
-    "valid_failure_rate",
-    "valid_failures",
-    "invalid_failures",
+    "estimated_valid_failure_rate",
+    "estimated_valid_failures",
+    "estimated_invalid_failures",
     "validity_gap",
     "notes",
 ]
 
 
+def has_metrics(row: CsvRow) -> bool:
+    return bool(
+        row["reported_n_images"] and row["pass_rate_mean"] and row["precondition_match_mean"]
+    )
+
+
+def skipped_rows(rows: list[CsvRow]) -> list[CsvRow]:
+    return [row for row in rows if not has_metrics(row)]
+
+
 def build_rows(rows: list[CsvRow]) -> list[CsvRow]:
     out: list[CsvRow] = []
     for row in rows:
-        if (
-            not row["reported_n_images"]
-            or not row["pass_rate_mean"]
-            or not row["precondition_match_mean"]
-        ):
+        if not has_metrics(row):
             continue
 
         n_images = int(row["reported_n_images"])
         pass_rate = float(row["pass_rate_mean"])
         precondition_match = float(row["precondition_match_mean"])
         raw_failure_rate = 1 - pass_rate
-        valid_failure_rate = precondition_match * raw_failure_rate
-        invalid_failures = n_images * (1 - precondition_match) * raw_failure_rate
+        estimated_valid_failure_rate = precondition_match * raw_failure_rate
+        estimated_invalid_failures = n_images * (1 - precondition_match) * raw_failure_rate
 
         out.append(
             {
@@ -48,15 +54,15 @@ def build_rows(rows: list[CsvRow]) -> list[CsvRow]:
                 "pass_rate": f"{pass_rate:.6f}",
                 "precondition_match": f"{precondition_match:.6f}",
                 "raw_failure_rate": f"{raw_failure_rate:.6f}",
-                "valid_failure_rate": f"{valid_failure_rate:.6f}",
-                "valid_failures": f"{n_images * valid_failure_rate:.3f}",
-                "invalid_failures": f"{invalid_failures:.3f}",
+                "estimated_valid_failure_rate": f"{estimated_valid_failure_rate:.6f}",
+                "estimated_valid_failures": f"{n_images * estimated_valid_failure_rate:.3f}",
+                "estimated_invalid_failures": f"{estimated_invalid_failures:.3f}",
                 "validity_gap": f"{1 - precondition_match:.6f}",
                 "notes": row["notes"],
             }
         )
 
-    out.sort(key=lambda item: float(item["valid_failure_rate"]), reverse=True)
+    out.sort(key=lambda item: float(item["estimated_valid_failure_rate"]), reverse=True)
     return out
 
 
@@ -70,8 +76,14 @@ def write_results(root: Path | None = None) -> tuple[Path, Path]:
 
 
 def summary(root: Path, rows: list[CsvRow]) -> str:
+    skipped = skipped_rows(requirement_rows(root))
+    main_rows = [row for row in rows if row["method"] == "lr"]
     low_precondition = sorted(rows, key=lambda item: float(item["precondition_match"]))[:5]
-    highest_valid_failure = rows[:5]
+    highest_valid_failure = sorted(
+        main_rows,
+        key=lambda item: float(item["estimated_valid_failure_rate"]),
+        reverse=True,
+    )[:5]
     misleading_pass = sorted(
         [row for row in rows if float(row["pass_rate"]) >= 0.95],
         key=lambda item: float(item["precondition_match"]),
@@ -82,12 +94,26 @@ def summary(root: Path, rows: list[CsvRow]) -> str:
         "",
         f"Requirement/method rows with pass and precondition metrics: {len(rows)}",
         "",
-        "## Highest Valid-Failure Rates",
+        "The valid-failure values are aggregate estimates: "
+        "`precondition_match * (1 - pass_rate)`. They are not observed joint counts "
+        "for individual generated images.",
+    ]
+    if skipped:
+        lines += [
+            "",
+            "Skipped rows with missing metrics: "
+            + ", ".join(
+                f"{row['dataset']} {row['requirement']} {row['method']}" for row in skipped
+            ),
+        ]
+    lines += [
+        "",
+        "## Highest Estimated Valid-Failure Rates (Main LoRA Rows)",
         "",
     ]
     lines += [
         f"- {row['dataset']} {row['requirement']} {row['method']}: "
-        f"valid failure rate {row['valid_failure_rate']} "
+        f"estimated valid-failure rate {row['estimated_valid_failure_rate']} "
         f"(pass {row['pass_rate']}, precondition {row['precondition_match']})"
         for row in highest_valid_failure
     ]

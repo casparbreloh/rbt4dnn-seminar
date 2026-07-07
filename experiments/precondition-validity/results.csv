@@ -1,4 +1,4 @@
-dataset,requirement,method,available_images,reported_n_images,pass_rate,precondition_match,raw_failure_rate,valid_failure_rate,valid_failures,invalid_failures,validity_gap,notes
+dataset,requirement,method,available_images,reported_n_images,pass_rate,precondition_match,raw_failure_rate,estimated_valid_failure_rate,estimated_valid_failures,estimated_invalid_failures,validity_gap,notes
 sgsm,S2,lr,100,10000,0.133600,0.850000,0.866400,0.736440,7364.400,1299.600,0.150000,
 mnist,M3,lr,100,10000,0.694100,0.958000,0.305900,0.293052,2930.522,128.478,0.042000,
 sgsm,S1,lr,100,10000,0.653500,0.760000,0.346500,0.263340,2633.400,831.600,0.240000,

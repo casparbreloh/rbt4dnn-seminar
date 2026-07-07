@@ -1,19 +1,19 @@
 # Cost Analysis Summary
 
-This analysis estimates cost per valid requirement-matching failure.
+This analysis estimates cost per valid requirement-matching failure from aggregate pass and precondition rates.
 
-## Largest Valid-Failure Yields
+## Largest Estimated Valid-Failure Yields
 
-- sgsm S2 lr: 7364.400 valid failures
-- mnist M3 lr: 2930.522 valid failures
-- sgsm S1 lr: 2633.400 valid failures
-- celeba-hq C6 lr: 2004.183 valid failures
-- celeba-hq C2 lr: 1170.296 valid failures
+- sgsm S2 lr: 7364.400 estimated valid failures
+- mnist M3 lr: 2930.522 estimated valid failures
+- sgsm S1 lr: 2633.400 estimated valid failures
+- celeba-hq C6 lr: 2004.183 estimated valid failures
+- celeba-hq C2 lr: 1170.296 estimated valid failures
 
-## Cheapest Valid Failures
+## Cheapest Estimated Valid Failures
 
-- sgsm S2 lr: $0.05 per valid failure
-- mnist M3 lr: $0.12 per valid failure
-- sgsm S1 lr: $0.14 per valid failure
-- celeba-hq C6 lr: $0.18 per valid failure
-- celeba-hq C2 lr: $0.30 per valid failure
+- sgsm S2 lr: $0.05 per estimated valid failure
+- mnist M3 lr: $0.12 per estimated valid failure
+- sgsm S1 lr: $0.14 per estimated valid failure
+- celeba-hq C6 lr: $0.18 per estimated valid failure
+- celeba-hq C2 lr: $0.30 per estimated valid failure

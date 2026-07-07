@@ -2,13 +2,17 @@
 
 Requirement/method rows with pass and precondition metrics: 31
 
-## Highest Valid-Failure Rates
+The valid-failure values are aggregate estimates: `precondition_match * (1 - pass_rate)`. They are not observed joint counts for individual generated images.
 
-- sgsm S2 lr: valid failure rate 0.736440 (pass 0.133600, precondition 0.850000)
-- mnist M3 lr: valid failure rate 0.293052 (pass 0.694100, precondition 0.958000)
-- sgsm S1 lr: valid failure rate 0.263340 (pass 0.653500, precondition 0.760000)
-- celeba-hq C6 lr: valid failure rate 0.200418 (pass 0.795700, precondition 0.981000)
-- celeba-hq C2 lr: valid failure rate 0.117030 (pass 0.878600, precondition 0.964000)
+Skipped rows with missing metrics: mnist M7 lr, celeba-hq C7 lr
+
+## Highest Estimated Valid-Failure Rates (Main LoRA Rows)
+
+- sgsm S2 lr: estimated valid-failure rate 0.736440 (pass 0.133600, precondition 0.850000)
+- mnist M3 lr: estimated valid-failure rate 0.293052 (pass 0.694100, precondition 0.958000)
+- sgsm S1 lr: estimated valid-failure rate 0.263340 (pass 0.653500, precondition 0.760000)
+- celeba-hq C6 lr: estimated valid-failure rate 0.200418 (pass 0.795700, precondition 0.981000)
+- celeba-hq C2 lr: estimated valid-failure rate 0.117030 (pass 0.878600, precondition 0.964000)
 
 ## Lowest Precondition Match
 

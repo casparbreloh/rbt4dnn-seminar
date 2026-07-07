@@ -1,4 +1,4 @@
-requirement,method,reported_n_images,available_images,pass_rate,precondition_match,valid_failures,valid_failures_per_1000,relative_to_per_requirement_lora
+requirement,method,reported_n_images,available_images,pass_rate,precondition_match,estimated_valid_failures,estimated_valid_failures_per_1000,relative_to_per_requirement_lora
 M1,alldata,1000,1000,0.982000,0.028000,0.504,0.504,0.473
 M1,allreq,1000,1000,0.974000,0.523000,13.598,13.598,12.770
 M1,lr,10000,100,0.998900,0.968000,10.648,1.065,1.000

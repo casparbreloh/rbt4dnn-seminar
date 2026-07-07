@@ -1,4 +1,4 @@
-dataset,requirement,method,reported_n_images,pass_rate,precondition_match,valid_failures,estimated_cost_usd,cost_per_valid_failure_usd
+dataset,requirement,method,reported_n_images,pass_rate,precondition_match,estimated_valid_failures,estimated_cost_usd,cost_per_estimated_valid_failure_usd
 sgsm,S2,lr,10000,0.133600,0.850000,7364.400,356.00,0.05
 mnist,M3,lr,10000,0.694100,0.958000,2930.522,356.00,0.12
 sgsm,S1,lr,10000,0.653500,0.760000,2633.400,356.00,0.14

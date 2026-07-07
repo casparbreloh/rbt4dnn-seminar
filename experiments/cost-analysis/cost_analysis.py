@@ -30,9 +30,9 @@ RESULT_FIELDS = [
     "reported_n_images",
     "pass_rate",
     "precondition_match",
-    "valid_failures",
+    "estimated_valid_failures",
     "estimated_cost_usd",
-    "cost_per_valid_failure_usd",
+    "cost_per_estimated_valid_failure_usd",
 ]
 VALID_FIELDS = [
     "dataset",
@@ -41,9 +41,9 @@ VALID_FIELDS = [
     "reported_n_images",
     "pass_rate",
     "precondition_match",
-    "valid_failures",
-    "invalid_failures",
-    "valid_failure_rate",
+    "estimated_valid_failures",
+    "estimated_invalid_failures",
+    "estimated_valid_failure_rate",
 ]
 
 
@@ -82,8 +82,8 @@ def build_rows(rows: list[CsvRow]) -> tuple[list[CsvRow], list[CsvRow]]:
         pass_rate = float(row["pass_rate_mean"])
         precondition_match = float(row["precondition_match_mean"])
         failures = n_images * (1 - pass_rate)
-        valid_failures = failures * precondition_match
-        invalid_failures = failures * (1 - precondition_match)
+        estimated_valid_failures = failures * precondition_match
+        estimated_invalid_failures = failures * (1 - precondition_match)
         cost = estimated_cost(row)
 
         valid_rows.append(
@@ -94,9 +94,9 @@ def build_rows(rows: list[CsvRow]) -> tuple[list[CsvRow], list[CsvRow]]:
                 "reported_n_images": str(n_images),
                 "pass_rate": f"{pass_rate:.6f}",
                 "precondition_match": f"{precondition_match:.6f}",
-                "valid_failures": f"{valid_failures:.3f}",
-                "invalid_failures": f"{invalid_failures:.3f}",
-                "valid_failure_rate": f"{valid_failures / n_images:.6f}",
+                "estimated_valid_failures": f"{estimated_valid_failures:.3f}",
+                "estimated_invalid_failures": f"{estimated_invalid_failures:.3f}",
+                "estimated_valid_failure_rate": f"{estimated_valid_failures / n_images:.6f}",
             }
         )
         cost_rows.append(
@@ -107,16 +107,16 @@ def build_rows(rows: list[CsvRow]) -> tuple[list[CsvRow], list[CsvRow]]:
                 "reported_n_images": str(n_images),
                 "pass_rate": f"{pass_rate:.6f}",
                 "precondition_match": f"{precondition_match:.6f}",
-                "valid_failures": f"{valid_failures:.3f}",
+                "estimated_valid_failures": f"{estimated_valid_failures:.3f}",
                 "estimated_cost_usd": f"{cost:.2f}",
-                "cost_per_valid_failure_usd": ""
-                if valid_failures <= 0
-                else f"{cost / valid_failures:.2f}",
+                "cost_per_estimated_valid_failure_usd": ""
+                if estimated_valid_failures <= 0
+                else f"{cost / estimated_valid_failures:.2f}",
             }
         )
 
-    valid_rows.sort(key=lambda item: float(item["valid_failures"]), reverse=True)
-    cost_rows.sort(key=lambda item: float(item["cost_per_valid_failure_usd"] or "inf"))
+    valid_rows.sort(key=lambda item: float(item["estimated_valid_failures"]), reverse=True)
+    cost_rows.sort(key=lambda item: float(item["cost_per_estimated_valid_failure_usd"] or "inf"))
     return valid_rows, cost_rows
 
 
@@ -145,19 +145,21 @@ def summary(valid_rows: list[CsvRow], cost_rows: list[CsvRow]) -> str:
     lines = [
         "# Cost Analysis Summary",
         "",
-        "This analysis estimates cost per valid requirement-matching failure.",
+        "This analysis estimates cost per valid requirement-matching failure from aggregate "
+        "pass and precondition rates.",
         "",
-        "## Largest Valid-Failure Yields",
+        "## Largest Estimated Valid-Failure Yields",
         "",
     ]
-    lines += [
-        f"- {row['dataset']} {row['requirement']} {row['method']}: {row['valid_failures']} valid failures"
-        for row in top_yield
-    ]
-    lines += ["", "## Cheapest Valid Failures", ""]
     lines += [
         f"- {row['dataset']} {row['requirement']} {row['method']}: "
-        f"${row['cost_per_valid_failure_usd']} per valid failure"
+        f"{row['estimated_valid_failures']} estimated valid failures"
+        for row in top_yield
+    ]
+    lines += ["", "## Cheapest Estimated Valid Failures", ""]
+    lines += [
+        f"- {row['dataset']} {row['requirement']} {row['method']}: "
+        f"${row['cost_per_estimated_valid_failure_usd']} per estimated valid failure"
         for row in top_cost
     ]
     return "\n".join(lines) + "\n"
