@@ -33,7 +33,7 @@ def install_runtime_deps() -> None:
     run([sys.executable, "-m", "pip", "install", "-q", "transformers>=4.45", "pillow>=10.0"])
 
 
-def run_experiments(epochs: int, samples: int) -> None:
+def run_experiments(epochs: int, samples: int, seeds: str) -> None:
     run(
         [
             sys.executable,
@@ -43,6 +43,8 @@ def run_experiments(epochs: int, samples: int) -> None:
             str(epochs),
             "--shared-generator-samples",
             str(samples),
+            "--shared-generator-seeds",
+            seeds,
         ],
         cwd=REMOTE_ROOT,
     )
@@ -52,7 +54,13 @@ def zip_results() -> None:
     if ZIP_PATH.exists():
         ZIP_PATH.unlink()
     with zipfile.ZipFile(ZIP_PATH, "w", compression=zipfile.ZIP_DEFLATED) as archive:
-        for pattern in ["results.csv", "summary.md", "training-log.csv", "samples.png"]:
+        for pattern in [
+            "results.csv",
+            "seed-results.csv",
+            "summary.md",
+            "training-log.csv",
+            "samples.png",
+        ]:
             for path in sorted((REMOTE_ROOT / "experiments").glob(f"*/{pattern}")):
                 archive.write(path, path.relative_to(REMOTE_ROOT))
         for path in [
@@ -69,11 +77,12 @@ def main() -> None:
     parser.add_argument("--branch", default="main")
     parser.add_argument("--epochs", type=int, default=100)
     parser.add_argument("--samples", type=int, default=100)
+    parser.add_argument("--seeds", default="7,13,29")
     args, _ = parser.parse_known_args()
 
     prepare_repo(args.branch)
     install_runtime_deps()
-    run_experiments(args.epochs, args.samples)
+    run_experiments(args.epochs, args.samples, args.seeds)
     zip_results()
 
 

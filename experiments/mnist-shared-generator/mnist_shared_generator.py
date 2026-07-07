@@ -2,8 +2,9 @@ from __future__ import annotations
 
 import random
 import time
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from pathlib import Path
+from statistics import mean, stdev
 
 import torch
 import torch.nn.functional as F
@@ -19,6 +20,24 @@ from shared import CsvRow, find_repo_root, write_csv, write_text
 REQUIREMENTS = ["M1", "M2", "M3", "M4", "M5", "M6"]
 RESULT_FIELDS = [
     "requirement",
+    "n_seeds",
+    "n_train_images",
+    "n_generated_images_per_seed",
+    "pass_rate_mean",
+    "pass_rate_std",
+    "pass_rate_min",
+    "pass_rate_max",
+    "paper_lr_pass_rate",
+    "delta_mean_vs_paper_lr",
+    "failure_count_mean",
+    "nearest_train_mse_mean",
+    "nearest_train_mse_min",
+    "exact_train_matches_total",
+    "train_seconds_total",
+]
+SEED_RESULT_FIELDS = [
+    "seed",
+    "requirement",
     "n_train_images",
     "n_generated_images",
     "pass_rate",
@@ -31,7 +50,8 @@ RESULT_FIELDS = [
     "last_loss",
     "train_seconds",
 ]
-LOG_FIELDS = ["epoch", "loss", "reconstruction_loss", "kl_loss"]
+LOG_FIELDS = ["seed", "epoch", "loss", "reconstruction_loss", "kl_loss"]
+DEFAULT_SEEDS = [7, 13, 29]
 
 
 @dataclass(frozen=True)
@@ -195,6 +215,7 @@ def train_model(root: Path, config: TrainConfig) -> tuple[ConditionalVAE, list[C
         log_rows.append(
             {
                 "epoch": str(epoch),
+                "seed": str(config.seed),
                 "loss": f"{total_loss / n_batches:.6f}",
                 "reconstruction_loss": f"{total_reconstruction / n_batches:.6f}",
                 "kl_loss": f"{total_kl / n_batches:.6f}",
@@ -296,6 +317,7 @@ def evaluate_generated(
     root: Path,
     log_rows: list[CsvRow],
     train_seconds: float,
+    seed: int,
     batch_size: int = 100,
 ) -> list[CsvRow]:
     last_loss = log_rows[-1]["loss"] if log_rows else ""
@@ -310,6 +332,7 @@ def evaluate_generated(
         novelty = nearest_training_metrics(root, requirement, generated_folders(root)[requirement])
         rows.append(
             {
+                "seed": str(seed),
                 "requirement": requirement,
                 "n_train_images": str(
                     len(list(requirement_folder(root, requirement).glob("*.png")))
@@ -329,59 +352,119 @@ def evaluate_generated(
     return rows
 
 
+def aggregate_seed_rows(rows: list[CsvRow]) -> list[CsvRow]:
+    by_requirement: dict[str, list[CsvRow]] = {}
+    for row in rows:
+        by_requirement.setdefault(row["requirement"], []).append(row)
+
+    out: list[CsvRow] = []
+    for requirement, req_rows in sorted(by_requirement.items()):
+        pass_rates = [float(row["pass_rate"]) for row in req_rows]
+        nearest_means = [float(row["nearest_train_mse_mean"]) for row in req_rows]
+        nearest_mins = [float(row["nearest_train_mse_min"]) for row in req_rows]
+        paper = float(req_rows[0]["paper_lr_pass_rate"])
+        failure_counts = [float(row["failure_count"]) for row in req_rows]
+        train_seconds = [float(row["train_seconds"]) for row in req_rows]
+        pass_mean = mean(pass_rates)
+
+        out.append(
+            {
+                "requirement": requirement,
+                "n_seeds": str(len(req_rows)),
+                "n_train_images": req_rows[0]["n_train_images"],
+                "n_generated_images_per_seed": req_rows[0]["n_generated_images"],
+                "pass_rate_mean": f"{pass_mean:.6f}",
+                "pass_rate_std": f"{stdev(pass_rates):.6f}" if len(pass_rates) > 1 else "0.000000",
+                "pass_rate_min": f"{min(pass_rates):.6f}",
+                "pass_rate_max": f"{max(pass_rates):.6f}",
+                "paper_lr_pass_rate": f"{paper:.6f}",
+                "delta_mean_vs_paper_lr": f"{pass_mean - paper:+.6f}",
+                "failure_count_mean": f"{mean(failure_counts):.3f}",
+                "nearest_train_mse_mean": f"{mean(nearest_means):.6f}",
+                "nearest_train_mse_min": f"{min(nearest_mins):.6f}",
+                "exact_train_matches_total": str(
+                    sum(int(row["exact_train_matches"]) for row in req_rows)
+                ),
+                "train_seconds_total": f"{sum(train_seconds):.2f}",
+            }
+        )
+    return out
+
+
 def write_outputs(
     root: Path,
     result_rows: list[CsvRow],
+    seed_rows: list[CsvRow],
     log_rows: list[CsvRow],
     sample_grid: Path,
 ) -> list[Path]:
     out_dir = root / "experiments" / "mnist-shared-generator"
     results = out_dir / "results.csv"
+    seed_results = out_dir / "seed-results.csv"
     log = out_dir / "training-log.csv"
     summary_path = out_dir / "summary.md"
     write_csv(results, RESULT_FIELDS, result_rows)
+    write_csv(seed_results, SEED_RESULT_FIELDS, seed_rows)
     write_csv(log, LOG_FIELDS, log_rows)
     write_text(summary_path, summary(result_rows, sample_grid))
-    return [results, log, summary_path, sample_grid]
+    return [results, seed_results, log, summary_path, sample_grid]
 
 
 def summary(rows: list[CsvRow], sample_grid: Path) -> str:
-    mean_pass = sum(float(row["pass_rate"]) for row in rows) / len(rows)
+    mean_pass = sum(float(row["pass_rate_mean"]) for row in rows) / len(rows)
     mean_paper = sum(float(row["paper_lr_pass_rate"]) for row in rows) / len(rows)
-    exact_matches = sum(int(row["exact_train_matches"]) for row in rows)
+    exact_matches = sum(int(row["exact_train_matches_total"]) for row in rows)
     mean_nearest_mse = sum(float(row["nearest_train_mse_mean"]) for row in rows) / len(rows)
-    worst = min(rows, key=lambda row: float(row["pass_rate"]))
-    n_generated = rows[0]["n_generated_images"]
+    worst = min(rows, key=lambda row: float(row["pass_rate_mean"]))
+    n_generated = rows[0]["n_generated_images_per_seed"]
+    n_seeds = rows[0]["n_seeds"]
     lines = [
         "# MNIST Shared Generator Summary",
         "",
         "A single conditional VAE was trained on the copied RBT4DNN MNIST LoRA images "
         "for M1-M6, then generated images by resampling the learned latent space.",
         "",
-        f"It generated {n_generated} images per requirement. This is a cheap "
-        "shared-generator baseline, not a FLUX LoRA reproduction.",
+        f"It ran {n_seeds} seeds and generated {n_generated} images per requirement per seed. "
+        "This is a cheap shared-generator baseline, not a FLUX LoRA reproduction.",
         "",
         f"Mean pass rate: {mean_pass:.3f} versus {mean_paper:.3f} for the paper's "
         "per-requirement LoRA reference.",
         f"Exact generated/training image matches: {exact_matches}. Mean nearest-train MSE: "
         f"{mean_nearest_mse:.4f}.",
-        f"Worst requirement: {worst['requirement']} at pass {worst['pass_rate']} "
-        f"({worst['failure_count']} failures).",
+        f"Worst requirement: {worst['requirement']} at mean pass {worst['pass_rate_mean']} "
+        f"({worst['failure_count_mean']} mean failures).",
         f"Sample grid: `{sample_grid.relative_to(sample_grid.parents[2])}`.",
         "",
     ]
     lines += [
-        f"- {row['requirement']}: pass {row['pass_rate']} (delta {row['delta_vs_paper_lr']})"
+        f"- {row['requirement']}: mean pass {row['pass_rate_mean']} "
+        f"(std {row['pass_rate_std']}, delta {row['delta_mean_vs_paper_lr']})"
         for row in rows
     ]
     return "\n".join(lines) + "\n"
 
 
-def train_and_evaluate(root: Path | None = None, config: TrainConfig | None = None) -> list[Path]:
+def train_and_evaluate(
+    root: Path | None = None,
+    config: TrainConfig | None = None,
+    seeds: list[int] | None = None,
+) -> list[Path]:
     root = find_repo_root(root)
     config = config or TrainConfig()
-    model, log_rows, train_seconds = train_model(root, config)
-    generate_images(root, model, config)
-    rows = evaluate_generated(root, log_rows, train_seconds)
-    sample_grid = save_sample_grid(root)
-    return write_outputs(root, rows, log_rows, sample_grid)
+    seeds = seeds or DEFAULT_SEEDS
+    seed_rows: list[CsvRow] = []
+    all_log_rows: list[CsvRow] = []
+    sample_grid: Path | None = None
+
+    for seed in seeds:
+        seed_config = replace(config, seed=seed)
+        model, log_rows, train_seconds = train_model(root, seed_config)
+        generate_images(root, model, seed_config)
+        seed_rows.extend(evaluate_generated(root, log_rows, train_seconds, seed))
+        all_log_rows.extend(log_rows)
+        if sample_grid is None:
+            sample_grid = save_sample_grid(root)
+
+    if sample_grid is None:
+        raise RuntimeError("No shared-generator runs were executed.")
+    return write_outputs(root, aggregate_seed_rows(seed_rows), seed_rows, all_log_rows, sample_grid)

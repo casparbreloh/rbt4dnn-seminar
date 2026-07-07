@@ -55,11 +55,20 @@ EXPERIMENTS: dict[str, Experiment] = {
 }
 
 
-def train_shared_generator(root: Path, epochs: int, samples_per_requirement: int) -> list[Path]:
+def parse_seeds(value: str) -> list[int]:
+    return [int(seed.strip()) for seed in value.split(",") if seed.strip()]
+
+
+def train_shared_generator(
+    root: Path,
+    epochs: int,
+    samples_per_requirement: int,
+    seeds: list[int],
+) -> list[Path]:
     from mnist_shared_generator import TrainConfig, train_and_evaluate
 
     config = TrainConfig(epochs=epochs, samples_per_requirement=samples_per_requirement)
-    return train_and_evaluate(root, config)
+    return train_and_evaluate(root, config, seeds=seeds)
 
 
 def main() -> None:
@@ -68,6 +77,7 @@ def main() -> None:
     parser.add_argument("--train-shared-generator", action="store_true")
     parser.add_argument("--shared-generator-epochs", type=int, default=100)
     parser.add_argument("--shared-generator-samples", type=int, default=100)
+    parser.add_argument("--shared-generator-seeds", default="7,13,29")
     args = parser.parse_args()
 
     root = find_root()
@@ -83,6 +93,7 @@ def main() -> None:
                 root,
                 epochs=args.shared_generator_epochs,
                 samples_per_requirement=args.shared_generator_samples,
+                seeds=parse_seeds(args.shared_generator_seeds),
             )
         )
 
