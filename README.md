@@ -35,9 +35,12 @@ results should not depend on private Drive links.
   per-requirement LoRA reference, with `0` exact generated/training image
   matches.
 - CelebA-HQ shared-generator extension: tests whether the shared-generator idea
-  still produces requirement-aligned face samples on a harder dataset. It uses
-  CLIP text-image alignment and novelty checks, not the paper's attribute
-  classifier pass rate.
+  still works on a harder face dataset. In the 64x64 Colab stress test, a
+  small copied-image classifier reaches `0.557` validation accuracy, while
+  generated images reach only `0.488` mean requirement alignment. This is a
+  weak sanity check, not the paper's attribute-classifier pass rate, but it
+  suggests the MNIST shared-generator result does not transfer cleanly to
+  faces.
 
 The notebooks clone this repo automatically in Colab if the data is not already
 available. Finished notebooks write `results.csv` and `summary.md` into their

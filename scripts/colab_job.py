@@ -30,7 +30,7 @@ def prepare_repo(branch: str) -> None:
 
 
 def install_runtime_deps() -> None:
-    run([sys.executable, "-m", "pip", "install", "-q", "transformers>=4.45", "pillow>=10.0"])
+    run([sys.executable, "-m", "pip", "install", "-q", "pillow>=10.0"])
 
 
 def run_experiments(
@@ -95,7 +95,7 @@ def main() -> None:
     parser.add_argument("--samples", type=int, default=100)
     parser.add_argument("--seeds", default="7,13,29")
     parser.add_argument("--train-celeba", action="store_true")
-    parser.add_argument("--celeba-epochs", type=int, default=40)
+    parser.add_argument("--celeba-epochs", type=int, default=25)
     parser.add_argument("--celeba-samples", type=int, default=24)
     parser.add_argument("--celeba-seeds", default="7")
     args, _ = parser.parse_known_args()
