@@ -19,7 +19,7 @@ from transformers import CLIPModel, CLIPProcessor
 from shared import CsvRow, find_repo_root, requirement_rows, write_csv, write_text
 
 REQUIREMENTS = ["C1", "C2", "C3", "C4", "C5", "C6", "C7"]
-DEFAULT_SEEDS = [7, 13, 29]
+DEFAULT_SEEDS = [7]
 RESULT_FIELDS = [
     "requirement",
     "n_seeds",
@@ -53,14 +53,14 @@ LOG_FIELDS = ["seed", "epoch", "loss", "reconstruction_loss", "kl_loss"]
 
 @dataclass(frozen=True)
 class TrainConfig:
-    epochs: int = 120
+    epochs: int = 40
     batch_size: int = 32
     image_size: int = 128
     latent_dim: int = 96
     learning_rate: float = 8e-4
     kl_weight: float = 0.005
     latent_noise: float = 0.12
-    samples_per_requirement: int = 48
+    samples_per_requirement: int = 24
     seed: int = 7
 
 

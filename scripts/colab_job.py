@@ -95,9 +95,9 @@ def main() -> None:
     parser.add_argument("--samples", type=int, default=100)
     parser.add_argument("--seeds", default="7,13,29")
     parser.add_argument("--train-celeba", action="store_true")
-    parser.add_argument("--celeba-epochs", type=int, default=120)
-    parser.add_argument("--celeba-samples", type=int, default=48)
-    parser.add_argument("--celeba-seeds", default="7,13,29")
+    parser.add_argument("--celeba-epochs", type=int, default=40)
+    parser.add_argument("--celeba-samples", type=int, default=24)
+    parser.add_argument("--celeba-seeds", default="7")
     args, _ = parser.parse_known_args()
 
     prepare_repo(args.branch)
