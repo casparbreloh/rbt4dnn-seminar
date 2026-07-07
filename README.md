@@ -18,7 +18,7 @@ results should not depend on private Drive links.
 - [Precondition validity](https://colab.research.google.com/github/casparbreloh/rbt4dnn-seminar/blob/main/experiments/precondition-validity/notebook.ipynb)
 - [MNIST LoRA ablation](https://colab.research.google.com/github/casparbreloh/rbt4dnn-seminar/blob/main/experiments/mnist-lora-ablation/notebook.ipynb)
 - [Cost analysis](https://colab.research.google.com/github/casparbreloh/rbt4dnn-seminar/blob/main/experiments/cost-analysis/notebook.ipynb)
-- [MNIST shared LoRA pilot](https://colab.research.google.com/github/casparbreloh/rbt4dnn-seminar/blob/main/experiments/mnist-shared-lora-pilot/notebook.ipynb)
+- [MNIST shared generator](https://colab.research.google.com/github/casparbreloh/rbt4dnn-seminar/blob/main/experiments/mnist-shared-generator/notebook.ipynb)
 
 The notebooks clone this repo automatically in Colab if the data is not already
 available. Finished notebooks write `results.csv` and `summary.md` into their
@@ -29,6 +29,20 @@ In Colab, always run the first cell before any experiment cell. If
 resets the clone to the latest GitHub commit, and clears stale Python imports.
 The first cell prints the active commit so stale notebooks are easier to catch.
 
+To regenerate the current CSV/Markdown results without opening notebooks:
+
+```bash
+uv run python scripts/run_experiments.py
+```
+
+To also train the shared MNIST generator extension:
+
+```bash
+uv run python scripts/run_experiments.py --train-shared-generator
+```
+
+Colab CLI execution uses the same code through `scripts/colab_job.py`.
+
 ## Data
 
 The repo includes copied generated images, copied paper result files, and a
@@ -37,7 +51,9 @@ are kept for completeness, while the requirement table covers the MNIST,
 CelebA-HQ, and SGSM rows used by the current analyses.
 
 The original upstream scripts are preserved as `data/original-rbt4dnn-code.tar.gz`
-for provenance, but they are not maintained as this repo's code.
+for provenance, but they are not maintained as this repo's code. The public
+upstream artifact includes sampling/evaluation scripts, not a self-contained
+FLUX LoRA training recipe.
 
 ## Setup
 

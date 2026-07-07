@@ -34,6 +34,7 @@ extra-paths = [
     "src",
     "experiments/cost-analysis",
     "experiments/mnist-lora-ablation",
-    "experiments/mnist-shared-lora-pilot",
+    "experiments/mnist-shared-generator",
     "experiments/precondition-validity",
+    "scripts",
 ]
