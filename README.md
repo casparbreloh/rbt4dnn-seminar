@@ -22,10 +22,10 @@ data/
   input.csv                compact table shared by the notebooks
   results/                 committed result and assumption CSVs
 experiments/
-  lance-dataset/           Lance dataset builder
-  mnist/                   MNIST replication notebook and runner
-  valid-failures/          precondition-aware failure notebook
-  costs/                   cost-analysis notebook
+  replication/             MNIST artifact-level replication
+  cost-analysis/           valid-failure and cost-per-failure analysis
+scripts/
+  build-lance.py           rebuilds the compact Lance dataset
 paper-code/                reference scripts copied from RBT4DNN
 packages/
   <future package>/        optional uv workspace packages later
@@ -48,16 +48,28 @@ metadata and Lance Blob v2 external references to `data/images/...`, not a
 second copy of the PNG bytes. Rebuild it with:
 
 ```bash
-uv run python experiments/lance-dataset/build.py
+uv run python scripts/build-lance.py
 ```
 
 When reading image blobs from Lance, run from the repository root so the
 relative external image references resolve correctly.
 
+The repo has two seminar experiments:
+
+1. `experiments/replication/`: reruns the MNIST pass-rate check on the
+   published generated images and compares it to the paper-release values.
+2. `experiments/cost-analysis/`: uses the paper result table plus simple cost
+   assumptions to estimate valid requirement-matching failures per dollar.
+
+The replication is intentionally conservative. It does not retrain LoRAs,
+regenerate images, or change the original test artifacts. It checks that our
+local evaluation of the copied MNIST generated images produces numbers close
+to the paper values, which is enough to use those artifacts for the extension.
+
 New extension experiments should get their own folder under `experiments/`.
-Each experiment folder should keep its notebook and code. Committed result
-tables should go under `data/results/`. Large new outputs should go into
-ignored `outputs/` unless they are final results worth committing.
+Committed result tables should go under `data/results/`. Large new outputs
+should go into ignored `outputs/` unless they are final results worth
+committing.
 
 ## Environment
 
@@ -69,9 +81,8 @@ uv sync
 
 ## Open in Colab
 
-- [MNIST replication](https://colab.research.google.com/github/casparbreloh/rbt4dnn-seminar/blob/main/experiments/mnist/notebook.ipynb)
-- [Valid failure overview](https://colab.research.google.com/github/casparbreloh/rbt4dnn-seminar/blob/main/experiments/valid-failures/notebook.ipynb)
-- [Cost per valid failure](https://colab.research.google.com/github/casparbreloh/rbt4dnn-seminar/blob/main/experiments/costs/notebook.ipynb)
+- [Replication](https://colab.research.google.com/github/casparbreloh/rbt4dnn-seminar/blob/main/experiments/replication/notebook.ipynb)
+- [Cost analysis](https://colab.research.google.com/github/casparbreloh/rbt4dnn-seminar/blob/main/experiments/cost-analysis/notebook.ipynb)
 
 The notebooks clone this repository automatically in Colab if
 `data/input.csv` is not already available.
@@ -91,7 +102,7 @@ For MNIST M3 (`very thick 7`), the per-requirement LoRA finds many valid failure
 ## Reproduce the MNIST rerun
 
 ```bash
-uv run python experiments/mnist/run.py
+uv run python experiments/replication/run.py
 ```
 
 This uses the copied MNIST generated images under

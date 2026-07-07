@@ -11,7 +11,7 @@ import pyarrow as pa
 from lance import Blob, blob_array, blob_field
 
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[1]
 IMAGE_ROOT = ROOT / "data" / "images"
 DATASET = ROOT / "data" / "rbt4dnn.lance"
 
