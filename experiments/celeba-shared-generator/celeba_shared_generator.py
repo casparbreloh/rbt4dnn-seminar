@@ -73,6 +73,12 @@ class ClipEvaluator:
     device: torch.device
 
 
+def pooled_features(output: Any) -> torch.Tensor:
+    if isinstance(output, torch.Tensor):
+        return output
+    return output.pooler_output
+
+
 class RequirementImages(Dataset[tuple[torch.Tensor, torch.Tensor]]):
     def __init__(self, root: Path, image_size: int) -> None:
         self.items: list[tuple[Path, int]] = []
@@ -340,7 +346,7 @@ def build_clip_evaluator(root: Path) -> ClipEvaluator:
         return_tensors="pt",
         padding=True,
     ).to(device)
-    text_features = model.get_text_features(**text_inputs)
+    text_features = pooled_features(model.get_text_features(**text_inputs))
     text_features = text_features / text_features.norm(dim=-1, keepdim=True)
     return ClipEvaluator(processor, model, text_features, text_order, device)
 
@@ -355,7 +361,7 @@ def clip_metrics(evaluator: ClipEvaluator, generated: Path, requirement: str) ->
     for start in range(0, len(files), 32):
         images = [Image.open(path).convert("RGB") for path in files[start : start + 32]]
         image_inputs = evaluator.processor(images=images, return_tensors="pt").to(evaluator.device)
-        image_features = evaluator.model.get_image_features(**image_inputs)
+        image_features = pooled_features(evaluator.model.get_image_features(**image_inputs))
         image_features = image_features / image_features.norm(dim=-1, keepdim=True)
         scores = image_features @ evaluator.text_features.T
         top1 += int((scores.argmax(dim=1) == own_index).sum().item())
