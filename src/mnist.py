@@ -3,7 +3,7 @@ from __future__ import annotations
 from pathlib import Path
 from typing import TypedDict
 
-from paths import CsvRow, find_repo_root, read_csv_rows, requirements_csv, write_csv
+from shared import CsvRow, find_repo_root, read_csv_rows, requirements_csv, write_csv
 
 TARGET = {
     "M1": 2,
@@ -70,13 +70,25 @@ def evaluate_mnist_images(
     batch_size: int = 25,
     variants: list[str] | None = None,
 ) -> list[EvaluationRow]:
+    root = find_repo_root(root)
+    base = root / "data" / "images" / "mnist"
+    selected_variants = variants or ["", "Allreq_", "Alldata_"]
+    folders = {
+        f"{variant}{requirement}": base / f"{variant}{requirement}"
+        for variant in selected_variants
+        for requirement in TARGET
+    }
+    return evaluate_mnist_folders(folders, batch_size=batch_size)
+
+
+def evaluate_mnist_folders(
+    folders: dict[str, Path],
+    batch_size: int = 25,
+) -> list[EvaluationRow]:
     import torch
     from PIL import Image
     from transformers import AutoImageProcessor, AutoModelForImageClassification
 
-    root = find_repo_root(root)
-    base = root / "data" / "images" / "mnist"
-    selected_variants = variants or ["", "Allreq_", "Alldata_"]
     device = "mps" if torch.backends.mps.is_available() else "cpu"
     processor = AutoImageProcessor.from_pretrained("farleyknight-org-username/vit-base-mnist")
     model = (
@@ -86,34 +98,34 @@ def evaluate_mnist_images(
     )
 
     rows: list[EvaluationRow] = []
-    for variant in selected_variants:
-        for requirement, target in TARGET.items():
-            folder = base / f"{variant}{requirement}"
-            files = sorted(folder.glob("*.png"))
-            if not files:
-                continue
+    for label, folder in folders.items():
+        requirement = label.removeprefix("Allreq_").removeprefix("Alldata_")
+        if requirement not in TARGET:
+            continue
+        target = TARGET[requirement]
+        files = sorted(folder.glob("*.png"))
+        if not files:
+            continue
 
-            predictions: list[int] = []
-            for start in range(0, len(files), batch_size):
-                images = [
-                    Image.open(path).convert("RGB") for path in files[start : start + batch_size]
-                ]
-                with torch.no_grad():
-                    inputs = processor(images, return_tensors="pt").to(device)
-                    predictions.extend(model(**inputs).logits.argmax(-1).tolist())
+        predictions: list[int] = []
+        for start in range(0, len(files), batch_size):
+            images = [Image.open(path).convert("RGB") for path in files[start : start + batch_size]]
+            with torch.no_grad():
+                inputs = processor(images, return_tensors="pt").to(device)
+                predictions.extend(model(**inputs).logits.argmax(-1).tolist())
 
-            failures = [
-                (files[index].name, prediction)
-                for index, prediction in enumerate(predictions)
-                if prediction != target
-            ]
-            rows.append(
-                {
-                    "requirement": f"{variant}{requirement}",
-                    "n_images": len(files),
-                    "pass_rate": (len(files) - len(failures)) / len(files),
-                    "paper_pass_rate": PAPER[requirement] if variant == "" else None,
-                    "failures": failures,
-                }
-            )
+        failures = [
+            (files[index].name, prediction)
+            for index, prediction in enumerate(predictions)
+            if prediction != target
+        ]
+        rows.append(
+            {
+                "requirement": label,
+                "n_images": len(files),
+                "pass_rate": (len(files) - len(failures)) / len(files),
+                "paper_pass_rate": PAPER[requirement] if label == requirement else None,
+                "failures": failures,
+            }
+        )
     return rows

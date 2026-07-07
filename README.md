@@ -11,10 +11,14 @@ small shared helpers live directly in `src/`.
 ## Notebooks
 
 - [Replication](https://colab.research.google.com/github/casparbreloh/rbt4dnn-seminar/blob/main/experiments/replication/notebook.ipynb)
+- [Precondition validity](https://colab.research.google.com/github/casparbreloh/rbt4dnn-seminar/blob/main/experiments/precondition-validity/notebook.ipynb)
+- [MNIST LoRA ablation](https://colab.research.google.com/github/casparbreloh/rbt4dnn-seminar/blob/main/experiments/mnist-lora-ablation/notebook.ipynb)
 - [Cost analysis](https://colab.research.google.com/github/casparbreloh/rbt4dnn-seminar/blob/main/experiments/cost-analysis/notebook.ipynb)
+- [MNIST shared LoRA pilot](https://colab.research.google.com/github/casparbreloh/rbt4dnn-seminar/blob/main/experiments/mnist-shared-lora-pilot/notebook.ipynb)
 
 The notebooks clone this repo automatically in Colab if the data is not already
-available.
+available. Finished notebooks write `results.csv` and `summary.md` into their
+experiment folder so later Codex runs can inspect the actual findings.
 
 ## Data
 
@@ -49,6 +53,6 @@ uv run ty check
 ## Scope
 
 The replication is intentionally conservative: it uses the copied RBT4DNN
-generated images and reported result files, and does not retrain LoRAs or
-regenerate images. Extension work should add new notebooks under `experiments/`
-and reusable code under `src/` only when it is shared.
+generated images and reported result files. Extension work should add new
+notebooks under `experiments/` and reusable code under `src/` only when it is
+shared by more than one experiment.

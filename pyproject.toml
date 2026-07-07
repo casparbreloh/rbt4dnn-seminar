@@ -32,4 +32,10 @@ line-length = 100
 target-version = "py311"
 
 [tool.ty.environment]
-extra-paths = ["src"]
+extra-paths = [
+    "src",
+    "experiments/cost-analysis",
+    "experiments/mnist-lora-ablation",
+    "experiments/mnist-shared-lora-pilot",
+    "experiments/precondition-validity",
+]
