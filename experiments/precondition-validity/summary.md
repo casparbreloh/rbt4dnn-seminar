@@ -4,6 +4,8 @@ Requirement/method rows with pass and precondition metrics: 31
 
 The valid-failure values are aggregate estimates: `precondition_match * (1 - pass_rate)`. They are not observed joint counts for individual generated images.
 
+Estimated failure counts use the paper's reported generated-test counts; `available_images` is the smaller copied image sample in this repo.
+
 Skipped rows with missing metrics: mnist M7 lr, celeba-hq C7 lr
 
 ## Highest Estimated Valid-Failure Rates (Main LoRA Rows)
