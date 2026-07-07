@@ -19,6 +19,7 @@ results should not depend on private Drive links.
 - [MNIST LoRA ablation](https://colab.research.google.com/github/casparbreloh/rbt4dnn-seminar/blob/main/experiments/mnist-lora-ablation/notebook.ipynb)
 - [Cost analysis](https://colab.research.google.com/github/casparbreloh/rbt4dnn-seminar/blob/main/experiments/cost-analysis/notebook.ipynb)
 - [MNIST shared generator](https://colab.research.google.com/github/casparbreloh/rbt4dnn-seminar/blob/main/experiments/mnist-shared-generator/notebook.ipynb)
+- [CelebA-HQ shared generator](https://colab.research.google.com/github/casparbreloh/rbt4dnn-seminar/blob/main/experiments/celeba-shared-generator/notebook.ipynb)
 
 ## Results
 
@@ -33,6 +34,10 @@ results should not depend on private Drive links.
   over three seeds and reaches mean pass `0.941` versus `0.942` for the paper's
   per-requirement LoRA reference, with `0` exact generated/training image
   matches.
+- CelebA-HQ shared-generator extension: tests whether the shared-generator idea
+  still produces requirement-aligned face samples on a harder dataset. It uses
+  CLIP text-image alignment and novelty checks, not the paper's attribute
+  classifier pass rate.
 
 The notebooks clone this repo automatically in Colab if the data is not already
 available. Finished notebooks write `results.csv` and `summary.md` into their

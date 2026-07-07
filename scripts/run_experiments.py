@@ -71,6 +71,18 @@ def train_shared_generator(
     return train_and_evaluate(root, config, seeds=seeds)
 
 
+def train_celeba_generator(
+    root: Path,
+    epochs: int,
+    samples_per_requirement: int,
+    seeds: list[int],
+) -> list[Path]:
+    from celeba_shared_generator import TrainConfig, train_and_evaluate
+
+    config = TrainConfig(epochs=epochs, samples_per_requirement=samples_per_requirement)
+    return train_and_evaluate(root, config, seeds=seeds)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--only", choices=EXPERIMENTS, action="append")
@@ -78,6 +90,10 @@ def main() -> None:
     parser.add_argument("--shared-generator-epochs", type=int, default=100)
     parser.add_argument("--shared-generator-samples", type=int, default=100)
     parser.add_argument("--shared-generator-seeds", default="7,13,29")
+    parser.add_argument("--train-celeba-generator", action="store_true")
+    parser.add_argument("--celeba-generator-epochs", type=int, default=120)
+    parser.add_argument("--celeba-generator-samples", type=int, default=48)
+    parser.add_argument("--celeba-generator-seeds", default="7,13,29")
     args = parser.parse_args()
 
     root = find_root()
@@ -94,6 +110,15 @@ def main() -> None:
                 epochs=args.shared_generator_epochs,
                 samples_per_requirement=args.shared_generator_samples,
                 seeds=parse_seeds(args.shared_generator_seeds),
+            )
+        )
+    if args.train_celeba_generator:
+        written.extend(
+            train_celeba_generator(
+                root,
+                epochs=args.celeba_generator_epochs,
+                samples_per_requirement=args.celeba_generator_samples,
+                seeds=parse_seeds(args.celeba_generator_seeds),
             )
         )
 

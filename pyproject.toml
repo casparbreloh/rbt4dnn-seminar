@@ -32,6 +32,7 @@ target-version = "py311"
 [tool.ty.environment]
 extra-paths = [
     "src",
+    "experiments/celeba-shared-generator",
     "experiments/cost-analysis",
     "experiments/mnist-lora-ablation",
     "experiments/mnist-shared-generator",
