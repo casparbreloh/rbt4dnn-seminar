@@ -25,6 +25,9 @@ RESULT_FIELDS = [
     "paper_lr_pass_rate",
     "delta_vs_paper_lr",
     "failure_count",
+    "nearest_train_mse_mean",
+    "nearest_train_mse_min",
+    "exact_train_matches",
     "last_loss",
     "train_seconds",
 ]
@@ -159,6 +162,10 @@ def generated_folders(root: Path) -> dict[str, Path]:
     return {requirement: base / requirement for requirement in REQUIREMENTS}
 
 
+def requirement_folder(root: Path, requirement: str) -> Path:
+    return root / "data" / "images" / "mnist" / requirement
+
+
 def train_model(root: Path, config: TrainConfig) -> tuple[ConditionalVAE, list[CsvRow], float]:
     seed_everything(config.seed)
     device = torch.device(device_name())
@@ -262,6 +269,29 @@ def save_sample_grid(root: Path) -> Path:
     return path
 
 
+def image_matrix(folder: Path) -> torch.Tensor:
+    transform = transforms.Compose(
+        [transforms.Grayscale(), transforms.Resize((64, 64)), transforms.ToTensor()]
+    )
+    images = []
+    for path in sorted(folder.glob("*.png")):
+        with Image.open(path) as image:
+            images.append(transform(image).flatten())
+    return torch.stack(images)
+
+
+def nearest_training_metrics(root: Path, requirement: str, generated: Path) -> CsvRow:
+    generated_images = image_matrix(generated)
+    training_images = image_matrix(requirement_folder(root, requirement))
+    nearest = torch.cdist(generated_images, training_images).min(dim=1).values.pow(2)
+    nearest_mse = nearest / generated_images.shape[1]
+    return {
+        "nearest_train_mse_mean": f"{nearest_mse.mean().item():.6f}",
+        "nearest_train_mse_min": f"{nearest_mse.min().item():.6f}",
+        "exact_train_matches": str(int((nearest_mse <= 1e-8).sum().item())),
+    }
+
+
 def evaluate_generated(
     root: Path,
     log_rows: list[CsvRow],
@@ -277,17 +307,21 @@ def evaluate_generated(
     for row in evaluate_mnist_folders(generated_folders(root), batch_size=batch_size):
         requirement = row["requirement"]
         paper = PAPER[requirement]
+        novelty = nearest_training_metrics(root, requirement, generated_folders(root)[requirement])
         rows.append(
             {
                 "requirement": requirement,
                 "n_train_images": str(
-                    len(list((root / "data" / "images" / "mnist" / requirement).glob("*.png")))
+                    len(list(requirement_folder(root, requirement).glob("*.png")))
                 ),
                 "n_generated_images": str(counts[requirement]),
                 "pass_rate": f"{row['pass_rate']:.6f}",
                 "paper_lr_pass_rate": f"{paper:.6f}",
                 "delta_vs_paper_lr": f"{row['pass_rate'] - paper:+.6f}",
                 "failure_count": str(len(row["failures"])),
+                "nearest_train_mse_mean": novelty["nearest_train_mse_mean"],
+                "nearest_train_mse_min": novelty["nearest_train_mse_min"],
+                "exact_train_matches": novelty["exact_train_matches"],
                 "last_loss": last_loss,
                 "train_seconds": f"{train_seconds:.2f}",
             }
@@ -314,6 +348,8 @@ def write_outputs(
 def summary(rows: list[CsvRow], sample_grid: Path) -> str:
     mean_pass = sum(float(row["pass_rate"]) for row in rows) / len(rows)
     mean_paper = sum(float(row["paper_lr_pass_rate"]) for row in rows) / len(rows)
+    exact_matches = sum(int(row["exact_train_matches"]) for row in rows)
+    mean_nearest_mse = sum(float(row["nearest_train_mse_mean"]) for row in rows) / len(rows)
     worst = min(rows, key=lambda row: float(row["pass_rate"]))
     n_generated = rows[0]["n_generated_images"]
     lines = [
@@ -327,6 +363,8 @@ def summary(rows: list[CsvRow], sample_grid: Path) -> str:
         "",
         f"Mean pass rate: {mean_pass:.3f} versus {mean_paper:.3f} for the paper's "
         "per-requirement LoRA reference.",
+        f"Exact generated/training image matches: {exact_matches}. Mean nearest-train MSE: "
+        f"{mean_nearest_mse:.4f}.",
         f"Worst requirement: {worst['requirement']} at pass {worst['pass_rate']} "
         f"({worst['failure_count']} failures).",
         f"Sample grid: `{sample_grid.relative_to(sample_grid.parents[2])}`.",
