@@ -19,13 +19,12 @@ data/
     imagenet/              I1-I4
   paper-results/           paper result files copied for comparison
   rbt4dnn.lance/           queryable Lance dataset with external image blobs
-  input.csv                compact table shared by the notebooks
-  results/                 committed result and assumption CSVs
+  requirements.csv         compact requirement/method result table
 experiments/
   replication/             MNIST artifact-level replication
   cost-analysis/           valid-failure and cost-per-failure analysis
 scripts/
-  build-lance.py           rebuilds the compact Lance dataset
+  build-dataset.py         rebuilds the compact Lance dataset
 paper-code/                reference scripts copied from RBT4DNN
 packages/
   <future package>/        optional uv workspace packages later
@@ -44,11 +43,12 @@ The generated images are exact copies from the local RBT4DNN release we have:
 14,500 PNGs across MNIST, CelebA-HQ, SGSM, and ImageNet.
 
 `data/rbt4dnn.lance` is a compact dataset layer over those images. It stores
-metadata and Lance Blob v2 external references to `data/images/...`, not a
-second copy of the PNG bytes. Rebuild it with:
+image metadata, requirement-level result fields from `data/requirements.csv`, and
+Lance Blob v2 external references to `data/images/...`, not a second copy of
+the PNG bytes. Rebuild it with:
 
 ```bash
-uv run python scripts/build-lance.py
+uv run python scripts/build-dataset.py
 ```
 
 When reading image blobs from Lance, run from the repository root so the
@@ -66,10 +66,10 @@ regenerate images, or change the original test artifacts. It checks that our
 local evaluation of the copied MNIST generated images produces numbers close
 to the paper values, which is enough to use those artifacts for the extension.
 
-New extension experiments should get their own folder under `experiments/`.
-Committed result tables should go under `data/results/`. Large new outputs
-should go into ignored `outputs/` unless they are final results worth
-committing.
+New extension experiments should get their own folder under `experiments/`,
+including their result CSVs. Shared source data and shared Lance datasets stay
+under `data/`. Large new outputs should go into ignored `outputs/` unless they
+are final results worth committing.
 
 ## Environment
 
@@ -85,7 +85,7 @@ uv sync
 - [Cost analysis](https://colab.research.google.com/github/casparbreloh/rbt4dnn-seminar/blob/main/experiments/cost-analysis/notebook.ipynb)
 
 The notebooks clone this repository automatically in Colab if
-`data/input.csv` is not already available.
+`data/requirements.csv` is not already available.
 
 ## Main extension idea
 
