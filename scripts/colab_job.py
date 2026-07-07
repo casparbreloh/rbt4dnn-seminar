@@ -69,7 +69,7 @@ def main() -> None:
     parser.add_argument("--branch", default="main")
     parser.add_argument("--epochs", type=int, default=40)
     parser.add_argument("--samples", type=int, default=100)
-    args = parser.parse_args()
+    args, _ = parser.parse_known_args()
 
     prepare_repo(args.branch)
     install_runtime_deps()
