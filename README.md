@@ -24,23 +24,19 @@ data/
                            copied upstream scripts kept as provenance
 experiments/
   replication/             MNIST artifact-level replication
-    notebook.ipynb         readable replication report
-    run.py                 reruns the MNIST classifier check
+    notebook.ipynb         executable replication report
   cost-analysis/           valid-failure and cost-per-failure analysis
-    notebook.ipynb         readable cost-analysis report
-    run.py                 regenerates the cost CSVs
-scripts/
-  build-dataset.py         rebuilds the compact Lance dataset
+    notebook.ipynb         executable cost-analysis report
 src/
-  rbt4dnn_seminar/         maintained experiment and data code
+  rbt4dnn_seminar/         maintained experiment and dataset code
 packages/
   <future package>/        optional uv workspace packages later
 ```
 
 Think of `data/` as the single data root. Raw generated images, paper result
 files, the derived Lance table, and provenance artifacts all live there. Think
-of `experiments/` as runnable research reports, and `src/` as the maintained
-Python implementation those reports call.
+of `experiments/` as notebook-first research reports, and `src/` as the
+maintained Python implementation those notebooks call.
 
 This is not a mirror of the original repository. It keeps the generated images,
 reported result files, and the upstream script snapshot needed for
@@ -58,7 +54,7 @@ Lance Blob v2 external references to `data/images/...`, not a second copy of
 the PNG bytes. Rebuild it with:
 
 ```bash
-uv run python scripts/build-dataset.py
+uv run python -m rbt4dnn_seminar.dataset
 ```
 
 When reading image blobs from Lance, run from the repository root so the
@@ -81,9 +77,9 @@ including their result CSVs. Shared source data and shared Lance datasets stay
 under `data/`. Large new outputs should go into ignored `outputs/` unless they
 are final results worth committing.
 
-Notebooks should stay thin: load the repo, call code from `src/rbt4dnn_seminar`,
-and show the result. Reusable logic belongs in `src/`, not copied between
-notebooks.
+Notebooks are the experiment entry points. They should load the repo, call code
+from `src/rbt4dnn_seminar`, and show the result. Reusable logic belongs in
+`src/`, not copied between notebooks.
 
 ## Environment
 
@@ -126,11 +122,8 @@ For MNIST M3 (`very thick 7`), the per-requirement LoRA finds many valid failure
 
 ## Reproduce the MNIST rerun
 
-```bash
-uv run python experiments/replication/run.py
-```
-
-This uses the copied MNIST generated images under
+Open `experiments/replication/notebook.ipynb` locally or in Colab and run the
+cells. The notebook uses the copied MNIST generated images under
 `data/images/mnist/`.
 
 ## Scope
