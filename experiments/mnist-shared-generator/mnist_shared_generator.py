@@ -38,6 +38,7 @@ class TrainConfig:
     latent_dim: int = 48
     learning_rate: float = 1e-3
     kl_weight: float = 0.01
+    latent_noise: float = 0.15
     samples_per_requirement: int = 100
     seed: int = 7
 
@@ -196,9 +197,32 @@ def train_model(root: Path, config: TrainConfig) -> tuple[ConditionalVAE, list[C
 
 
 @torch.no_grad()
+def training_latents(
+    root: Path,
+    model: ConditionalVAE,
+    config: TrainConfig,
+) -> dict[int, torch.Tensor]:
+    device = next(model.parameters()).device
+    loader = DataLoader(RequirementImages(root), batch_size=config.batch_size)
+    latents: dict[int, list[torch.Tensor]] = {label: [] for label in range(len(REQUIREMENTS))}
+
+    model.eval()
+    for images, labels in loader:
+        images = images.to(device)
+        labels = labels.to(device)
+        mu, _ = model.encode(images, labels)
+        for label in range(len(REQUIREMENTS)):
+            selected = mu[labels == label]
+            if len(selected) > 0:
+                latents[label].append(selected)
+    return {label: torch.cat(parts) for label, parts in latents.items()}
+
+
+@torch.no_grad()
 def generate_images(root: Path, model: ConditionalVAE, config: TrainConfig) -> None:
     seed_everything(config.seed + 1)
     device = next(model.parameters()).device
+    latents = training_latents(root, model, config)
     folders = generated_folders(root)
     for folder in folders.values():
         if folder.exists():
@@ -211,7 +235,13 @@ def generate_images(root: Path, model: ConditionalVAE, config: TrainConfig) -> N
         labels = torch.full(
             (config.samples_per_requirement,), label, dtype=torch.long, device=device
         )
-        z = torch.randn(config.samples_per_requirement, config.latent_dim, device=device)
+        source = latents[label]
+        indices = torch.randint(len(source), (config.samples_per_requirement,), device=device)
+        z = source[indices] + config.latent_noise * torch.randn(
+            config.samples_per_requirement,
+            config.latent_dim,
+            device=device,
+        )
         images = model.decode(z, labels).cpu()
         for index, image in enumerate(images):
             save_image(image, folders[requirement] / f"{index}.png")
@@ -290,9 +320,10 @@ def summary(rows: list[CsvRow], sample_grid: Path) -> str:
         "# MNIST Shared Generator Summary",
         "",
         "A single conditional VAE was trained on the copied RBT4DNN MNIST LoRA images "
-        f"for M1-M6, then asked to generate {n_generated} images per requirement.",
+        "for M1-M6, then generated images by resampling the learned latent space.",
         "",
-        "This is a cheap shared-generator baseline, not a FLUX LoRA reproduction.",
+        f"It generated {n_generated} images per requirement. This is a cheap "
+        "shared-generator baseline, not a FLUX LoRA reproduction.",
         "",
         f"Mean pass rate: {mean_pass:.3f} versus {mean_paper:.3f} for the paper's "
         "per-requirement LoRA reference.",
