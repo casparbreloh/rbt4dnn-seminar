@@ -24,6 +24,11 @@ The notebooks clone this repo automatically in Colab if the data is not already
 available. Finished notebooks write `results.csv` and `summary.md` into their
 experiment folder so later Codex runs can inspect the actual findings.
 
+In Colab, always run the first cell before any experiment cell. If
+`/content/rbt4dnn-seminar` already exists, that cell fetches `origin/main`,
+resets the clone to the latest GitHub commit, and clears stale Python imports.
+The first cell prints the active commit so stale notebooks are easier to catch.
+
 ## Data
 
 The repo includes copied generated images, copied paper result files, and a
