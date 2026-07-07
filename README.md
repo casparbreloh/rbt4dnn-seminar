@@ -20,25 +20,33 @@ data/
   paper-results/           paper result files copied for comparison
   rbt4dnn.lance/           queryable Lance dataset with external image blobs
   requirements.csv         compact requirement/method result table
+  original-rbt4dnn-code.tar.gz
+                           copied upstream scripts kept as provenance
 experiments/
   replication/             MNIST artifact-level replication
-    original/              copied upstream scripts for audit/reference
+    notebook.ipynb         readable replication report
+    run.py                 reruns the MNIST classifier check
   cost-analysis/           valid-failure and cost-per-failure analysis
+    notebook.ipynb         readable cost-analysis report
+    run.py                 regenerates the cost CSVs
 scripts/
   build-dataset.py         rebuilds the compact Lance dataset
+src/
+  rbt4dnn_seminar/         maintained experiment and data code
 packages/
   <future package>/        optional uv workspace packages later
 ```
 
 Think of `data/` as the single data root. Raw generated images, paper result
-files, and the derived Lance table all live there. Think of `experiments/` as
-our seminar work on top.
+files, the derived Lance table, and provenance artifacts all live there. Think
+of `experiments/` as runnable research reports, and `src/` as the maintained
+Python implementation those reports call.
 
 This is not a mirror of the original repository. It keeps the generated images,
-reported result files, and copied reference scripts needed for reproducibility
-and comparison. The copied scripts live under `experiments/replication/original/`
-because they document the original artifact, but they are not maintained as this
-repo's own code. This repo does not keep the original README, original
+reported result files, and the upstream script snapshot needed for
+reproducibility and comparison. The upstream scripts are archived as
+`data/original-rbt4dnn-code.tar.gz` so they remain exact provenance, not
+maintained project code. This repo does not keep the original README, original
 requirements file, training datasets, or model checkpoints.
 
 The generated images are exact copies from the local RBT4DNN release we have:
@@ -73,6 +81,10 @@ including their result CSVs. Shared source data and shared Lance datasets stay
 under `data/`. Large new outputs should go into ignored `outputs/` unless they
 are final results worth committing.
 
+Notebooks should stay thin: load the repo, call code from `src/rbt4dnn_seminar`,
+and show the result. Reusable logic belongs in `src/`, not copied between
+notebooks.
+
 ## Environment
 
 This repo is managed with [`uv`](https://docs.astral.sh/uv/). The root project is also a uv workspace, so later experiments can add packages under `packages/*` without changing the repository layout.
@@ -88,6 +100,9 @@ uv run ruff format --check
 uv run ruff check
 uv run ty check
 ```
+
+These commands run from the repo root. Maintained Python code is checked without
+a hand-picked include list.
 
 ## Open in Colab
 
