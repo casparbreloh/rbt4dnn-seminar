@@ -2,16 +2,16 @@
 
 A single conditional VAE was trained on the copied RBT4DNN MNIST LoRA images for M1-M6, then generated images by resampling the learned latent space.
 
-It generated 100 images per requirement. This is a cheap shared-generator baseline, not a FLUX LoRA reproduction.
+It ran 3 seeds and generated 100 images per requirement per seed. This is a cheap shared-generator baseline, not a FLUX LoRA reproduction.
 
-Mean pass rate: 0.938 versus 0.942 for the paper's per-requirement LoRA reference.
-Exact generated/training image matches: 0. Mean nearest-train MSE: 0.0024.
-Worst requirement: M3 at pass 0.710000 (29 failures).
+Mean pass rate: 0.941 versus 0.942 for the paper's per-requirement LoRA reference.
+Exact generated/training image matches: 0. Mean nearest-train MSE: 0.0020.
+Worst requirement: M3 at mean pass 0.716667 (28.333 mean failures).
 Sample grid: `experiments/mnist-shared-generator/samples.png`.
 
-- M1: pass 1.000000 (delta +0.001000)
-- M2: pass 0.940000 (delta -0.037000)
-- M3: pass 0.710000 (delta -0.014000)
-- M4: pass 0.990000 (delta +0.008000)
-- M5: pass 1.000000 (delta +0.006000)
-- M6: pass 0.990000 (delta +0.014000)
+- M1: mean pass 1.000000 (std 0.000000, delta +0.001000)
+- M2: mean pass 0.963333 (std 0.015275, delta -0.013667)
+- M3: mean pass 0.716667 (std 0.058595, delta -0.007333)
+- M4: mean pass 0.973333 (std 0.015275, delta -0.008667)
+- M5: mean pass 1.000000 (std 0.000000, delta +0.006000)
+- M6: mean pass 0.990000 (std 0.000000, delta +0.014000)

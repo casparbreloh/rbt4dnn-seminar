@@ -30,8 +30,9 @@ results should not depend on private Drive links.
   failures are `SGSM S2` at `$0.05`, `MNIST M3` at `$0.12`, and `SGSM S1`
   at `$0.14` per estimated valid failure.
 - Shared-generator extension: one small conditional MNIST generator is evaluated
-  over three seeds against the paper's per-requirement LoRA reference, with
-  exact-copy checks against the training images.
+  over three seeds and reaches mean pass `0.941` versus `0.942` for the paper's
+  per-requirement LoRA reference, with `0` exact generated/training image
+  matches.
 
 The notebooks clone this repo automatically in Colab if the data is not already
 available. Finished notebooks write `results.csv` and `summary.md` into their
