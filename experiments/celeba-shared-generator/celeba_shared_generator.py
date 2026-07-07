@@ -14,7 +14,7 @@ from torch.utils.data import DataLoader, Dataset, Subset
 from torchvision import transforms
 from torchvision.utils import make_grid, save_image
 
-from shared import CsvRow, find_repo_root, requirement_rows, write_csv, write_text
+from shared import CsvRow, find_repo_root, write_csv, write_text
 
 REQUIREMENTS = ["C1", "C2", "C3", "C4", "C5", "C6", "C7"]
 DEFAULT_SEEDS = [7]
@@ -53,10 +53,10 @@ LOG_FIELDS = ["seed", "epoch", "loss", "reconstruction_loss", "kl_loss"]
 
 @dataclass(frozen=True)
 class TrainConfig:
-    epochs: int = 40
+    epochs: int = 25
     batch_size: int = 32
-    image_size: int = 128
-    latent_dim: int = 96
+    image_size: int = 64
+    latent_dim: int = 64
     learning_rate: float = 8e-4
     kl_weight: float = 0.005
     latent_noise: float = 0.12
@@ -96,10 +96,12 @@ class RequirementImages(Dataset[tuple[torch.Tensor, torch.Tensor]]):
 
 
 class ConditionalVAE(nn.Module):
-    def __init__(self, n_labels: int, latent_dim: int) -> None:
+    def __init__(self, n_labels: int, latent_dim: int, image_size: int) -> None:
         super().__init__()
         self.n_labels = n_labels
         self.latent_dim = latent_dim
+        self.encoded_size = image_size // 32
+        hidden_features = 384 * self.encoded_size * self.encoded_size
         self.encoder = nn.Sequential(
             nn.Conv2d(3 + n_labels, 32, 4, 2, 1),
             nn.ReLU(),
@@ -113,9 +115,9 @@ class ConditionalVAE(nn.Module):
             nn.ReLU(),
             nn.Flatten(),
         )
-        self.fc_mu = nn.Linear(384 * 4 * 4, latent_dim)
-        self.fc_logvar = nn.Linear(384 * 4 * 4, latent_dim)
-        self.fc_decode = nn.Linear(latent_dim + n_labels, 384 * 4 * 4)
+        self.fc_mu = nn.Linear(hidden_features, latent_dim)
+        self.fc_logvar = nn.Linear(hidden_features, latent_dim)
+        self.fc_decode = nn.Linear(latent_dim + n_labels, hidden_features)
         self.decoder = nn.Sequential(
             nn.ConvTranspose2d(384, 256, 4, 2, 1),
             nn.ReLU(),
@@ -145,7 +147,7 @@ class ConditionalVAE(nn.Module):
 
     def decode(self, z: torch.Tensor, labels: torch.Tensor) -> torch.Tensor:
         features = torch.cat([z, self.one_hot(labels)], dim=1)
-        features = self.fc_decode(features).view(-1, 384, 4, 4)
+        features = self.fc_decode(features).view(-1, 384, self.encoded_size, self.encoded_size)
         return self.decoder(features)
 
     def forward(
@@ -206,15 +208,6 @@ def seed_everything(seed: int) -> None:
         torch.cuda.manual_seed_all(seed)
 
 
-def prompt_by_requirement(root: Path) -> dict[str, str]:
-    rows = requirement_rows(root)
-    return {
-        row["requirement"]: f"CelebA-HQ close headshot. {row['requirement_text']}."
-        for row in rows
-        if row["dataset"] == "celeba-hq" and row["method"] == "lr"
-    }
-
-
 def loss_parts(
     generated: torch.Tensor,
     images: torch.Tensor,
@@ -235,7 +228,7 @@ def train_model(root: Path, config: TrainConfig) -> tuple[ConditionalVAE, list[C
         batch_size=config.batch_size,
         shuffle=True,
     )
-    model = ConditionalVAE(len(REQUIREMENTS), config.latent_dim).to(device)
+    model = ConditionalVAE(len(REQUIREMENTS), config.latent_dim, config.image_size).to(device)
     optimizer = torch.optim.AdamW(model.parameters(), lr=config.learning_rate)
 
     log_rows: list[CsvRow] = []

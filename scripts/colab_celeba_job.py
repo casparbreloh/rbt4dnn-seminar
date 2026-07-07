@@ -36,7 +36,7 @@ def main() -> None:
             "replication",
             "--train-celeba-generator",
             "--celeba-generator-epochs",
-            "40",
+            "25",
             "--celeba-generator-samples",
             "24",
             "--celeba-generator-seeds",

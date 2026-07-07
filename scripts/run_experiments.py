@@ -91,7 +91,7 @@ def main() -> None:
     parser.add_argument("--shared-generator-samples", type=int, default=100)
     parser.add_argument("--shared-generator-seeds", default="7,13,29")
     parser.add_argument("--train-celeba-generator", action="store_true")
-    parser.add_argument("--celeba-generator-epochs", type=int, default=40)
+    parser.add_argument("--celeba-generator-epochs", type=int, default=25)
     parser.add_argument("--celeba-generator-samples", type=int, default=24)
     parser.add_argument("--celeba-generator-seeds", default="7")
     args = parser.parse_args()
