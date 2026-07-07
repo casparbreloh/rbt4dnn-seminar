@@ -67,7 +67,7 @@ def zip_results() -> None:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--branch", default="main")
-    parser.add_argument("--epochs", type=int, default=40)
+    parser.add_argument("--epochs", type=int, default=100)
     parser.add_argument("--samples", type=int, default=100)
     args, _ = parser.parse_known_args()
 

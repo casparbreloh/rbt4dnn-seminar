@@ -66,7 +66,7 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--only", choices=EXPERIMENTS, action="append")
     parser.add_argument("--train-shared-generator", action="store_true")
-    parser.add_argument("--shared-generator-epochs", type=int, default=40)
+    parser.add_argument("--shared-generator-epochs", type=int, default=100)
     parser.add_argument("--shared-generator-samples", type=int, default=100)
     args = parser.parse_args()
 

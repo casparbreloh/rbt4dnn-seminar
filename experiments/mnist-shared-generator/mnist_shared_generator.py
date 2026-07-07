@@ -33,7 +33,7 @@ LOG_FIELDS = ["epoch", "loss", "reconstruction_loss", "kl_loss"]
 
 @dataclass(frozen=True)
 class TrainConfig:
-    epochs: int = 40
+    epochs: int = 100
     batch_size: int = 64
     latent_dim: int = 48
     learning_rate: float = 1e-3
