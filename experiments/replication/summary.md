@@ -1,9 +1,14 @@
 # Replication Summary
 
-This is an artifact-level MNIST check on copied generated images, not a full reproduction of LoRA training or FLUX sampling.
+**Question:** Do the copied MNIST generated images reproduce the paper's reported classifier pass rates closely enough to use them as a stable artifact?
 
-Rows checked: `7`.
-Largest absolute delta versus the paper reference: `0.013`.
+**Method:** Re-evaluate the copied generated images with the same MNIST target-label requirements and compare local pass rates with the paper reference.
+
+**Result:** Rows checked: `7`. Largest absolute delta versus the paper reference: `0.013`.
+
+**Limitation:** This is an artifact-level check, not a fresh reproduction of LoRA training or FLUX sampling.
+
+## Details
 
 - M1: local `1.000`, paper `0.999`, delta `+0.001`
 - M2: local `0.990`, paper `0.977`, delta `+0.013`

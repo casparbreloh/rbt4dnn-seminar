@@ -556,14 +556,20 @@ def summary(rows: list[CsvRow], sample_grid: Path) -> str:
     lines = [
         "# CelebA-HQ Shared Generator Summary",
         "",
-        "A single conditional VAE was trained on copied CelebA-HQ RBT4DNN LoRA images.",
+        "**Question:** Does the cheap shared-generator idea still look plausible on a harder "
+        "natural-image dataset?",
         "",
-        "Evaluation uses a small requirement classifier trained on the copied paper images "
-        "plus nearest-train image checks. This is not a replacement for the paper's "
-        "attribute-classifier pass rate.",
+        "**Method:** Train one conditional VAE on copied CelebA-HQ RBT4DNN LoRA images and "
+        "evaluate generated images with a small requirement classifier plus nearest-train "
+        "image checks.",
         "",
-        f"Classifier validation accuracy on copied paper images: {mean_val_accuracy:.3f}.",
-        f"Mean generated-image classifier top-1 alignment: {mean_top1:.3f}.",
+        f"**Result:** Classifier validation accuracy is {mean_val_accuracy:.3f}; generated-image "
+        f"classifier top-1 alignment is {mean_top1:.3f}.",
+        "",
+        "**Limitation:** This is exploratory and not a replacement for the paper's "
+        "attribute-classifier pass rate. The classifier itself is weak, so the result is a "
+        "caution signal rather than a final benchmark.",
+        "",
         f"Exact generated/training image matches: {exact_matches}.",
         f"Hardest requirement by classifier top-1: {hardest['requirement']} "
         f"({hardest['classifier_top1_mean']}).",

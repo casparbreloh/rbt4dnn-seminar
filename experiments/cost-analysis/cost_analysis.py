@@ -149,12 +149,16 @@ def summary(valid_rows: list[CsvRow], cost_rows: list[CsvRow]) -> str:
     lines = [
         "# Cost Analysis Summary",
         "",
-        "This analysis estimates cost per valid requirement-matching failure from aggregate "
-        "pass and precondition rates.",
+        "**Question:** If only valid failures matter, which requirement-testing targets look "
+        "most cost-effective?",
         "",
-        "The dollar values are illustrative assumptions for comparison only; they are not "
-        "measured invoices and no sensitivity analysis is included.",
+        "**Method:** Estimate valid failures from pass and precondition rates, then divide "
+        "illustrative compute, generation, validation, and engineering costs by that yield.",
         "",
+        "**Result:** SGSM S2, MNIST M3, and SGSM S1 are the cheapest estimated valid-failure "
+        "targets under the committed assumptions.",
+        "",
+        "**Limitation:** Dollar values are illustrative assumptions, not measured invoices. "
         "Estimated failure counts use the paper's reported generated-test counts, not the "
         "smaller copied image samples in this repo.",
         "",

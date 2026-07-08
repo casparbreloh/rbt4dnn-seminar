@@ -80,11 +80,19 @@ def replication_summary(rows: list[CsvRow]) -> str:
     lines = [
         "# Replication Summary",
         "",
-        "This is an artifact-level MNIST check on copied generated images, not a full "
-        "reproduction of LoRA training or FLUX sampling.",
+        "**Question:** Do the copied MNIST generated images reproduce the paper's reported "
+        "classifier pass rates closely enough to use them as a stable artifact?",
         "",
-        f"Rows checked: `{len(rows)}`.",
-        f"Largest absolute delta versus the paper reference: `{max_delta:.3f}`.",
+        "**Method:** Re-evaluate the copied generated images with the same MNIST target-label "
+        "requirements and compare local pass rates with the paper reference.",
+        "",
+        f"**Result:** Rows checked: `{len(rows)}`. Largest absolute delta versus the paper "
+        f"reference: `{max_delta:.3f}`.",
+        "",
+        "**Limitation:** This is an artifact-level check, not a fresh reproduction of LoRA "
+        "training or FLUX sampling.",
+        "",
+        "## Details",
         "",
     ]
     lines += [

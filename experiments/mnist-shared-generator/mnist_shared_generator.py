@@ -421,14 +421,18 @@ def summary(rows: list[CsvRow], sample_grid: Path) -> str:
     lines = [
         "# MNIST Shared Generator Summary",
         "",
-        "A single conditional VAE was trained on the copied RBT4DNN MNIST LoRA images "
-        "for M1-M6, then generated images by resampling the learned latent space.",
+        "**Question:** Can a small shared generator approximate the paper's per-requirement "
+        "LoRA behavior on MNIST?",
         "",
-        f"It ran {n_seeds} seeds and generated {n_generated} images per requirement per seed. "
-        "This is a cheap shared-generator baseline, not a FLUX LoRA reproduction.",
+        "**Method:** Train one conditional VAE on copied RBT4DNN MNIST LoRA images for M1-M6, "
+        f"using {n_seeds} seeds and {n_generated} generated images per requirement per seed.",
         "",
-        f"Mean pass rate: {mean_pass:.3f} versus {mean_paper:.3f} for the paper's "
-        "per-requirement LoRA reference.",
+        f"**Result:** Mean pass rate is {mean_pass:.3f} versus {mean_paper:.3f} for the "
+        "paper's per-requirement LoRA reference, with no exact training-image matches.",
+        "",
+        "**Limitation:** This is a cheap shared-generator baseline, not a FLUX LoRA "
+        "reproduction, and MNIST is much easier than natural-image datasets.",
+        "",
         f"Exact generated/training image matches: {exact_matches}. Mean nearest-train MSE: "
         f"{mean_nearest_mse:.4f}.",
         f"Worst requirement: {worst['requirement']} at mean pass {worst['pass_rate_mean']} "

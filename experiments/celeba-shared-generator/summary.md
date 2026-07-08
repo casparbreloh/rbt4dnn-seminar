@@ -1,11 +1,13 @@
 # CelebA-HQ Shared Generator Summary
 
-A single conditional VAE was trained on copied CelebA-HQ RBT4DNN LoRA images.
+**Question:** Does the cheap shared-generator idea still look plausible on a harder natural-image dataset?
 
-Evaluation uses a small requirement classifier trained on the copied paper images plus nearest-train image checks. This is not a replacement for the paper's attribute-classifier pass rate.
+**Method:** Train one conditional VAE on copied CelebA-HQ RBT4DNN LoRA images and evaluate generated images with a small requirement classifier plus nearest-train image checks.
 
-Classifier validation accuracy on copied paper images: 0.636.
-Mean generated-image classifier top-1 alignment: 0.613.
+**Result:** Classifier validation accuracy is 0.636; generated-image classifier top-1 alignment is 0.613.
+
+**Limitation:** This is exploratory and not a replacement for the paper's attribute-classifier pass rate. The classifier itself is weak, so the result is a caution signal rather than a final benchmark.
+
 Exact generated/training image matches: 0.
 Hardest requirement by classifier top-1: C4 (0.333333).
 Sample grid: `experiments/celeba-shared-generator/samples.png`.

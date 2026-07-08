@@ -255,15 +255,21 @@ def summary(
     lines = [
         "# LLM Validity Audit Summary",
         "",
+        "**Question:** Do generated images visibly satisfy the natural-language requirement "
+        "when judged semantically rather than only by classifier pass rate?",
+        "",
+        "**Method:** Sample two main LoRA images per requirement for MNIST, CelebA-HQ, and "
+        "SGSM, then ask Gemini Flash via OpenRouter for a JSON validity judgment.",
+        "",
+        f"**Result:** Completed-sample valid rate: {mean(valid_rates):.3f}.",
+        "",
+        "**Limitation:** This is an external LLM audit, not ground truth. The sample is small "
+        "and cached rows are reused when present.",
+        "",
         f"Model: `{model}`.",
         f"Samples per requirement: `{samples_per_requirement}`.",
         f"Completed samples: `{len(rows)}/{total_samples or len(rows)}`.",
-        "",
-        "OpenRouter judges whether generated images visibly satisfy the natural-language "
-        "requirement with Gemini Flash. This is an external audit, not ground truth.",
         "If quota stops a run, rerun the same command later; cached rows are skipped.",
-        "",
-        f"Completed-sample valid rate: {mean(valid_rates):.3f}.",
         "",
     ]
     for dataset, dataset_rows in sorted(by_dataset.items()):
