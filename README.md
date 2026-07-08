@@ -51,19 +51,26 @@ In Colab, always run the first cell before any experiment cell. If
 resets the clone to the latest GitHub commit, and clears stale Python imports.
 The first cell prints the active commit so stale notebooks are easier to catch.
 
-To regenerate the current CSV/Markdown results without opening notebooks:
+To regenerate the non-training CSV/Markdown results:
 
 ```bash
 uv run python scripts/run_experiments.py
 ```
 
-To also train the shared MNIST generator extension:
+To regenerate everything, including the MNIST and CelebA-HQ generator runs:
 
 ```bash
-uv run python scripts/run_experiments.py --train-shared-generator
+uv run python scripts/run_experiments.py --all
 ```
 
-Colab CLI execution uses the same code through `scripts/colab_job.py`.
+For Colab CLI, use the same arguments through the wrapper:
+
+```bash
+uvx --from google-colab-cli colab run --gpu T4 scripts/colab_job.py --all
+```
+
+The training results use fixed seeds, but GPU kernels can still produce tiny
+numeric drift across machines.
 
 ## Data
 

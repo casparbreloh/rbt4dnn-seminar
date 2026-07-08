@@ -85,6 +85,9 @@ def train_celeba_generator(
 
 def main() -> None:
     parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--all", action="store_true", help="Run every experiment, including training."
+    )
     parser.add_argument("--only", choices=EXPERIMENTS, action="append")
     parser.add_argument("--train-shared-generator", action="store_true")
     parser.add_argument("--shared-generator-epochs", type=int, default=100)
@@ -98,6 +101,10 @@ def main() -> None:
 
     root = find_root()
     add_paths(root)
+
+    if args.all:
+        args.train_shared_generator = True
+        args.train_celeba_generator = True
 
     names = args.only or list(EXPERIMENTS)
     written: list[Path] = []

@@ -33,37 +33,8 @@ def install_runtime_deps() -> None:
     run([sys.executable, "-m", "pip", "install", "-q", "pillow>=10.0"])
 
 
-def run_experiments(
-    epochs: int,
-    samples: int,
-    seeds: str,
-    train_celeba: bool,
-    celeba_epochs: int,
-    celeba_samples: int,
-    celeba_seeds: str,
-) -> None:
-    command = [
-        sys.executable,
-        "scripts/run_experiments.py",
-        "--train-shared-generator",
-        "--shared-generator-epochs",
-        str(epochs),
-        "--shared-generator-samples",
-        str(samples),
-        "--shared-generator-seeds",
-        seeds,
-    ]
-    if train_celeba:
-        command += [
-            "--train-celeba-generator",
-            "--celeba-generator-epochs",
-            str(celeba_epochs),
-            "--celeba-generator-samples",
-            str(celeba_samples),
-            "--celeba-generator-seeds",
-            celeba_seeds,
-        ]
-    run(command, cwd=REMOTE_ROOT)
+def run_experiments(args: list[str]) -> None:
+    run([sys.executable, "scripts/run_experiments.py", *args], cwd=REMOTE_ROOT)
 
 
 def zip_results() -> None:
@@ -91,26 +62,11 @@ def zip_results() -> None:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--branch", default="main")
-    parser.add_argument("--epochs", type=int, default=100)
-    parser.add_argument("--samples", type=int, default=100)
-    parser.add_argument("--seeds", default="7,13,29")
-    parser.add_argument("--train-celeba", action="store_true")
-    parser.add_argument("--celeba-epochs", type=int, default=25)
-    parser.add_argument("--celeba-samples", type=int, default=24)
-    parser.add_argument("--celeba-seeds", default="7")
-    args, _ = parser.parse_known_args()
+    args, experiment_args = parser.parse_known_args()
 
     prepare_repo(args.branch)
     install_runtime_deps()
-    run_experiments(
-        args.epochs,
-        args.samples,
-        args.seeds,
-        args.train_celeba,
-        args.celeba_epochs,
-        args.celeba_samples,
-        args.celeba_seeds,
-    )
+    run_experiments(experiment_args)
     zip_results()
 
 
