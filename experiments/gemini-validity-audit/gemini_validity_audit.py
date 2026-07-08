@@ -4,6 +4,8 @@ import base64
 import json
 import os
 import random
+import time
+from urllib.error import HTTPError
 import urllib.request
 from pathlib import Path
 from statistics import mean
@@ -127,6 +129,24 @@ def gemini_request(image_path: Path, row: CsvRow, model: str, api_key: str) -> s
     return body["candidates"][0]["content"]["parts"][0]["text"]
 
 
+def request_with_retry(image_path: Path, row: CsvRow, model: str, api_key: str) -> str:
+    waits = [0, 30, 60, 120]
+    last_error: HTTPError | None = None
+    for wait in waits:
+        if wait:
+            time.sleep(wait)
+        try:
+            return gemini_request(image_path, row, model=model, api_key=api_key)
+        except HTTPError as error:
+            last_error = error
+            if error.code != 429:
+                raise
+            print(f"rate limited on {row['sample_id']}", flush=True)
+    if last_error is not None:
+        raise last_error
+    raise RuntimeError("Gemini request failed without an HTTP error.")
+
+
 def parse_response(raw: str) -> CsvRow:
     text = raw.strip()
     if text.startswith("```"):
@@ -166,24 +186,53 @@ def run_audit(
     root = find_repo_root(root)
     api_key = read_api_key()
     rows = select_samples(root, samples_per_requirement=samples_per_requirement, seed=seed)
-    result_rows: list[CsvRow] = []
-    for row in rows:
-        raw = gemini_request(root / row["image_path"], row, model=model, api_key=api_key)
-        parsed = parse_response(raw)
-        result_rows.append({**row, "model": model, **parsed, "raw_response": raw})
-        print(row["sample_id"], parsed["valid"], parsed["confidence"], flush=True)
-
     out_dir = output_dir(root)
     manifest = out_dir / "sample-manifest.csv"
     results = out_dir / "results.csv"
     summary_path = out_dir / "summary.md"
+    existing = {row["sample_id"]: row for row in read_existing_results(results)}
+    result_rows: list[CsvRow] = []
+    for row in rows:
+        if row["sample_id"] in existing:
+            result_rows.append(existing[row["sample_id"]])
+            print(row["sample_id"], "cached", flush=True)
+            continue
+        try:
+            raw = request_with_retry(root / row["image_path"], row, model=model, api_key=api_key)
+        except HTTPError as error:
+            if error.code == 429 and result_rows:
+                print(
+                    "Gemini quota reached; saved partial audit. Rerun later to resume.", flush=True
+                )
+                break
+            raise
+        parsed = parse_response(raw)
+        result_rows.append({**row, "model": model, **parsed, "raw_response": raw})
+        write_csv(results, RESULT_FIELDS, result_rows)
+        write_text(summary_path, summary(result_rows, model, samples_per_requirement, len(rows)))
+        print(row["sample_id"], parsed["valid"], parsed["confidence"], flush=True)
+        time.sleep(8)
+
     write_csv(manifest, MANIFEST_FIELDS, rows)
     write_csv(results, RESULT_FIELDS, result_rows)
-    write_text(summary_path, summary(result_rows, model, samples_per_requirement))
+    write_text(summary_path, summary(result_rows, model, samples_per_requirement, len(rows)))
     return [manifest, results, summary_path]
 
 
-def summary(rows: list[CsvRow], model: str, samples_per_requirement: int) -> str:
+def read_existing_results(path: Path) -> list[CsvRow]:
+    if not path.exists():
+        return []
+    from shared import read_csv_rows
+
+    return read_csv_rows(path)
+
+
+def summary(
+    rows: list[CsvRow],
+    model: str,
+    samples_per_requirement: int,
+    total_samples: int | None = None,
+) -> str:
     valid_rates = []
     by_dataset: dict[str, list[CsvRow]] = {}
     for row in rows:
@@ -195,6 +244,7 @@ def summary(rows: list[CsvRow], model: str, samples_per_requirement: int) -> str
         "",
         f"Model: `{model}`.",
         f"Samples per requirement: `{samples_per_requirement}`.",
+        f"Completed samples: `{len(rows)}/{total_samples or len(rows)}`.",
         "",
         "Gemini judges whether generated images visibly satisfy the natural-language "
         "requirement. This is an external audit, not ground truth.",

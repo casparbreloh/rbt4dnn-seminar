@@ -31,6 +31,10 @@ results should not depend on private Drive links.
 - Cost analysis: under the stated assumptions, the cheapest estimated valid
   failures are `SGSM S2` at `$0.05`, `MNIST M3` at `$0.12`, and `SGSM S1`
   at `$0.14` per estimated valid failure.
+- Gemini validity audit: the API key quota stopped the first run at `16/42`
+  images. The partial audit gives `0.812` Gemini-valid rate overall, with
+  weaker validity on the first CelebA-HQ samples (`0.500`) than on MNIST
+  (`0.857`). Rerunning resumes from the saved CSV.
 - Shared-generator extension: one small conditional MNIST generator is evaluated
   over three seeds and reaches mean pass `0.941` versus `0.942` for the paper's
   per-requirement LoRA reference, with `0` exact generated/training image

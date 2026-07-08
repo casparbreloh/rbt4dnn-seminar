@@ -1,0 +1,97 @@
+sample_id,dataset,requirement,requirement_text,image_path,paper_pass_rate,paper_precondition_match,model,valid,confidence,reason,visible_evidence,raw_response
+mnist-M1-0,mnist,M1,The digit is a 2 and has very low height,data/images/mnist/M1/23.png,0.9989,0.968,gemini-2.5-flash,yes,1.0,"The digit is clearly a '2' and is significantly compressed vertically, making its height very low.",The image shows a white digit '2' on a black background. The '2' is stretched horizontally and squashed vertically.,"{
+  ""valid"": ""yes"",
+  ""confidence"": 1.0,
+  ""reason"": ""The digit is clearly a '2' and is significantly compressed vertically, making its height very low."",
+  ""visible_evidence"": ""The image shows a white digit '2' on a black background. The '2' is stretched horizontally and squashed vertically.""
+}"
+mnist-M1-1,mnist,M1,The digit is a 2 and has very low height,data/images/mnist/M1/39.png,0.9989,0.968,gemini-2.5-flash,no,0.9,"The digit is clearly a '2', but its height is not very low; it appears to be of normal or slightly elongated height.","The image displays a clear digit '2' that occupies a significant vertical portion of the image, not appearing vertically compressed.","{
+  ""valid"": ""no"",
+  ""confidence"": 0.9,
+  ""reason"": ""The digit is clearly a '2', but its height is not very low; it appears to be of normal or slightly elongated height."",
+  ""visible_evidence"": ""The image displays a clear digit '2' that occupies a significant vertical portion of the image, not appearing vertically compressed.""
+}"
+mnist-M2-0,mnist,M2,The digit is a 3 and is very thick,data/images/mnist/M2/40.png,0.9724,0.98,gemini-2.5-flash,yes,0.95,The image clearly displays the digit '3' and its strokes are visibly very thick.,"The digit '3' is white on a black background, and its lines are wide and bold.","{
+  ""valid"": ""yes"",
+  ""confidence"": 0.95,
+  ""reason"": ""The image clearly displays the digit '3' and its strokes are visibly very thick."",
+  ""visible_evidence"": ""The digit '3' is white on a black background, and its lines are wide and bold.""
+}"
+mnist-M2-1,mnist,M2,The digit is a 3 and is very thick,data/images/mnist/M2/72.png,0.9724,0.98,gemini-2.5-flash,yes,0.95,"The image clearly displays the digit 3, and its strokes are notably thick.","The white digit on the black background is identifiable as a '3' and has broad, thick lines.","{
+  ""valid"": ""yes"",
+  ""confidence"": 0.95,
+  ""reason"": ""The image clearly displays the digit 3, and its strokes are notably thick."",
+  ""visible_evidence"": ""The white digit on the black background is identifiable as a '3' and has broad, thick lines.""
+}"
+mnist-M3-0,mnist,M3,The digit is a 7 and is very thick,data/images/mnist/M3/1.png,0.6941,0.958,gemini-2.5-flash,yes,0.95,"The image clearly displays a digit '7' with very thick, bold strokes.",The white digit on the black background is shaped like a '7' and its lines are notably wide and heavy.,"{
+  ""valid"": ""yes"",
+  ""confidence"": 0.95,
+  ""reason"": ""The image clearly displays a digit '7' with very thick, bold strokes."",
+  ""visible_evidence"": ""The white digit on the black background is shaped like a '7' and its lines are notably wide and heavy.""
+}"
+mnist-M3-1,mnist,M3,The digit is a 7 and is very thick,data/images/mnist/M3/90.png,0.6941,0.958,gemini-2.5-flash,yes,0.95,"The image clearly displays the digit 7, and its strokes are notably thick.","The digit is a 7 with very wide, thick strokes.","{
+  ""valid"": ""yes"",
+  ""confidence"": 0.95,
+  ""reason"": ""The image clearly displays the digit 7, and its strokes are notably thick."",
+  ""visible_evidence"": ""The digit is a 7 with very wide, thick strokes.""
+}"
+mnist-M4-0,mnist,M4,The digit is a 9 and is very left leaning,data/images/mnist/M4/33.png,0.9874,0.925,gemini-2.5-flash,yes,0.9,"The image clearly depicts the digit 9, and its overall structure, particularly the top loop and the tail, shows a strong left-leaning orientation.","The digit is a 9 with its main body shifted to the left, and the tail extending downwards from the right side of the loop, creating a pronounced left lean.","{
+  ""valid"": ""yes"",
+  ""confidence"": 0.9,
+  ""reason"": ""The image clearly depicts the digit 9, and its overall structure, particularly the top loop and the tail, shows a strong left-leaning orientation."",
+  ""visible_evidence"": ""The digit is a 9 with its main body shifted to the left, and the tail extending downwards from the right side of the loop, creating a pronounced left lean.""
+}"
+mnist-M4-1,mnist,M4,The digit is a 9 and is very left leaning,data/images/mnist/M4/63.png,0.9874,0.925,gemini-2.5-flash,yes,1.0,The digit is clearly a 9 and its main body and stroke lean significantly to the left.,The image displays a digit 9 with its loop and vertical stroke distinctly angled towards the left.,"{
+  ""valid"": ""yes"",
+  ""confidence"": 1.0,
+  ""reason"": ""The digit is clearly a 9 and its main body and stroke lean significantly to the left."",
+  ""visible_evidence"": ""The image displays a digit 9 with its loop and vertical stroke distinctly angled towards the left.""
+}"
+mnist-M5-0,mnist,M5,The digit is a 6 and is very right leaning,data/images/mnist/M5/18.png,0.9972,0.9,gemini-2.5-flash,yes,0.95,The digit is clearly a '6' and exhibits a strong rightward lean.,The white digit on a black background is identifiable as a '6' and is heavily slanted to the right.,"{
+  ""valid"": ""yes"",
+  ""confidence"": 0.95,
+  ""reason"": ""The digit is clearly a '6' and exhibits a strong rightward lean."",
+  ""visible_evidence"": ""The white digit on a black background is identifiable as a '6' and is heavily slanted to the right.""
+}"
+mnist-M5-1,mnist,M5,The digit is a 6 and is very right leaning,data/images/mnist/M5/51.png,0.9972,0.9,gemini-2.5-flash,yes,1.0,The digit is clearly a 6 and shows a strong rightward lean.,"The image displays a white digit 6 on a black background, with its upper part distinctly angled towards the right.","{
+  ""valid"": ""yes"",
+  ""confidence"": 1.0,
+  ""reason"": ""The digit is clearly a 6 and shows a strong rightward lean."",
+  ""visible_evidence"": ""The image displays a white digit 6 on a black background, with its upper part distinctly angled towards the right.""
+}"
+mnist-M6-0,mnist,M6,The digit is a 0 and has very low height,data/images/mnist/M6/37.png,0.9773,0.957,gemini-2.5-flash,yes,0.95,"The image clearly depicts a digit '0' that is significantly wider than it is tall, satisfying the low height requirement.","The digit is an oval '0' shape, horizontally stretched and vertically compressed.","{
+  ""valid"": ""yes"",
+  ""confidence"": 0.95,
+  ""reason"": ""The image clearly depicts a digit '0' that is significantly wider than it is tall, satisfying the low height requirement."",
+  ""visible_evidence"": ""The digit is an oval '0' shape, horizontally stretched and vertically compressed.""
+}"
+mnist-M6-1,mnist,M6,The digit is a 0 and has very low height,data/images/mnist/M6/41.png,0.9773,0.957,gemini-2.5-flash,yes,0.9,"The image clearly displays the digit '0' which is noticeably wider than it is tall, indicating a low height.","The digit is an oval '0' shape, horizontally elongated and vertically compressed.","{
+  ""valid"": ""yes"",
+  ""confidence"": 0.9,
+  ""reason"": ""The image clearly displays the digit '0' which is noticeably wider than it is tall, indicating a low height."",
+  ""visible_evidence"": ""The digit is an oval '0' shape, horizontally elongated and vertically compressed.""
+}"
+mnist-M7-0,mnist,M7,The digit is an 8 and is very thin or very thick,data/images/mnist/M7/70.png,,,gemini-2.5-flash,no,0.9,"The digit is an 8, but its stroke thickness is neither very thin nor very thick; it appears to be of normal thickness.","The image clearly shows the digit '8' with a consistent, medium stroke width.","{
+  ""valid"": ""no"",
+  ""confidence"": 0.9,
+  ""reason"": ""The digit is an 8, but its stroke thickness is neither very thin nor very thick; it appears to be of normal thickness."",
+  ""visible_evidence"": ""The image clearly shows the digit '8' with a consistent, medium stroke width.""
+}"
+mnist-M7-1,mnist,M7,The digit is an 8 and is very thin or very thick,data/images/mnist/M7/80.png,,,gemini-2.5-flash,yes,0.9,The digit is clearly an 8 and its stroke is noticeably thin.,The image shows a handwritten digit 8 with a very thin stroke.,"{
+  ""valid"": ""yes"",
+  ""confidence"": 0.9,
+  ""reason"": ""The digit is clearly an 8 and its stroke is noticeably thin."",
+  ""visible_evidence"": ""The image shows a handwritten digit 8 with a very thin stroke.""
+}"
+celeba-hq-C1-0,celeba-hq,C1,The person is wearing eyeglasses and has black hair,data/images/celeba-hq/C1/3.png,0.9158,0.961,gemini-2.5-flash,no,0.9,"The person is wearing eyeglasses, but their hair appears to be very dark brown rather than black.",Person wears dark-framed eyeglasses. Hair is very dark brown with visible brown highlights.,"{
+  ""valid"": ""no"",
+  ""confidence"": 0.9,
+  ""reason"": ""The person is wearing eyeglasses, but their hair appears to be very dark brown rather than black."",
+  ""visible_evidence"": ""Person wears dark-framed eyeglasses. Hair is very dark brown with visible brown highlights.""
+}"
+celeba-hq-C1-1,celeba-hq,C1,The person is wearing eyeglasses and has black hair,data/images/celeba-hq/C1/42.png,0.9158,0.961,gemini-2.5-flash,yes,1.0,The person in the image is clearly wearing eyeglasses and has black hair.,"The person has black-framed eyeglasses on their face and short, dark black hair.","{
+  ""valid"": ""yes"",
+  ""confidence"": 1.0,
+  ""reason"": ""The person in the image is clearly wearing eyeglasses and has black hair."",
+  ""visible_evidence"": ""The person has black-framed eyeglasses on their face and short, dark black hair.""
+}"
