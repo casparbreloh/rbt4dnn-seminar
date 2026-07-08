@@ -7,8 +7,6 @@ Seminar replication and extension work for **RBT4DNN: Requirements-based Testing
 
 This repository is the public experiment artifact. It is notebook-first, with small Python helpers kept next to each experiment or in `src/`.
 
-Core claim: **RBT4DNN generates useful tests, but raw pass rate is not enough; validity, cost, and generator-sharing change how we should judge the method.**
-
 ## Experiments
 
 - [Replication](https://colab.research.google.com/github/casparbreloh/rbt4dnn-seminar/blob/main/experiments/replication/notebook.ipynb)
@@ -18,8 +16,6 @@ Core claim: **RBT4DNN generates useful tests, but raw pass rate is not enough; v
 - [LLM validity audit](https://colab.research.google.com/github/casparbreloh/rbt4dnn-seminar/blob/main/experiments/llm-validity-audit/notebook.ipynb)
 - [MNIST shared generator](https://colab.research.google.com/github/casparbreloh/rbt4dnn-seminar/blob/main/experiments/mnist-shared-generator/notebook.ipynb)
 - [CelebA-HQ shared generator](https://colab.research.google.com/github/casparbreloh/rbt4dnn-seminar/blob/main/experiments/celeba-shared-generator/notebook.ipynb)
-
-Presentation support: [presentation.md](presentation.md)
 
 ## Main Results
 
