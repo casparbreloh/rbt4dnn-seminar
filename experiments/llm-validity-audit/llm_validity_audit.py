@@ -203,19 +203,21 @@ def run_audit(
     model: str = DEFAULT_MODEL,
 ) -> list[Path]:
     root = find_repo_root(root)
-    api_key = read_api_key()
     rows = select_samples(root, samples_per_requirement=samples_per_requirement, seed=seed)
     out_dir = output_dir(root)
     manifest = out_dir / "sample-manifest.csv"
     results = out_dir / "results.csv"
     summary_path = out_dir / "summary.md"
     existing = {row["sample_id"]: row for row in read_existing_results(results)}
+    api_key: str | None = None
     result_rows: list[CsvRow] = []
     for row in rows:
         if row["sample_id"] in existing:
             result_rows.append(existing[row["sample_id"]])
             print(row["sample_id"], "cached", flush=True)
             continue
+        if api_key is None:
+            api_key = read_api_key()
         raw = request_with_retry(root / row["image_path"], row, model=model, api_key=api_key)
         parsed = parse_response(raw)
         result_rows.append({**row, "model": model, **parsed, "raw_response": raw})

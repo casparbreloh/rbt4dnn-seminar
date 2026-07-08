@@ -33,8 +33,8 @@ def install_runtime_deps() -> None:
     run([sys.executable, "-m", "pip", "install", "-q", "pillow>=10.0"])
 
 
-def run_experiments(args: list[str]) -> None:
-    run([sys.executable, "scripts/run_experiments.py", *args], cwd=REMOTE_ROOT)
+def reproduce(args: list[str]) -> None:
+    run([sys.executable, "scripts/reproduce.py", *args], cwd=REMOTE_ROOT)
 
 
 def zip_results() -> None:
@@ -66,7 +66,7 @@ def main() -> None:
 
     prepare_repo(args.branch)
     install_runtime_deps()
-    run_experiments(experiment_args)
+    reproduce(experiment_args)
     zip_results()
 
 

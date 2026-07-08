@@ -30,25 +30,25 @@ This repository is the public experiment artifact. It is notebook-first, with sm
 
 ```bash
 uv sync
-uv run python scripts/run_experiments.py
+uv run python scripts/reproduce.py
 ```
 
 Run the training experiments too:
 
 ```bash
-uv run python scripts/run_experiments.py --all
+uv run python scripts/reproduce.py --training
 ```
 
 Run the external LLM audit:
 
 ```bash
-OPENROUTER_API_KEY=... uv run python scripts/run_experiments.py --run-llm-audit
+OPENROUTER_API_KEY=... uv run python scripts/reproduce.py --llm
 ```
 
 Colab CLI uses the same runner:
 
 ```bash
-uvx --from google-colab-cli colab run --gpu T4 scripts/colab_job.py --all
+uvx --from google-colab-cli colab run --gpu T4 scripts/colab_job.py --training
 ```
 
 Quality checks:
