@@ -1,97 +1,253 @@
 sample_id,dataset,requirement,requirement_text,image_path,paper_pass_rate,paper_precondition_match,model,valid,confidence,reason,visible_evidence,raw_response
-mnist-M1-0,mnist,M1,The digit is a 2 and has very low height,data/images/mnist/M1/23.png,0.9989,0.968,gemini-2.5-flash,yes,1.0,"The digit is clearly a '2' and is significantly compressed vertically, making its height very low.",The image shows a white digit '2' on a black background. The '2' is stretched horizontally and squashed vertically.,"{
-  ""valid"": ""yes"",
-  ""confidence"": 1.0,
-  ""reason"": ""The digit is clearly a '2' and is significantly compressed vertically, making its height very low."",
-  ""visible_evidence"": ""The image shows a white digit '2' on a black background. The '2' is stretched horizontally and squashed vertically.""
-}"
-mnist-M1-1,mnist,M1,The digit is a 2 and has very low height,data/images/mnist/M1/39.png,0.9989,0.968,gemini-2.5-flash,no,0.9,"The digit is clearly a '2', but its height is not very low; it appears to be of normal or slightly elongated height.","The image displays a clear digit '2' that occupies a significant vertical portion of the image, not appearing vertically compressed.","{
+mnist-M1-0,mnist,M1,The digit is a 2 and has very low height,data/images/mnist/M1/23.png,0.9989,0.968,google/gemini-3-flash-preview,no,0.9,"The image depicts a character that more closely resembles the letter 'Z' or a digit '2' with standard proportions, rather than a digit '2' with very low height.","The character has a sharp, angular top stroke and a diagonal middle stroke typical of a 'Z', and its vertical extent occupies a significant portion of the frame, failing the 'very low height' requirement.","{
   ""valid"": ""no"",
   ""confidence"": 0.9,
-  ""reason"": ""The digit is clearly a '2', but its height is not very low; it appears to be of normal or slightly elongated height."",
-  ""visible_evidence"": ""The image displays a clear digit '2' that occupies a significant vertical portion of the image, not appearing vertically compressed.""
+  ""reason"": ""The image depicts a character that more closely resembles the letter 'Z' or a digit '2' with standard proportions, rather than a digit '2' with very low height."",
+  ""visible_evidence"": ""The character has a sharp, angular top stroke and a diagonal middle stroke typical of a 'Z', and its vertical extent occupies a significant portion of the frame, failing the 'very low height' requirement.""
 }"
-mnist-M2-0,mnist,M2,The digit is a 3 and is very thick,data/images/mnist/M2/40.png,0.9724,0.98,gemini-2.5-flash,yes,0.95,The image clearly displays the digit '3' and its strokes are visibly very thick.,"The digit '3' is white on a black background, and its lines are wide and bold.","{
-  ""valid"": ""yes"",
-  ""confidence"": 0.95,
-  ""reason"": ""The image clearly displays the digit '3' and its strokes are visibly very thick."",
-  ""visible_evidence"": ""The digit '3' is white on a black background, and its lines are wide and bold.""
-}"
-mnist-M2-1,mnist,M2,The digit is a 3 and is very thick,data/images/mnist/M2/72.png,0.9724,0.98,gemini-2.5-flash,yes,0.95,"The image clearly displays the digit 3, and its strokes are notably thick.","The white digit on the black background is identifiable as a '3' and has broad, thick lines.","{
-  ""valid"": ""yes"",
-  ""confidence"": 0.95,
-  ""reason"": ""The image clearly displays the digit 3, and its strokes are notably thick."",
-  ""visible_evidence"": ""The white digit on the black background is identifiable as a '3' and has broad, thick lines.""
-}"
-mnist-M3-0,mnist,M3,The digit is a 7 and is very thick,data/images/mnist/M3/1.png,0.6941,0.958,gemini-2.5-flash,yes,0.95,"The image clearly displays a digit '7' with very thick, bold strokes.",The white digit on the black background is shaped like a '7' and its lines are notably wide and heavy.,"{
-  ""valid"": ""yes"",
-  ""confidence"": 0.95,
-  ""reason"": ""The image clearly displays a digit '7' with very thick, bold strokes."",
-  ""visible_evidence"": ""The white digit on the black background is shaped like a '7' and its lines are notably wide and heavy.""
-}"
-mnist-M3-1,mnist,M3,The digit is a 7 and is very thick,data/images/mnist/M3/90.png,0.6941,0.958,gemini-2.5-flash,yes,0.95,"The image clearly displays the digit 7, and its strokes are notably thick.","The digit is a 7 with very wide, thick strokes.","{
-  ""valid"": ""yes"",
-  ""confidence"": 0.95,
-  ""reason"": ""The image clearly displays the digit 7, and its strokes are notably thick."",
-  ""visible_evidence"": ""The digit is a 7 with very wide, thick strokes.""
-}"
-mnist-M4-0,mnist,M4,The digit is a 9 and is very left leaning,data/images/mnist/M4/33.png,0.9874,0.925,gemini-2.5-flash,yes,0.9,"The image clearly depicts the digit 9, and its overall structure, particularly the top loop and the tail, shows a strong left-leaning orientation.","The digit is a 9 with its main body shifted to the left, and the tail extending downwards from the right side of the loop, creating a pronounced left lean.","{
-  ""valid"": ""yes"",
-  ""confidence"": 0.9,
-  ""reason"": ""The image clearly depicts the digit 9, and its overall structure, particularly the top loop and the tail, shows a strong left-leaning orientation."",
-  ""visible_evidence"": ""The digit is a 9 with its main body shifted to the left, and the tail extending downwards from the right side of the loop, creating a pronounced left lean.""
-}"
-mnist-M4-1,mnist,M4,The digit is a 9 and is very left leaning,data/images/mnist/M4/63.png,0.9874,0.925,gemini-2.5-flash,yes,1.0,The digit is clearly a 9 and its main body and stroke lean significantly to the left.,The image displays a digit 9 with its loop and vertical stroke distinctly angled towards the left.,"{
+mnist-M1-1,mnist,M1,The digit is a 2 and has very low height,data/images/mnist/M1/39.png,0.9989,0.968,google/gemini-3-flash-preview,yes,1.0,"The image clearly depicts the digit 2 and it is vertically compressed, occupying significantly less vertical space than a standard MNIST digit.","The digit has the characteristic top curve and horizontal base of a 2, but the vertical distance between the top and bottom is very small relative to the image width.","{
   ""valid"": ""yes"",
   ""confidence"": 1.0,
-  ""reason"": ""The digit is clearly a 9 and its main body and stroke lean significantly to the left."",
-  ""visible_evidence"": ""The image displays a digit 9 with its loop and vertical stroke distinctly angled towards the left.""
+  ""reason"": ""The image clearly depicts the digit 2 and it is vertically compressed, occupying significantly less vertical space than a standard MNIST digit."",
+  ""visible_evidence"": ""The digit has the characteristic top curve and horizontal base of a 2, but the vertical distance between the top and bottom is very small relative to the image width.""
 }"
-mnist-M5-0,mnist,M5,The digit is a 6 and is very right leaning,data/images/mnist/M5/18.png,0.9972,0.9,gemini-2.5-flash,yes,0.95,The digit is clearly a '6' and exhibits a strong rightward lean.,The white digit on a black background is identifiable as a '6' and is heavily slanted to the right.,"{
-  ""valid"": ""yes"",
-  ""confidence"": 0.95,
-  ""reason"": ""The digit is clearly a '6' and exhibits a strong rightward lean."",
-  ""visible_evidence"": ""The white digit on a black background is identifiable as a '6' and is heavily slanted to the right.""
-}"
-mnist-M5-1,mnist,M5,The digit is a 6 and is very right leaning,data/images/mnist/M5/51.png,0.9972,0.9,gemini-2.5-flash,yes,1.0,The digit is clearly a 6 and shows a strong rightward lean.,"The image displays a white digit 6 on a black background, with its upper part distinctly angled towards the right.","{
+mnist-M2-0,mnist,M2,The digit is a 3 and is very thick,data/images/mnist/M2/40.png,0.9724,0.98,google/gemini-3-flash-preview,yes,1.0,"The image clearly depicts the digit 3 with a significantly high stroke width, satisfying both the identity and thickness requirements.","The shape consists of two open curves stacked vertically, forming a 3, and the white pixels occupy a large portion of the frame compared to standard MNIST digits.","{
   ""valid"": ""yes"",
   ""confidence"": 1.0,
-  ""reason"": ""The digit is clearly a 6 and shows a strong rightward lean."",
-  ""visible_evidence"": ""The image displays a white digit 6 on a black background, with its upper part distinctly angled towards the right.""
+  ""reason"": ""The image clearly depicts the digit 3 with a significantly high stroke width, satisfying both the identity and thickness requirements."",
+  ""visible_evidence"": ""The shape consists of two open curves stacked vertically, forming a 3, and the white pixels occupy a large portion of the frame compared to standard MNIST digits.""
 }"
-mnist-M6-0,mnist,M6,The digit is a 0 and has very low height,data/images/mnist/M6/37.png,0.9773,0.957,gemini-2.5-flash,yes,0.95,"The image clearly depicts a digit '0' that is significantly wider than it is tall, satisfying the low height requirement.","The digit is an oval '0' shape, horizontally stretched and vertically compressed.","{
+mnist-M2-1,mnist,M2,The digit is a 3 and is very thick,data/images/mnist/M2/72.png,0.9724,0.98,google/gemini-3-flash-preview,yes,1.0,The image clearly depicts the digit 3 with an exceptionally high stroke thickness that fills most of the character's bounding area.,"A white handwritten digit 3 on a black background with very wide, bold strokes and minimal negative space between the curves.","{
   ""valid"": ""yes"",
-  ""confidence"": 0.95,
-  ""reason"": ""The image clearly depicts a digit '0' that is significantly wider than it is tall, satisfying the low height requirement."",
-  ""visible_evidence"": ""The digit is an oval '0' shape, horizontally stretched and vertically compressed.""
+  ""confidence"": 1.0,
+  ""reason"": ""The image clearly depicts the digit 3 with an exceptionally high stroke thickness that fills most of the character's bounding area."",
+  ""visible_evidence"": ""A white handwritten digit 3 on a black background with very wide, bold strokes and minimal negative space between the curves.""
 }"
-mnist-M6-1,mnist,M6,The digit is a 0 and has very low height,data/images/mnist/M6/41.png,0.9773,0.957,gemini-2.5-flash,yes,0.9,"The image clearly displays the digit '0' which is noticeably wider than it is tall, indicating a low height.","The digit is an oval '0' shape, horizontally elongated and vertically compressed.","{
+mnist-M3-0,mnist,M3,The digit is a 7 and is very thick,data/images/mnist/M3/1.png,0.6941,0.958,google/gemini-3-flash-preview,yes,1.0,The image clearly depicts a digit 7 with a very high stroke thickness as requested.,"A white digit on a black background consisting of a horizontal top bar and a diagonal stem, both of which are exceptionally wide/thick.","{
   ""valid"": ""yes"",
-  ""confidence"": 0.9,
-  ""reason"": ""The image clearly displays the digit '0' which is noticeably wider than it is tall, indicating a low height."",
-  ""visible_evidence"": ""The digit is an oval '0' shape, horizontally elongated and vertically compressed.""
+  ""confidence"": 1.0,
+  ""reason"": ""The image clearly depicts a digit 7 with a very high stroke thickness as requested."",
+  ""visible_evidence"": ""A white digit on a black background consisting of a horizontal top bar and a diagonal stem, both of which are exceptionally wide/thick.""
 }"
-mnist-M7-0,mnist,M7,The digit is an 8 and is very thin or very thick,data/images/mnist/M7/70.png,,,gemini-2.5-flash,no,0.9,"The digit is an 8, but its stroke thickness is neither very thin nor very thick; it appears to be of normal thickness.","The image clearly shows the digit '8' with a consistent, medium stroke width.","{
+mnist-M3-1,mnist,M3,The digit is a 7 and is very thick,data/images/mnist/M3/90.png,0.6941,0.958,google/gemini-3-flash-preview,yes,1.0,The image clearly depicts the digit 7 with a significantly thick stroke width compared to standard MNIST samples.,"A single white digit on a black background consisting of a horizontal top bar and a diagonal downstroke, both rendered with high pixel density/thickness.","{
+  ""valid"": ""yes"",
+  ""confidence"": 1.0,
+  ""reason"": ""The image clearly depicts the digit 7 with a significantly thick stroke width compared to standard MNIST samples."",
+  ""visible_evidence"": ""A single white digit on a black background consisting of a horizontal top bar and a diagonal downstroke, both rendered with high pixel density/thickness.""
+}"
+mnist-M4-0,mnist,M4,The digit is a 9 and is very left leaning,data/images/mnist/M4/33.png,0.9874,0.925,google/gemini-3-flash-preview,no,1.0,"The digit is a 9, but it is oriented vertically rather than being left-leaning.","The vertical stem of the digit 9 is straight and perpendicular to the bottom edge of the frame, showing no significant leftward tilt.","{
+  ""valid"": ""no"",
+  ""confidence"": 1.0,
+  ""reason"": ""The digit is a 9, but it is oriented vertically rather than being left-leaning."",
+  ""visible_evidence"": ""The vertical stem of the digit 9 is straight and perpendicular to the bottom edge of the frame, showing no significant leftward tilt.""
+}"
+mnist-M4-1,mnist,M4,The digit is a 9 and is very left leaning,data/images/mnist/M4/63.png,0.9874,0.925,google/gemini-3-flash-preview,no,1.0,"The digit is a 9, but it is oriented vertically rather than leaning to the left.","The vertical stem of the digit 9 is straight and perpendicular to the horizontal axis, showing no significant leftward tilt.","{
+  ""valid"": ""no"",
+  ""confidence"": 1.0,
+  ""reason"": ""The digit is a 9, but it is oriented vertically rather than leaning to the left."",
+  ""visible_evidence"": ""The vertical stem of the digit 9 is straight and perpendicular to the horizontal axis, showing no significant leftward tilt.""
+}"
+mnist-M5-0,mnist,M5,The digit is a 6 and is very right leaning,data/images/mnist/M5/18.png,0.9972,0.9,google/gemini-3-flash-preview,yes,1.0,"The image clearly depicts the digit 6 with a significant clockwise tilt, satisfying both the identity and orientation requirements.","The digit has a closed loop at the bottom and a stem extending upwards, with the entire structure slanted heavily toward the right side of the frame.","{
+  ""valid"": ""yes"",
+  ""confidence"": 1.0,
+  ""reason"": ""The image clearly depicts the digit 6 with a significant clockwise tilt, satisfying both the identity and orientation requirements."",
+  ""visible_evidence"": ""The digit has a closed loop at the bottom and a stem extending upwards, with the entire structure slanted heavily toward the right side of the frame.""
+}"
+mnist-M5-1,mnist,M5,The digit is a 6 and is very right leaning,data/images/mnist/M5/51.png,0.9972,0.9,google/gemini-3-flash-preview,yes,1.0,"The image clearly depicts the digit 6 with a significant clockwise tilt, satisfying both the identity and the orientation requirements.","The digit has a closed loop at the bottom and a stem extending upwards, with the entire structure slanted sharply to the right.","{
+  ""valid"": ""yes"",
+  ""confidence"": 1.0,
+  ""reason"": ""The image clearly depicts the digit 6 with a significant clockwise tilt, satisfying both the identity and the orientation requirements."",
+  ""visible_evidence"": ""The digit has a closed loop at the bottom and a stem extending upwards, with the entire structure slanted sharply to the right.""
+}"
+mnist-M6-0,mnist,M6,The digit is a 0 and has very low height,data/images/mnist/M6/37.png,0.9773,0.957,google/gemini-3-flash-preview,yes,1.0,"The image shows a digit 0 that is significantly flattened, resulting in a very low height relative to its width.",A white closed loop on a black background that is horizontally elongated and vertically compressed.,"{
+  ""valid"": ""yes"",
+  ""confidence"": 1.0,
+  ""reason"": ""The image shows a digit 0 that is significantly flattened, resulting in a very low height relative to its width."",
+  ""visible_evidence"": ""A white closed loop on a black background that is horizontally elongated and vertically compressed.""
+}"
+mnist-M6-1,mnist,M6,The digit is a 0 and has very low height,data/images/mnist/M6/41.png,0.9773,0.957,google/gemini-3-flash-preview,yes,1.0,"The image clearly depicts a handwritten digit 0 that has been vertically compressed, resulting in a very low height relative to its width.",A white elliptical loop on a black background with a significantly wider horizontal axis than vertical axis.,"{
+  ""valid"": ""yes"",
+  ""confidence"": 1.0,
+  ""reason"": ""The image clearly depicts a handwritten digit 0 that has been vertically compressed, resulting in a very low height relative to its width."",
+  ""visible_evidence"": ""A white elliptical loop on a black background with a significantly wider horizontal axis than vertical axis.""
+}"
+mnist-M7-0,mnist,M7,The digit is an 8 and is very thin or very thick,data/images/mnist/M7/70.png,,,google/gemini-3-flash-preview,no,0.9,The digit is incomplete and does not form a closed '8'; it looks more like a malformed '5' or a Greek letter delta.,"The top loop of the digit is not closed, leaving a horizontal stroke at the top and an open gap on the left side.","{
   ""valid"": ""no"",
   ""confidence"": 0.9,
-  ""reason"": ""The digit is an 8, but its stroke thickness is neither very thin nor very thick; it appears to be of normal thickness."",
-  ""visible_evidence"": ""The image clearly shows the digit '8' with a consistent, medium stroke width.""
+  ""reason"": ""The digit is incomplete and does not form a closed '8'; it looks more like a malformed '5' or a Greek letter delta."",
+  ""visible_evidence"": ""The top loop of the digit is not closed, leaving a horizontal stroke at the top and an open gap on the left side.""
 }"
-mnist-M7-1,mnist,M7,The digit is an 8 and is very thin or very thick,data/images/mnist/M7/80.png,,,gemini-2.5-flash,yes,0.9,The digit is clearly an 8 and its stroke is noticeably thin.,The image shows a handwritten digit 8 with a very thin stroke.,"{
+mnist-M7-1,mnist,M7,The digit is an 8 and is very thin or very thick,data/images/mnist/M7/80.png,,,google/gemini-3-flash-preview,yes,0.95,The image clearly depicts the digit 8 with a very thin stroke width compared to standard MNIST digits.,"The digit consists of two stacked loops forming an 8, and the white lines are exceptionally narrow/thin.","{
   ""valid"": ""yes"",
-  ""confidence"": 0.9,
-  ""reason"": ""The digit is clearly an 8 and its stroke is noticeably thin."",
-  ""visible_evidence"": ""The image shows a handwritten digit 8 with a very thin stroke.""
+  ""confidence"": 0.95,
+  ""reason"": ""The image clearly depicts the digit 8 with a very thin stroke width compared to standard MNIST digits."",
+  ""visible_evidence"": ""The digit consists of two stacked loops forming an 8, and the white lines are exceptionally narrow/thin.""
 }"
-celeba-hq-C1-0,celeba-hq,C1,The person is wearing eyeglasses and has black hair,data/images/celeba-hq/C1/3.png,0.9158,0.961,gemini-2.5-flash,no,0.9,"The person is wearing eyeglasses, but their hair appears to be very dark brown rather than black.",Person wears dark-framed eyeglasses. Hair is very dark brown with visible brown highlights.,"{
-  ""valid"": ""no"",
-  ""confidence"": 0.9,
-  ""reason"": ""The person is wearing eyeglasses, but their hair appears to be very dark brown rather than black."",
-  ""visible_evidence"": ""Person wears dark-framed eyeglasses. Hair is very dark brown with visible brown highlights.""
-}"
-celeba-hq-C1-1,celeba-hq,C1,The person is wearing eyeglasses and has black hair,data/images/celeba-hq/C1/42.png,0.9158,0.961,gemini-2.5-flash,yes,1.0,The person in the image is clearly wearing eyeglasses and has black hair.,"The person has black-framed eyeglasses on their face and short, dark black hair.","{
+celeba-hq-C1-0,celeba-hq,C1,The person is wearing eyeglasses and has black hair,data/images/celeba-hq/C1/3.png,0.9158,0.961,google/gemini-3-flash-preview,yes,1.0,The image clearly shows a person with black hair wearing a pair of eyeglasses.,The subject is wearing thick-rimmed eyeglasses and has dark black hair.,"{
   ""valid"": ""yes"",
   ""confidence"": 1.0,
-  ""reason"": ""The person in the image is clearly wearing eyeglasses and has black hair."",
-  ""visible_evidence"": ""The person has black-framed eyeglasses on their face and short, dark black hair.""
+  ""reason"": ""The image clearly shows a person with black hair wearing a pair of eyeglasses."",
+  ""visible_evidence"": ""The subject is wearing thick-rimmed eyeglasses and has dark black hair.""
+}"
+celeba-hq-C1-1,celeba-hq,C1,The person is wearing eyeglasses and has black hair,data/images/celeba-hq/C1/42.png,0.9158,0.961,google/gemini-3-flash-preview,yes,1.0,The image clearly shows a person with black hair wearing black-rimmed eyeglasses.,The subject has dark black hair and is wearing prominent black-framed spectacles on their face.,"{
+  ""valid"": ""yes"",
+  ""confidence"": 1.0,
+  ""reason"": ""The image clearly shows a person with black hair wearing black-rimmed eyeglasses."",
+  ""visible_evidence"": ""The subject has dark black hair and is wearing prominent black-framed spectacles on their face.""
+}"
+celeba-hq-C2-0,celeba-hq,C2,The person is wearing eyeglasses and has brown hair,data/images/celeba-hq/C2/36.png,0.8786,0.964,google/gemini-3-flash-preview,yes,1.0,The image clearly shows a person with brown hair wearing a pair of eyeglasses.,The subject is wearing dark-rimmed eyeglasses and has medium-brown hair visible throughout the frame.,"{
+  ""valid"": ""yes"",
+  ""confidence"": 1.0,
+  ""reason"": ""The image clearly shows a person with brown hair wearing a pair of eyeglasses."",
+  ""visible_evidence"": ""The subject is wearing dark-rimmed eyeglasses and has medium-brown hair visible throughout the frame.""
+}"
+celeba-hq-C2-1,celeba-hq,C2,The person is wearing eyeglasses and has brown hair,data/images/celeba-hq/C2/39.png,0.8786,0.964,google/gemini-3-flash-preview,yes,1.0,The image clearly shows a person wearing black-rimmed eyeglasses and having light brown hair.,"Black-rimmed eyeglasses are positioned on the face, and the hair color is a distinct shade of brown.","{
+  ""valid"": ""yes"",
+  ""confidence"": 1.0,
+  ""reason"": ""The image clearly shows a person wearing black-rimmed eyeglasses and having light brown hair."",
+  ""visible_evidence"": ""Black-rimmed eyeglasses are positioned on the face, and the hair color is a distinct shade of brown.""
+}"
+celeba-hq-C3-0,celeba-hq,C3,The person is wearing eyeglasses and has a mustache,data/images/celeba-hq/C3/39.png,0.9141,0.975,google/gemini-3-flash-preview,yes,1.0,The image clearly shows a person wearing thick-rimmed eyeglasses and possessing a prominent mustache.,Black-framed eyeglasses on the face and a dark mustache above the upper lip.,"{
+  ""valid"": ""yes"",
+  ""confidence"": 1.0,
+  ""reason"": ""The image clearly shows a person wearing thick-rimmed eyeglasses and possessing a prominent mustache."",
+  ""visible_evidence"": ""Black-framed eyeglasses on the face and a dark mustache above the upper lip.""
+}"
+celeba-hq-C3-1,celeba-hq,C3,The person is wearing eyeglasses and has a mustache,data/images/celeba-hq/C3/95.png,0.9141,0.975,google/gemini-3-flash-preview,yes,1.0,The image clearly shows a person wearing black-rimmed eyeglasses and possessing a well-defined mustache.,Black-rimmed eyeglasses on the face and a thick mustache above the upper lip.,"{
+  ""valid"": ""yes"",
+  ""confidence"": 1.0,
+  ""reason"": ""The image clearly shows a person wearing black-rimmed eyeglasses and possessing a well-defined mustache."",
+  ""visible_evidence"": ""Black-rimmed eyeglasses on the face and a thick mustache above the upper lip.""
+}"
+celeba-hq-C4-0,celeba-hq,C4,The person is wearing eyeglasses and has wavy hair,data/images/celeba-hq/C4/12.png,0.909,0.894,google/gemini-3-flash-preview,yes,1.0,The person is clearly wearing black-rimmed eyeglasses and has hair with distinct waves and curves.,Black eyeglasses on the face; hair shows visible S-shaped curves and waves at the ends and sides.,"{
+  ""valid"": ""yes"",
+  ""confidence"": 1.0,
+  ""reason"": ""The person is clearly wearing black-rimmed eyeglasses and has hair with distinct waves and curves."",
+  ""visible_evidence"": ""Black eyeglasses on the face; hair shows visible S-shaped curves and waves at the ends and sides.""
+}"
+celeba-hq-C4-1,celeba-hq,C4,The person is wearing eyeglasses and has wavy hair,data/images/celeba-hq/C4/42.png,0.909,0.894,google/gemini-3-flash-preview,yes,1.0,The image clearly shows a person wearing black-rimmed eyeglasses and having hair with distinct wavy patterns.,Black-rimmed eyeglasses on the face and voluminous wavy brown hair.,"{
+  ""valid"": ""yes"",
+  ""confidence"": 1.0,
+  ""reason"": ""The image clearly shows a person wearing black-rimmed eyeglasses and having hair with distinct wavy patterns."",
+  ""visible_evidence"": ""Black-rimmed eyeglasses on the face and voluminous wavy brown hair.""
+}"
+celeba-hq-C5-0,celeba-hq,C5,The person is wearing eyeglasses and is bald,data/images/celeba-hq/C5/24.png,0.9748,0.955,google/gemini-3-flash-preview,yes,1.0,The image clearly shows a person who is bald on top and wearing eyeglasses.,The subject has a completely bald scalp on top and is wearing black-framed eyeglasses.,"{
+  ""valid"": ""yes"",
+  ""confidence"": 1.0,
+  ""reason"": ""The image clearly shows a person who is bald on top and wearing eyeglasses."",
+  ""visible_evidence"": ""The subject has a completely bald scalp on top and is wearing black-framed eyeglasses.""
+}"
+celeba-hq-C5-1,celeba-hq,C5,The person is wearing eyeglasses and is bald,data/images/celeba-hq/C5/68.png,0.9748,0.955,google/gemini-3-flash-preview,yes,1.0,"The image clearly shows a man who is bald and wearing eyeglasses, satisfying both requirements.",The subject has a completely bald scalp and is wearing dark-rimmed eyeglasses.,"{
+  ""valid"": ""yes"",
+  ""confidence"": 1.0,
+  ""reason"": ""The image clearly shows a man who is bald and wearing eyeglasses, satisfying both requirements."",
+  ""visible_evidence"": ""The subject has a completely bald scalp and is wearing dark-rimmed eyeglasses.""
+}"
+celeba-hq-C6-0,celeba-hq,C6,The person is wearing eyeglasses and a hat,data/images/celeba-hq/C6/60.png,0.7957,0.981,google/gemini-3-flash-preview,yes,1.0,The image clearly shows a person wearing both black-rimmed eyeglasses and a black flat cap.,Black eyeglasses on the face and a black hat on the head.,"{
+  ""valid"": ""yes"",
+  ""confidence"": 1.0,
+  ""reason"": ""The image clearly shows a person wearing both black-rimmed eyeglasses and a black flat cap."",
+  ""visible_evidence"": ""Black eyeglasses on the face and a black hat on the head.""
+}"
+celeba-hq-C6-1,celeba-hq,C6,The person is wearing eyeglasses and a hat,data/images/celeba-hq/C6/63.png,0.7957,0.981,google/gemini-3-flash-preview,yes,1.0,The image clearly shows a person wearing both a hat and eyeglasses as required.,"A dark-rimmed pair of eyeglasses is on the person's face, and a wide-brimmed fedora-style hat is on their head.","{
+  ""valid"": ""yes"",
+  ""confidence"": 1.0,
+  ""reason"": ""The image clearly shows a person wearing both a hat and eyeglasses as required."",
+  ""visible_evidence"": ""A dark-rimmed pair of eyeglasses is on the person's face, and a wide-brimmed fedora-style hat is on their head.""
+}"
+celeba-hq-C7-0,celeba-hq,C7,The person is wearing eyeglasses and has facial hair,data/images/celeba-hq/C7/0.png,0.8058,,google/gemini-3-flash-preview,yes,1.0,The image clearly shows a person wearing black-rimmed eyeglasses and possessing a full mustache and beard.,"Black eyeglasses on the face; visible mustache, soul patch, and beard along the jawline.","{
+  ""valid"": ""yes"",
+  ""confidence"": 1.0,
+  ""reason"": ""The image clearly shows a person wearing black-rimmed eyeglasses and possessing a full mustache and beard."",
+  ""visible_evidence"": ""Black eyeglasses on the face; visible mustache, soul patch, and beard along the jawline.""
+}"
+celeba-hq-C7-1,celeba-hq,C7,The person is wearing eyeglasses and has facial hair,data/images/celeba-hq/C7/20.png,0.8058,,google/gemini-3-flash-preview,yes,1.0,The image clearly shows a person wearing eyeglasses and possessing visible facial hair in the form of a beard and mustache.,"Brown-rimmed eyeglasses on the face and stubble/short beard growth on the chin, cheeks, and upper lip.","{
+  ""valid"": ""yes"",
+  ""confidence"": 1.0,
+  ""reason"": ""The image clearly shows a person wearing eyeglasses and possessing visible facial hair in the form of a beard and mustache."",
+  ""visible_evidence"": ""Brown-rimmed eyeglasses on the face and stubble/short beard growth on the chin, cheeks, and upper lip.""
+}"
+sgsm-S1-0,sgsm,S1,"A vehicle is within 10 meters, in front, and in the same lane",data/images/sgsm/S1/1_20.png.png,0.6535,0.76,google/gemini-3-flash-preview,yes,0.95,"A red truck is positioned directly in front of the camera, within the same lane markings, and its size relative to the road indicates it is well within a 10-meter range.","Red truck centered in the ego-lane, occupying a large portion of the field of view, indicating close proximity.","{
+  ""valid"": ""yes"",
+  ""confidence"": 0.95,
+  ""reason"": ""A red truck is positioned directly in front of the camera, within the same lane markings, and its size relative to the road indicates it is well within a 10-meter range."",
+  ""visible_evidence"": ""Red truck centered in the ego-lane, occupying a large portion of the field of view, indicating close proximity.""
+}"
+sgsm-S1-1,sgsm,S1,"A vehicle is within 10 meters, in front, and in the same lane",data/images/sgsm/S1/1_71.png.png,0.6535,0.76,google/gemini-3-flash-preview,yes,0.95,"A grey sedan is positioned directly in front of the ego-camera within the same lane markings, and its scale suggests it is well within a 10-meter distance.","Grey sedan centered in the ego-lane, large relative size indicating close proximity, lane markings clearly define the shared path.","{
+  ""valid"": ""yes"",
+  ""confidence"": 0.95,
+  ""reason"": ""A grey sedan is positioned directly in front of the ego-camera within the same lane markings, and its scale suggests it is well within a 10-meter distance."",
+  ""visible_evidence"": ""Grey sedan centered in the ego-lane, large relative size indicating close proximity, lane markings clearly define the shared path.""
+}"
+sgsm-S2-0,sgsm,S2,The ego lane is controlled by a red or yellow light,data/images/sgsm/S2/1_58.png.png,0.1336,0.85,google/gemini-3-flash-preview,no,1.0,"The traffic lights controlling the ego lane are clearly green, not red or yellow.",The three traffic lights hanging over the ego lane on the left gantry are illuminated green.,"{
+  ""valid"": ""no"",
+  ""confidence"": 1.0,
+  ""reason"": ""The traffic lights controlling the ego lane are clearly green, not red or yellow."",
+  ""visible_evidence"": ""The three traffic lights hanging over the ego lane on the left gantry are illuminated green.""
+}"
+sgsm-S2-1,sgsm,S2,The ego lane is controlled by a red or yellow light,data/images/sgsm/S2/1_69.png.png,0.1336,0.85,google/gemini-3-flash-preview,no,1.0,"The traffic lights controlling the ego lane and the intersection ahead are clearly green, not red or yellow.",Three green traffic lights are visible on the overhead gantry above the roadway.,"{
+  ""valid"": ""no"",
+  ""confidence"": 1.0,
+  ""reason"": ""The traffic lights controlling the ego lane and the intersection ahead are clearly green, not red or yellow."",
+  ""visible_evidence"": ""Three green traffic lights are visible on the overhead gantry above the roadway.""
+}"
+sgsm-S3-0,sgsm,S3,"The ego lane is controlled by a green light, and no vehicle is in front, same lane, within 10 meters",data/images/sgsm/S3/1_48.png.png,0.887,0.783,google/gemini-3-flash-preview,no,1.0,"The traffic lights controlling the intersection ahead are clearly red, not green.",The overhead traffic lights and the side-mounted traffic light on the right pole are displaying red signals.,"{
+  ""valid"": ""no"",
+  ""confidence"": 1.0,
+  ""reason"": ""The traffic lights controlling the intersection ahead are clearly red, not green."",
+  ""visible_evidence"": ""The overhead traffic lights and the side-mounted traffic light on the right pole are displaying red signals.""
+}"
+sgsm-S3-1,sgsm,S3,"The ego lane is controlled by a green light, and no vehicle is in front, same lane, within 10 meters",data/images/sgsm/S3/1_80.png.png,0.887,0.783,google/gemini-3-flash-preview,no,0.95,"The traffic lights for the ego lane are black/off, not green. Additionally, there is a black car directly in front of the ego vehicle in the same lane.",The overhead traffic light signals are dark. A black sedan is positioned directly ahead in the ego lane within a short distance.,"{
+  ""valid"": ""no"",
+  ""confidence"": 0.95,
+  ""reason"": ""The traffic lights for the ego lane are black/off, not green. Additionally, there is a black car directly in front of the ego vehicle in the same lane."",
+  ""visible_evidence"": ""The overhead traffic light signals are dark. A black sedan is positioned directly ahead in the ego lane within a short distance.""
+}"
+sgsm-S4-0,sgsm,S4,The ego is in the rightmost lane and is not in an intersection,data/images/sgsm/S4/1_44.png.png,1.0,0.854,google/gemini-3-flash-preview,yes,1.0,"The ego vehicle is positioned in the lane furthest to the right, bounded by a solid white line and a curb, and is currently on a straight road section before any intersection.",The ego is to the right of the dashed white lane divider and to the left of the solid white shoulder line/curb; the road ahead is a continuous straight path.,"{
+  ""valid"": ""yes"",
+  ""confidence"": 1.0,
+  ""reason"": ""The ego vehicle is positioned in the lane furthest to the right, bounded by a solid white line and a curb, and is currently on a straight road section before any intersection."",
+  ""visible_evidence"": ""The ego is to the right of the dashed white lane divider and to the left of the solid white shoulder line/curb; the road ahead is a continuous straight path.""
+}"
+sgsm-S4-1,sgsm,S4,The ego is in the rightmost lane and is not in an intersection,data/images/sgsm/S4/1_83.png.png,1.0,0.854,google/gemini-3-flash-preview,no,1.0,"The ego vehicle is currently positioned within the boundaries of a large intersection, as evidenced by the stop lines and crosswalk markings directly in front of and to the sides of the vehicle.","The ego vehicle is positioned behind a stop line but within the junction area where multiple roads meet, indicated by the white lane markings and the traffic light to the right.","{
+  ""valid"": ""no"",
+  ""confidence"": 1.0,
+  ""reason"": ""The ego vehicle is currently positioned within the boundaries of a large intersection, as evidenced by the stop lines and crosswalk markings directly in front of and to the sides of the vehicle."",
+  ""visible_evidence"": ""The ego vehicle is positioned behind a stop line but within the junction area where multiple roads meet, indicated by the white lane markings and the traffic light to the right.""
+}"
+sgsm-S5-0,sgsm,S5,The ego is in the leftmost lane and is not in an intersection,data/images/sgsm/S5/1_70.png.png,0.9974,0.741,google/gemini-3-flash-preview,no,1.0,"The ego vehicle is positioned behind a stop line and crosswalk, which constitutes the entrance of an intersection, and it is spanning across multiple lanes rather than being clearly in the leftmost lane.",The camera viewpoint is behind a thick white stop line and crosswalk markings; the lane markings (double yellow and dashed white) are positioned such that the ego is straddling the center of the road.,"{
+  ""valid"": ""no"",
+  ""confidence"": 1.0,
+  ""reason"": ""The ego vehicle is positioned behind a stop line and crosswalk, which constitutes the entrance of an intersection, and it is spanning across multiple lanes rather than being clearly in the leftmost lane."",
+  ""visible_evidence"": ""The camera viewpoint is behind a thick white stop line and crosswalk markings; the lane markings (double yellow and dashed white) are positioned such that the ego is straddling the center of the road.""
+}"
+sgsm-S5-1,sgsm,S5,The ego is in the leftmost lane and is not in an intersection,data/images/sgsm/S5/1_98.png.png,0.9974,0.741,google/gemini-3-flash-preview,no,0.95,"The ego vehicle is positioned in the middle lane, not the leftmost lane. There is a lane to the left separated by a dashed white line.","A dashed white lane marker is visible to the left of the ego vehicle's current path, indicating at least one additional lane exists to the left.","{
+  ""valid"": ""no"",
+  ""confidence"": 0.95,
+  ""reason"": ""The ego vehicle is positioned in the middle lane, not the leftmost lane. There is a lane to the left separated by a dashed white line."",
+  ""visible_evidence"": ""A dashed white lane marker is visible to the left of the ego vehicle's current path, indicating at least one additional lane exists to the left.""
+}"
+sgsm-S6-0,sgsm,S6,A vehicle is in the lane to the left and within 7 meters,data/images/sgsm/S6/1_46.png.png,0.9971,0.945,google/gemini-3-flash-preview,yes,0.95,"There is a brown SUV clearly positioned in the lane to the left of the ego-vehicle's path, and its proximity to the camera is well within the 7-meter range.","A brown SUV is visible in the adjacent left lane, very close to the camera viewpoint.","{
+  ""valid"": ""yes"",
+  ""confidence"": 0.95,
+  ""reason"": ""There is a brown SUV clearly positioned in the lane to the left of the ego-vehicle's path, and its proximity to the camera is well within the 7-meter range."",
+  ""visible_evidence"": ""A brown SUV is visible in the adjacent left lane, very close to the camera viewpoint.""
+}"
+sgsm-S6-1,sgsm,S6,A vehicle is in the lane to the left and within 7 meters,data/images/sgsm/S6/1_80.png.png,0.9971,0.945,google/gemini-3-flash-preview,yes,0.95,"A black SUV is clearly visible in the lane to the left of the ego-vehicle and is positioned very close, well within the 7-meter threshold.","Black SUV in the adjacent left lane, occupying a large portion of the left-side field of view.","{
+  ""valid"": ""yes"",
+  ""confidence"": 0.95,
+  ""reason"": ""A black SUV is clearly visible in the lane to the left of the ego-vehicle and is positioned very close, well within the 7-meter threshold."",
+  ""visible_evidence"": ""Black SUV in the adjacent left lane, occupying a large portion of the left-side field of view.""
+}"
+sgsm-S7-0,sgsm,S7,A vehicle is in the lane to the right and within 7 meters,data/images/sgsm/S7/1_38.png.png,1.0,0.83,google/gemini-3-flash-preview,yes,0.95,"A black sedan is clearly visible in the lane immediately to the right of the camera's path and is positioned very close to the camera, well within the 7-meter threshold.","Black sedan in the right lane, occupying a large portion of the lower right frame.","{
+  ""valid"": ""yes"",
+  ""confidence"": 0.95,
+  ""reason"": ""A black sedan is clearly visible in the lane immediately to the right of the camera's path and is positioned very close to the camera, well within the 7-meter threshold."",
+  ""visible_evidence"": ""Black sedan in the right lane, occupying a large portion of the lower right frame.""
+}"
+sgsm-S7-1,sgsm,S7,A vehicle is in the lane to the right and within 7 meters,data/images/sgsm/S7/1_70.png.png,1.0,0.83,google/gemini-3-flash-preview,yes,0.95,"There is a grey car positioned in the lane immediately to the right of the ego-vehicle's path, and its proximity to the camera indicates it is well within the 7-meter range.","A grey sedan is visible in the right-hand lane, partially overlapping the foreground, indicating very close proximity.","{
+  ""valid"": ""yes"",
+  ""confidence"": 0.95,
+  ""reason"": ""There is a grey car positioned in the lane immediately to the right of the ego-vehicle's path, and its proximity to the camera indicates it is well within the 7-meter range."",
+  ""visible_evidence"": ""A grey sedan is visible in the right-hand lane, partially overlapping the foreground, indicating very close proximity.""
 }"

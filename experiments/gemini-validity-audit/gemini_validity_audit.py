@@ -13,7 +13,9 @@ from statistics import mean
 from shared import CsvRow, find_repo_root, image_folder, requirement_rows, write_csv, write_text
 
 DATASETS = ["mnist", "celeba-hq", "sgsm"]
-DEFAULT_MODEL = "gemini-2.5-flash"
+DEFAULT_MODEL = "google/gemini-3-flash-preview"
+OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
+OPENROUTER_REFERER = "https://github.com/casparbreloh/rbt4dnn-seminar"
 MANIFEST_FIELDS = [
     "sample_id",
     "dataset",
@@ -94,53 +96,61 @@ def prompt(row: CsvRow) -> str:
 
 
 def read_api_key() -> str:
-    api_key = os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
+    api_key = os.environ.get("OPENROUTER_API_KEY")
     if not api_key:
-        raise RuntimeError("Set GEMINI_API_KEY or GOOGLE_API_KEY to run the Gemini validity audit.")
+        raise RuntimeError("Set OPENROUTER_API_KEY to run the OpenRouter validity audit.")
     return api_key
 
 
-def gemini_request(image_path: Path, row: CsvRow, model: str, api_key: str) -> str:
+def openrouter_request(image_path: Path, row: CsvRow, model: str, api_key: str) -> str:
     image_data = base64.b64encode(image_path.read_bytes()).decode("ascii")
     payload = {
-        "contents": [
+        "model": model,
+        "messages": [
             {
-                "parts": [
-                    {"text": prompt(row)},
-                    {"inline_data": {"mime_type": "image/png", "data": image_data}},
-                ]
+                "role": "user",
+                "content": [
+                    {"type": "text", "text": prompt(row)},
+                    {
+                        "type": "image_url",
+                        "image_url": {"url": f"data:image/png;base64,{image_data}"},
+                    },
+                ],
             }
         ],
-        "generationConfig": {
-            "temperature": 0,
-            "response_mime_type": "application/json",
-        },
+        "temperature": 0,
+        "max_tokens": 250,
+        "response_format": {"type": "json_object"},
     }
     data = json.dumps(payload).encode("utf-8")
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={api_key}"
     request = urllib.request.Request(
-        url,
+        OPENROUTER_URL,
         data=data,
-        headers={"Content-Type": "application/json"},
+        headers={
+            "Authorization": f"Bearer {api_key}",
+            "Content-Type": "application/json",
+            "HTTP-Referer": OPENROUTER_REFERER,
+            "X-Title": "rbt4dnn-seminar",
+        },
         method="POST",
     )
     with urllib.request.urlopen(request, timeout=60) as response:
         body = json.loads(response.read().decode("utf-8"))
-    return body["candidates"][0]["content"]["parts"][0]["text"]
+    return body["choices"][0]["message"]["content"]
 
 
 def request_with_retry(image_path: Path, row: CsvRow, model: str, api_key: str) -> str:
     wait = 30
     while True:
         try:
-            return gemini_request(image_path, row, model=model, api_key=api_key)
+            return openrouter_request(image_path, row, model=model, api_key=api_key)
         except HTTPError as error:
             if error.code != 429:
                 raise
             message = http_error_message(error)
-            if "prepayment credits are depleted" in message.lower():
+            if "credit" in message.lower() and "deplet" in message.lower():
                 raise RuntimeError(
-                    "Gemini API credits are depleted. Add credits or use another API key, then rerun."
+                    "OpenRouter credits are depleted. Add credits or use another API key, then rerun."
                 ) from error
             print(f"rate limited on {row['sample_id']}; waiting {wait}s", flush=True)
             time.sleep(wait)
@@ -247,11 +257,11 @@ def summary(
         f"Samples per requirement: `{samples_per_requirement}`.",
         f"Completed samples: `{len(rows)}/{total_samples or len(rows)}`.",
         "",
-        "Gemini judges whether generated images visibly satisfy the natural-language "
-        "requirement. This is an external audit, not ground truth.",
+        "OpenRouter judges whether generated images visibly satisfy the natural-language "
+        "requirement with Gemini Flash. This is an external audit, not ground truth.",
         "If quota stops a run, rerun the same command later; cached rows are skipped.",
         "",
-        f"Completed-sample Gemini-valid rate: {mean(valid_rates):.3f}.",
+        f"Completed-sample valid rate: {mean(valid_rates):.3f}.",
         "",
     ]
     for dataset, dataset_rows in sorted(by_dataset.items()):

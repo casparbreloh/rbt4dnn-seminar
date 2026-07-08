@@ -34,10 +34,10 @@ results should not depend on private Drive links.
   failures are `SGSM S2` at `$0.05`, `MNIST M3` at `$0.12`, and `SGSM S1`
   at `$0.14` per estimated valid failure. These are comparison estimates, not
   measured invoices.
-- Gemini validity audit: the API key quota stopped the first run at `16/42`
-  images. The partial, ordered audit gives `0.812` valid rate on completed
-  samples, but it is not yet a balanced dataset-level audit. Rerunning resumes
-  from the saved CSV.
+- OpenRouter validity audit: Gemini Flash judges a fixed `42` image sample for
+  visible natural-language requirement satisfaction. It marks `0.738` of images
+  valid overall, with CelebA-HQ strongest (`1.000`) and SGSM weakest (`0.500`).
+  This is an external audit, not ground truth.
 - Shared-generator extension: one small conditional MNIST generator is evaluated
   over three seeds and reaches mean pass `0.945` versus `0.942` for the paper's
   per-requirement LoRA reference, with `0` exact generated/training image
@@ -78,8 +78,8 @@ uvx --from google-colab-cli colab run --gpu T4 scripts/colab_job.py --all
 The training results use fixed seeds, but GPU kernels can still produce numeric
 drift across machines; the committed CSVs are the reference run.
 
-The Gemini validity audit is intentionally not part of `--all`, because it calls
-an external model. To run it, set `GEMINI_API_KEY` or `GOOGLE_API_KEY`, then run:
+The OpenRouter validity audit is intentionally not part of `--all`, because it
+calls an external model. To run it, set `OPENROUTER_API_KEY`, then run:
 
 ```bash
 uv run python scripts/run_experiments.py --run-gemini-audit
