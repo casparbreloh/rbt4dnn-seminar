@@ -24,9 +24,9 @@ def add_paths(root: Path) -> None:
 
 
 def replication(root: Path) -> list[Path]:
-    from mnist import write_replication_summary
+    from mnist import write_replication_outputs
 
-    return [write_replication_summary(root)]
+    return list(write_replication_outputs(root))
 
 
 def precondition_validity(root: Path) -> list[Path]:

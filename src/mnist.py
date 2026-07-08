@@ -3,7 +3,7 @@ from __future__ import annotations
 from pathlib import Path
 from typing import TypedDict
 
-from shared import CsvRow, find_repo_root, read_csv_rows, requirements_csv, write_csv
+from shared import CsvRow, find_repo_root, read_csv_rows, requirements_csv, write_csv, write_text
 
 TARGET = {
     "M1": 2,
@@ -63,6 +63,36 @@ def write_replication_summary(root: Path | None = None) -> Path:
         summarize_replication(read_csv_rows(requirements_csv(root))),
     )
     return out
+
+
+def write_replication_outputs(root: Path | None = None) -> tuple[Path, Path]:
+    root = find_repo_root(root)
+    results = write_replication_summary(root)
+    rows = read_csv_rows(results)
+    summary_path = root / "experiments" / "replication" / "summary.md"
+    write_text(summary_path, replication_summary(rows))
+    return results, summary_path
+
+
+def replication_summary(rows: list[CsvRow]) -> str:
+    deltas = [abs(float(row["delta"])) for row in rows]
+    max_delta = max(deltas) if deltas else 0.0
+    lines = [
+        "# Replication Summary",
+        "",
+        "This is an artifact-level MNIST check on copied generated images, not a full "
+        "reproduction of LoRA training or FLUX sampling.",
+        "",
+        f"Rows checked: `{len(rows)}`.",
+        f"Largest absolute delta versus the paper reference: `{max_delta:.3f}`.",
+        "",
+    ]
+    lines += [
+        f"- {row['requirement']}: local `{row['local_pass_rate_n100']}`, "
+        f"paper `{row['paper_pass_rate']}`, delta `{row['delta']}`"
+        for row in rows
+    ]
+    return "\n".join(lines) + "\n"
 
 
 def evaluate_mnist_images(

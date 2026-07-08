@@ -24,31 +24,32 @@ results should not depend on private Drive links.
 
 ## Results
 
-- MNIST replication: copied generated images reproduce the paper pass rates closely
-  (`M1-M7` deltas between `-0.012` and `+0.013`).
-- Precondition validity: pass rate alone can be misleading; the strongest estimated
-  valid-failure yields are `SGSM S2`, `MNIST M3`, and `SGSM S1`.
-- Cost analysis: under the stated assumptions, the cheapest estimated valid
+- MNIST replication: copied generated images reproduce the paper reference pass
+  rates closely (`M1-M7` deltas between `-0.012` and `+0.013`). This is an
+  artifact-level check, not LoRA training or FLUX sampling reproduction.
+- Precondition validity: pass rate alone can be misleading; the strongest
+  aggregate estimated valid-failure yields are `SGSM S2`, `MNIST M3`, and
+  `SGSM S1`.
+- Cost analysis: under illustrative assumptions, the cheapest estimated valid
   failures are `SGSM S2` at `$0.05`, `MNIST M3` at `$0.12`, and `SGSM S1`
-  at `$0.14` per estimated valid failure.
+  at `$0.14` per estimated valid failure. These are comparison estimates, not
+  measured invoices.
 - Gemini validity audit: the API key quota stopped the first run at `16/42`
-  images. The partial audit gives `0.812` Gemini-valid rate overall, with
-  weaker validity on the first CelebA-HQ samples (`0.500`) than on MNIST
-  (`0.857`). Rerunning resumes from the saved CSV.
+  images. The partial, ordered audit gives `0.812` valid rate on completed
+  samples, but it is not yet a balanced dataset-level audit. Rerunning resumes
+  from the saved CSV.
 - Shared-generator extension: one small conditional MNIST generator is evaluated
-  over three seeds and reaches mean pass `0.941` versus `0.942` for the paper's
+  over three seeds and reaches mean pass `0.945` versus `0.942` for the paper's
   per-requirement LoRA reference, with `0` exact generated/training image
-  matches.
+  matches. This is a cheap baseline, not evidence that it replaces RBT4DNN.
 - CelebA-HQ shared-generator extension: tests whether the shared-generator idea
-  still works on a harder face dataset. In the 64x64 Colab stress test, a
-  small copied-image classifier reaches `0.557` validation accuracy, while
-  generated images reach only `0.488` mean requirement alignment. This is a
-  weak sanity check, not the paper's attribute-classifier pass rate, but it
-  suggests the MNIST shared-generator result does not transfer cleanly to
-  faces.
+  still works on a harder face dataset. In the 64x64 stress test, a small
+  copied-image classifier reaches `0.636` validation accuracy, while generated
+  images reach `0.613` mean requirement alignment. This is an exploratory sanity
+  check, not the paper's attribute-classifier pass rate.
 
 The notebooks clone this repo automatically in Colab if the data is not already
-available. Finished notebooks write `results.csv` and `summary.md` into their
+available. Finished notebooks write result CSVs and summaries into their
 experiment folder so later Codex runs can inspect the actual findings.
 
 In Colab, always run the first cell before any experiment cell. If
@@ -74,8 +75,8 @@ For Colab CLI, use the same arguments through the wrapper:
 uvx --from google-colab-cli colab run --gpu T4 scripts/colab_job.py --all
 ```
 
-The training results use fixed seeds, but GPU kernels can still produce tiny
-numeric drift across machines.
+The training results use fixed seeds, but GPU kernels can still produce numeric
+drift across machines; the committed CSVs are the reference run.
 
 The Gemini validity audit is intentionally not part of `--all`, because it calls
 an external model. To run it, set `GEMINI_API_KEY` or `GOOGLE_API_KEY`, then run:
@@ -87,9 +88,9 @@ uv run python scripts/run_experiments.py --run-gemini-audit
 ## Data
 
 The repo includes copied generated images, copied paper result files, and a
-compact `data/requirements.csv` table used by the notebooks. ImageNet examples
-are kept for completeness, while the requirement table covers the MNIST,
-CelebA-HQ, and SGSM rows used by the current analyses.
+compact `data/requirements.csv` table used by the notebooks. The current
+analyses use MNIST, CelebA-HQ, and SGSM; ImageNet copied examples are retained
+only for provenance.
 
 The original upstream scripts are preserved as `data/original-rbt4dnn-code.tar.gz`
 for provenance, but they are not maintained as this repo's code. The public

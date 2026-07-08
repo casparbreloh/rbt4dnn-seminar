@@ -2,6 +2,8 @@
 
 This analysis estimates cost per valid requirement-matching failure from aggregate pass and precondition rates.
 
+The dollar values are illustrative assumptions for comparison only; they are not measured invoices and no sensitivity analysis is included.
+
 Estimated failure counts use the paper's reported generated-test counts, not the smaller copied image samples in this repo.
 
 ## Largest Estimated Valid-Failure Yields

@@ -248,8 +248,9 @@ def summary(
         "",
         "Gemini judges whether generated images visibly satisfy the natural-language "
         "requirement. This is an external audit, not ground truth.",
+        "If quota stops a run, rerun the same command later; cached rows are skipped.",
         "",
-        f"Overall Gemini-valid rate: {mean(valid_rates):.3f}.",
+        f"Completed-sample Gemini-valid rate: {mean(valid_rates):.3f}.",
         "",
     ]
     for dataset, dataset_rows in sorted(by_dataset.items()):

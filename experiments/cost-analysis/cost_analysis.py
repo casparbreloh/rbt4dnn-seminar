@@ -120,23 +120,27 @@ def build_rows(rows: list[CsvRow]) -> tuple[list[CsvRow], list[CsvRow]]:
     return valid_rows, cost_rows
 
 
-def write_results(root: Path | None = None) -> tuple[Path, Path]:
+def write_results(root: Path | None = None) -> tuple[Path, Path, Path, Path]:
     root = find_repo_root(root)
     out_dir = root / "experiments" / "cost-analysis"
     valid_rows, cost_rows = build_rows(requirement_rows(root))
 
+    assumptions = out_dir / "assumptions.csv"
+    valid_failures = out_dir / "valid-failures.csv"
+    results = out_dir / "results.csv"
+    summary_path = out_dir / "summary.md"
     write_csv(
-        out_dir / "assumptions.csv",
+        assumptions,
         ["parameter", "value", "unit"],
         [
             {"parameter": item.parameter, "value": f"{item.value:.2f}", "unit": item.unit}
             for item in ASSUMPTIONS
         ],
     )
-    write_csv(out_dir / "valid-failures.csv", VALID_FIELDS, valid_rows)
-    write_csv(out_dir / "results.csv", RESULT_FIELDS, cost_rows)
-    write_text(out_dir / "summary.md", summary(valid_rows, cost_rows))
-    return out_dir / "results.csv", out_dir / "summary.md"
+    write_csv(valid_failures, VALID_FIELDS, valid_rows)
+    write_csv(results, RESULT_FIELDS, cost_rows)
+    write_text(summary_path, summary(valid_rows, cost_rows))
+    return assumptions, valid_failures, results, summary_path
 
 
 def summary(valid_rows: list[CsvRow], cost_rows: list[CsvRow]) -> str:
@@ -147,6 +151,9 @@ def summary(valid_rows: list[CsvRow], cost_rows: list[CsvRow]) -> str:
         "",
         "This analysis estimates cost per valid requirement-matching failure from aggregate "
         "pass and precondition rates.",
+        "",
+        "The dollar values are illustrative assumptions for comparison only; they are not "
+        "measured invoices and no sensitivity analysis is included.",
         "",
         "Estimated failure counts use the paper's reported generated-test counts, not the "
         "smaller copied image samples in this repo.",
