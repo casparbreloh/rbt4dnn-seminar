@@ -130,21 +130,30 @@ def gemini_request(image_path: Path, row: CsvRow, model: str, api_key: str) -> s
 
 
 def request_with_retry(image_path: Path, row: CsvRow, model: str, api_key: str) -> str:
-    waits = [0, 30, 60, 120]
-    last_error: HTTPError | None = None
-    for wait in waits:
-        if wait:
-            time.sleep(wait)
+    wait = 30
+    while True:
         try:
             return gemini_request(image_path, row, model=model, api_key=api_key)
         except HTTPError as error:
-            last_error = error
             if error.code != 429:
                 raise
-            print(f"rate limited on {row['sample_id']}", flush=True)
-    if last_error is not None:
-        raise last_error
-    raise RuntimeError("Gemini request failed without an HTTP error.")
+            message = http_error_message(error)
+            if "prepayment credits are depleted" in message.lower():
+                raise RuntimeError(
+                    "Gemini API credits are depleted. Add credits or use another API key, then rerun."
+                ) from error
+            print(f"rate limited on {row['sample_id']}; waiting {wait}s", flush=True)
+            time.sleep(wait)
+            wait = min(wait * 2, 3600)
+
+
+def http_error_message(error: HTTPError) -> str:
+    body = error.read().decode("utf-8", errors="replace")
+    try:
+        data = json.loads(body)
+    except json.JSONDecodeError:
+        return body
+    return str(data.get("error", {}).get("message", body))
 
 
 def parse_response(raw: str) -> CsvRow:
@@ -197,15 +206,7 @@ def run_audit(
             result_rows.append(existing[row["sample_id"]])
             print(row["sample_id"], "cached", flush=True)
             continue
-        try:
-            raw = request_with_retry(root / row["image_path"], row, model=model, api_key=api_key)
-        except HTTPError as error:
-            if error.code == 429 and result_rows:
-                print(
-                    "Gemini quota reached; saved partial audit. Rerun later to resume.", flush=True
-                )
-                break
-            raise
+        raw = request_with_retry(root / row["image_path"], row, model=model, api_key=api_key)
         parsed = parse_response(raw)
         result_rows.append({**row, "model": model, **parsed, "raw_response": raw})
         write_csv(results, RESULT_FIELDS, result_rows)
