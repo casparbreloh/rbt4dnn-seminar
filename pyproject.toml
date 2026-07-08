@@ -31,7 +31,7 @@ extra-paths = [
     "src",
     "experiments/celeba-shared-generator",
     "experiments/cost-analysis",
-    "experiments/gemini-validity-audit",
+    "experiments/llm-validity-audit",
     "experiments/mnist-lora-ablation",
     "experiments/mnist-shared-generator",
     "experiments/precondition-validity",

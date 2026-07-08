@@ -37,7 +37,7 @@ RESULT_FIELDS = [
 
 
 def output_dir(root: Path) -> Path:
-    return root / "experiments" / "gemini-validity-audit"
+    return root / "experiments" / "llm-validity-audit"
 
 
 def image_dir(root: Path, row: CsvRow) -> Path:
@@ -98,7 +98,7 @@ def prompt(row: CsvRow) -> str:
 def read_api_key() -> str:
     api_key = os.environ.get("OPENROUTER_API_KEY")
     if not api_key:
-        raise RuntimeError("Set OPENROUTER_API_KEY to run the OpenRouter validity audit.")
+        raise RuntimeError("Set OPENROUTER_API_KEY to run the LLM validity audit.")
     return api_key
 
 
@@ -251,7 +251,7 @@ def summary(
         valid_rates.append(1.0 if row["valid"] == "yes" else 0.0)
 
     lines = [
-        "# Gemini Validity Audit Summary",
+        "# LLM Validity Audit Summary",
         "",
         f"Model: `{model}`.",
         f"Samples per requirement: `{samples_per_requirement}`.",

@@ -1,4 +1,4 @@
-# Gemini Validity Audit Summary
+# LLM Validity Audit Summary
 
 Model: `google/gemini-3-flash-preview`.
 Samples per requirement: `2`.

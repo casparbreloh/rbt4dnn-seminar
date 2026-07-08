@@ -83,8 +83,8 @@ def train_celeba_generator(
     return train_and_evaluate(root, config, seeds=seeds)
 
 
-def gemini_validity_audit(root: Path, samples_per_requirement: int) -> list[Path]:
-    from gemini_validity_audit import run_audit
+def llm_validity_audit(root: Path, samples_per_requirement: int) -> list[Path]:
+    from llm_validity_audit import run_audit
 
     return run_audit(root, samples_per_requirement=samples_per_requirement)
 
@@ -103,8 +103,8 @@ def main() -> None:
     parser.add_argument("--celeba-generator-epochs", type=int, default=25)
     parser.add_argument("--celeba-generator-samples", type=int, default=24)
     parser.add_argument("--celeba-generator-seeds", default="7")
-    parser.add_argument("--run-gemini-audit", action="store_true")
-    parser.add_argument("--gemini-audit-samples", type=int, default=2)
+    parser.add_argument("--run-llm-audit", action="store_true")
+    parser.add_argument("--llm-audit-samples", type=int, default=2)
     args = parser.parse_args()
 
     root = find_root()
@@ -136,11 +136,11 @@ def main() -> None:
                 seeds=parse_seeds(args.celeba_generator_seeds),
             )
         )
-    if args.run_gemini_audit:
+    if args.run_llm_audit:
         written.extend(
-            gemini_validity_audit(
+            llm_validity_audit(
                 root,
-                samples_per_requirement=args.gemini_audit_samples,
+                samples_per_requirement=args.llm_audit_samples,
             )
         )
 
