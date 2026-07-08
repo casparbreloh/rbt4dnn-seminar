@@ -18,6 +18,7 @@ results should not depend on private Drive links.
 - [Precondition validity](https://colab.research.google.com/github/casparbreloh/rbt4dnn-seminar/blob/main/experiments/precondition-validity/notebook.ipynb)
 - [MNIST LoRA ablation](https://colab.research.google.com/github/casparbreloh/rbt4dnn-seminar/blob/main/experiments/mnist-lora-ablation/notebook.ipynb)
 - [Cost analysis](https://colab.research.google.com/github/casparbreloh/rbt4dnn-seminar/blob/main/experiments/cost-analysis/notebook.ipynb)
+- [Gemini validity audit](https://colab.research.google.com/github/casparbreloh/rbt4dnn-seminar/blob/main/experiments/gemini-validity-audit/notebook.ipynb)
 - [MNIST shared generator](https://colab.research.google.com/github/casparbreloh/rbt4dnn-seminar/blob/main/experiments/mnist-shared-generator/notebook.ipynb)
 - [CelebA-HQ shared generator](https://colab.research.google.com/github/casparbreloh/rbt4dnn-seminar/blob/main/experiments/celeba-shared-generator/notebook.ipynb)
 
@@ -71,6 +72,13 @@ uvx --from google-colab-cli colab run --gpu T4 scripts/colab_job.py --all
 
 The training results use fixed seeds, but GPU kernels can still produce tiny
 numeric drift across machines.
+
+The Gemini validity audit is intentionally not part of `--all`, because it calls
+an external model. To run it, set `GEMINI_API_KEY` or `GOOGLE_API_KEY`, then run:
+
+```bash
+uv run python scripts/run_experiments.py --run-gemini-audit
+```
 
 ## Data
 

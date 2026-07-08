@@ -10,7 +10,6 @@ dependencies = [
     "pillow>=10.0",
     "torch>=2.2",
     "torchvision>=0.27.1",
-    "transformers>=4.45",
 ]
 
 [dependency-groups]
@@ -34,6 +33,7 @@ extra-paths = [
     "src",
     "experiments/celeba-shared-generator",
     "experiments/cost-analysis",
+    "experiments/gemini-validity-audit",
     "experiments/mnist-lora-ablation",
     "experiments/mnist-shared-generator",
     "experiments/precondition-validity",

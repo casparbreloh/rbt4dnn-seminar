@@ -1,0 +1,43 @@
+sample_id,dataset,requirement,requirement_text,image_path,paper_pass_rate,paper_precondition_match
+mnist-M1-0,mnist,M1,The digit is a 2 and has very low height,data/images/mnist/M1/23.png,0.9989,0.968
+mnist-M1-1,mnist,M1,The digit is a 2 and has very low height,data/images/mnist/M1/39.png,0.9989,0.968
+mnist-M2-0,mnist,M2,The digit is a 3 and is very thick,data/images/mnist/M2/40.png,0.9724,0.98
+mnist-M2-1,mnist,M2,The digit is a 3 and is very thick,data/images/mnist/M2/72.png,0.9724,0.98
+mnist-M3-0,mnist,M3,The digit is a 7 and is very thick,data/images/mnist/M3/1.png,0.6941,0.958
+mnist-M3-1,mnist,M3,The digit is a 7 and is very thick,data/images/mnist/M3/90.png,0.6941,0.958
+mnist-M4-0,mnist,M4,The digit is a 9 and is very left leaning,data/images/mnist/M4/33.png,0.9874,0.925
+mnist-M4-1,mnist,M4,The digit is a 9 and is very left leaning,data/images/mnist/M4/63.png,0.9874,0.925
+mnist-M5-0,mnist,M5,The digit is a 6 and is very right leaning,data/images/mnist/M5/18.png,0.9972,0.9
+mnist-M5-1,mnist,M5,The digit is a 6 and is very right leaning,data/images/mnist/M5/51.png,0.9972,0.9
+mnist-M6-0,mnist,M6,The digit is a 0 and has very low height,data/images/mnist/M6/37.png,0.9773,0.957
+mnist-M6-1,mnist,M6,The digit is a 0 and has very low height,data/images/mnist/M6/41.png,0.9773,0.957
+mnist-M7-0,mnist,M7,The digit is an 8 and is very thin or very thick,data/images/mnist/M7/70.png,,
+mnist-M7-1,mnist,M7,The digit is an 8 and is very thin or very thick,data/images/mnist/M7/80.png,,
+celeba-hq-C1-0,celeba-hq,C1,The person is wearing eyeglasses and has black hair,data/images/celeba-hq/C1/3.png,0.9158,0.961
+celeba-hq-C1-1,celeba-hq,C1,The person is wearing eyeglasses and has black hair,data/images/celeba-hq/C1/42.png,0.9158,0.961
+celeba-hq-C2-0,celeba-hq,C2,The person is wearing eyeglasses and has brown hair,data/images/celeba-hq/C2/36.png,0.8786,0.964
+celeba-hq-C2-1,celeba-hq,C2,The person is wearing eyeglasses and has brown hair,data/images/celeba-hq/C2/39.png,0.8786,0.964
+celeba-hq-C3-0,celeba-hq,C3,The person is wearing eyeglasses and has a mustache,data/images/celeba-hq/C3/39.png,0.9141,0.975
+celeba-hq-C3-1,celeba-hq,C3,The person is wearing eyeglasses and has a mustache,data/images/celeba-hq/C3/95.png,0.9141,0.975
+celeba-hq-C4-0,celeba-hq,C4,The person is wearing eyeglasses and has wavy hair,data/images/celeba-hq/C4/12.png,0.909,0.894
+celeba-hq-C4-1,celeba-hq,C4,The person is wearing eyeglasses and has wavy hair,data/images/celeba-hq/C4/42.png,0.909,0.894
+celeba-hq-C5-0,celeba-hq,C5,The person is wearing eyeglasses and is bald,data/images/celeba-hq/C5/24.png,0.9748,0.955
+celeba-hq-C5-1,celeba-hq,C5,The person is wearing eyeglasses and is bald,data/images/celeba-hq/C5/68.png,0.9748,0.955
+celeba-hq-C6-0,celeba-hq,C6,The person is wearing eyeglasses and a hat,data/images/celeba-hq/C6/60.png,0.7957,0.981
+celeba-hq-C6-1,celeba-hq,C6,The person is wearing eyeglasses and a hat,data/images/celeba-hq/C6/63.png,0.7957,0.981
+celeba-hq-C7-0,celeba-hq,C7,The person is wearing eyeglasses and has facial hair,data/images/celeba-hq/C7/0.png,0.8058,
+celeba-hq-C7-1,celeba-hq,C7,The person is wearing eyeglasses and has facial hair,data/images/celeba-hq/C7/20.png,0.8058,
+sgsm-S1-0,sgsm,S1,"A vehicle is within 10 meters, in front, and in the same lane",data/images/sgsm/S1/1_20.png.png,0.6535,0.76
+sgsm-S1-1,sgsm,S1,"A vehicle is within 10 meters, in front, and in the same lane",data/images/sgsm/S1/1_71.png.png,0.6535,0.76
+sgsm-S2-0,sgsm,S2,The ego lane is controlled by a red or yellow light,data/images/sgsm/S2/1_58.png.png,0.1336,0.85
+sgsm-S2-1,sgsm,S2,The ego lane is controlled by a red or yellow light,data/images/sgsm/S2/1_69.png.png,0.1336,0.85
+sgsm-S3-0,sgsm,S3,"The ego lane is controlled by a green light, and no vehicle is in front, same lane, within 10 meters",data/images/sgsm/S3/1_48.png.png,0.887,0.783
+sgsm-S3-1,sgsm,S3,"The ego lane is controlled by a green light, and no vehicle is in front, same lane, within 10 meters",data/images/sgsm/S3/1_80.png.png,0.887,0.783
+sgsm-S4-0,sgsm,S4,The ego is in the rightmost lane and is not in an intersection,data/images/sgsm/S4/1_44.png.png,1.0,0.854
+sgsm-S4-1,sgsm,S4,The ego is in the rightmost lane and is not in an intersection,data/images/sgsm/S4/1_83.png.png,1.0,0.854
+sgsm-S5-0,sgsm,S5,The ego is in the leftmost lane and is not in an intersection,data/images/sgsm/S5/1_70.png.png,0.9974,0.741
+sgsm-S5-1,sgsm,S5,The ego is in the leftmost lane and is not in an intersection,data/images/sgsm/S5/1_98.png.png,0.9974,0.741
+sgsm-S6-0,sgsm,S6,A vehicle is in the lane to the left and within 7 meters,data/images/sgsm/S6/1_46.png.png,0.9971,0.945
+sgsm-S6-1,sgsm,S6,A vehicle is in the lane to the left and within 7 meters,data/images/sgsm/S6/1_80.png.png,0.9971,0.945
+sgsm-S7-0,sgsm,S7,A vehicle is in the lane to the right and within 7 meters,data/images/sgsm/S7/1_38.png.png,1.0,0.83
+sgsm-S7-1,sgsm,S7,A vehicle is in the lane to the right and within 7 meters,data/images/sgsm/S7/1_70.png.png,1.0,0.83
