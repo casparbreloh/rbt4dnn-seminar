@@ -1,0 +1,764 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="An independent seminar review and artifact study of requirements-based testing for neural networks.">
+  <title>RBT4DNN — Requirements-based testing of neural networks</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&amp;family=Newsreader:opsz,wght@6..72,400;6..72,500&amp;display=swap" rel="stylesheet">
+  <style>
+    /* === DESIGN TOKENS: edit these first === */
+    :root {
+      --stage-bg: #e9e7e1;
+      --slide-bg: #f7f5ef;
+      --paper: #f7f5ef;
+      --paper-raised: #fdfcf8;
+      --ink: #171714;
+      --muted: #6d6b64;
+      --faint: #aaa69d;
+      --line: #d8d4ca;
+      --line-strong: #b9b4aa;
+      --accent: #1c6654;
+      --accent-soft: #dcebe5;
+      --warm: #a45134;
+      --warm-soft: #f0ddd4;
+      --font-display: "Newsreader", serif;
+      --font-body: "Manrope", sans-serif;
+      --slide-padding-x: 116px;
+      --slide-padding-y: 86px;
+      --ease-out: cubic-bezier(.16, 1, .3, 1);
+      --duration: 620ms;
+    }
+
+    /* === RESET === */
+    * { box-sizing: border-box; }
+    h1, h2, h3, p, ul, ol, figure { margin: 0; }
+    button, input { font: inherit; }
+    a { color: inherit; }
+
+    /* ===========================================
+       FIXED 16:9 STAGE: MANDATORY BASE STYLES
+       Include this ENTIRE file in every presentation.
+       Slides are authored at 1920×1080 and scaled as a whole.
+       =========================================== */
+
+    /* 1. Lock the browser viewport */
+    html,
+    body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        overflow: hidden;
+        background: var(--stage-bg, #000);
+    }
+
+    /* 2. Full-window deck viewport */
+    .deck-viewport {
+        position: fixed;
+        inset: 0;
+        overflow: hidden;
+        background: var(--stage-bg, #000);
+    }
+
+    /* 3. Fixed 16:9 design canvas.
+       JavaScript sets transform: translate(...) scale(...). */
+    .deck-stage {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        transform-origin: 0 0;
+        background: var(--slide-bg, #fff);
+    }
+
+    /* 4. Slides stack inside the fixed stage.
+       Content must be laid out at 1920×1080, not reflowed per device. */
+    .slide {
+        position: absolute;
+        inset: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        display: block;
+        visibility: hidden;
+        opacity: 0;
+        pointer-events: none;
+        background: var(--slide-bg, #fff);
+    }
+
+    .slide.active,
+    .slide.visible {
+        visibility: visible;
+        opacity: 1;
+        pointer-events: auto;
+        z-index: 1;
+    }
+
+    /* 5. Keep media inside authored slide bounds */
+    img,
+    video,
+    canvas,
+    svg {
+        max-width: 100%;
+        max-height: 100%;
+    }
+
+    /* 6. Presentation chrome stays outside the slide design system */
+    .deck-controls {
+        position: fixed;
+        left: 50%;
+        bottom: 22px;
+        transform: translateX(-50%);
+        z-index: 1000;
+    }
+
+    /* 7. Print one fixed-size slide per page */
+    @media print {
+        html,
+        body {
+            width: 1920px;
+            height: auto;
+            overflow: visible;
+            background: #fff;
+        }
+
+        .deck-viewport {
+            position: static;
+            overflow: visible;
+            background: #fff;
+        }
+
+        .deck-stage {
+            position: static;
+            width: auto;
+            height: auto;
+            transform: none !important;
+            background: none;
+        }
+
+        .slide {
+            position: relative;
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            pointer-events: auto !important;
+            width: 1920px;
+            height: 1080px;
+            break-after: page;
+            page-break-after: always;
+        }
+
+        .slide:last-child {
+            break-after: auto;
+            page-break-after: auto;
+        }
+
+        .deck-controls {
+            display: none !important;
+        }
+    }
+
+    /* 8. Reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+            animation-duration: 0.01ms !important;
+            transition-duration: 0.2s !important;
+        }
+    }
+
+    /* === STAGE AND TYPOGRAPHY === */
+    body { font-family: var(--font-body); color: var(--ink); }
+    .slide::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 90% 7%, rgba(28,102,84,.06), transparent 31%),
+        linear-gradient(90deg, transparent 115px, rgba(23,23,20,.035) 116px, transparent 117px);
+      pointer-events: none;
+    }
+    .slide-shell {
+      position: relative;
+      height: 100%;
+      padding: var(--slide-padding-y) var(--slide-padding-x);
+      display: flex;
+      flex-direction: column;
+    }
+    .eyebrow {
+      font-size: 20px;
+      line-height: 1;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 700;
+    }
+    h1, h2, .statement {
+      font-family: var(--font-display);
+      font-weight: 400;
+      letter-spacing: -.035em;
+    }
+    h1 { font-size: 142px; line-height: .92; max-width: 1320px; }
+    h2 { font-size: 80px; line-height: 1.02; max-width: 1420px; }
+    h3 { font-size: 30px; line-height: 1.2; letter-spacing: -.02em; }
+    .lead { font-size: 32px; line-height: 1.48; color: var(--muted); max-width: 1120px; }
+    .small { font-size: 20px; line-height: 1.45; color: var(--muted); }
+    .mono { font-size: 18px; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); }
+    .accent { color: var(--accent); }
+    .warm { color: var(--warm); }
+    .spacer { flex: 1; }
+    .slide-head { display: flex; flex-direction: column; gap: 24px; }
+    .slide-foot {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      border-top: 1px solid var(--line);
+      padding-top: 18px;
+      color: var(--muted);
+      font-size: 17px;
+    }
+    .page-tag { font-variant-numeric: tabular-nums; }
+
+    /* === LAYOUT PRIMITIVES === */
+    .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; }
+    .split { display: grid; grid-template-columns: 1.05fr .95fr; gap: 70px; align-items: center; flex: 1; }
+    .card {
+      padding: 34px;
+      background: rgba(253,252,248,.72);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+    }
+    .card.soft { background: rgba(220,235,229,.52); border-color: rgba(28,102,84,.18); }
+    .card.warm-card { background: rgba(240,221,212,.52); border-color: rgba(164,81,52,.18); }
+    .card p { margin-top: 14px; font-size: 24px; line-height: 1.45; color: var(--muted); }
+    .card .metric { margin-top: 12px; font-size: 60px; line-height: 1; letter-spacing: -.045em; }
+    .bullets { list-style: none; display: grid; gap: 22px; margin-top: 38px; }
+    .bullets li { position: relative; padding-left: 34px; font-size: 28px; line-height: 1.4; color: #33322d; }
+    .bullets li::before { content: ""; position: absolute; left: 0; top: .58em; width: 10px; height: 10px; border-radius: 50%; background: var(--accent); }
+    .number-list { display: grid; gap: 20px; counter-reset: steps; }
+    .number-list .card { position: relative; padding-left: 88px; }
+    .number-list .card::before { counter-increment: steps; content: counter(steps, decimal-leading-zero); position: absolute; left: 28px; top: 34px; color: var(--accent); font-size: 18px; font-weight: 700; }
+    .quote {
+      font-family: var(--font-display);
+      font-size: 62px;
+      line-height: 1.12;
+      max-width: 1390px;
+      letter-spacing: -.025em;
+    }
+    .rule { height: 1px; background: var(--line); width: 100%; }
+
+    /* === DIAGRAMS AND DATA GRAPHICS === */
+    .pipeline { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; align-items: stretch; margin-top: 58px; }
+    .pipeline .step { min-height: 266px; position: relative; padding: 34px 30px; border: 1px solid var(--line); border-radius: 18px; background: var(--paper-raised); }
+    .pipeline .step:not(:last-child)::after { content: "→"; position: absolute; right: -29px; top: 108px; color: var(--line-strong); font-size: 28px; z-index: 2; }
+    .step-index { font-size: 18px; color: var(--accent); font-weight: 700; margin-bottom: 46px; }
+    .step p { margin-top: 16px; font-size: 21px; line-height: 1.4; color: var(--muted); }
+    .bar-chart { display: grid; gap: 24px; }
+    .bar-row { display: grid; grid-template-columns: 180px 1fr 90px; gap: 20px; align-items: center; }
+    .bar-label { font-size: 22px; font-weight: 600; }
+    .bar-track { height: 16px; background: #e6e2d9; border-radius: 99px; overflow: hidden; }
+    .bar-fill { height: 100%; width: var(--value); background: var(--accent); border-radius: inherit; }
+    .bar-fill.warm-fill { background: var(--warm); }
+    .bar-value { font-size: 22px; text-align: right; font-variant-numeric: tabular-nums; }
+    .metric-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 18px; overflow: hidden; }
+    .metric-pair > div { background: var(--paper-raised); padding: 38px; }
+    .metric-pair .big { font-size: 86px; letter-spacing: -.055em; line-height: 1; margin-top: 24px; }
+    .metric-pair p { font-size: 21px; color: var(--muted); line-height: 1.45; margin-top: 16px; }
+    .formula { font-family: var(--font-display); font-size: 53px; padding: 34px 40px; border: 1px solid var(--line); background: var(--paper-raised); border-radius: 18px; }
+    .sample-frame { height: 508px; display: flex; align-items: center; justify-content: center; background: #eeeae0; border: 1px solid var(--line); border-radius: 20px; overflow: hidden; }
+    .sample-frame img { width: 100%; height: 100%; object-fit: contain; image-rendering: auto; }
+    .domains .card { min-height: 252px; display: flex; flex-direction: column; justify-content: space-between; }
+    .domain-mark { width: 54px; height: 54px; border-radius: 50%; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent); font-weight: 700; }
+    .validity-stack { display: grid; grid-template-columns: 1fr 64px 1fr; align-items: stretch; gap: 20px; }
+    .validity-stack .join { display: grid; place-items: center; color: var(--muted); font-size: 34px; }
+    .coverage-axis { position: relative; height: 300px; border-left: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); margin: 22px 32px 0 65px; }
+    .coverage-axis::before { content: "semantic validity"; position: absolute; left: -64px; top: 112px; transform: rotate(-90deg); color: var(--muted); font-size: 16px; }
+    .coverage-axis::after { content: "coverage and cost →"; position: absolute; right: 0; bottom: -34px; color: var(--muted); font-size: 16px; }
+    .dot { position: absolute; width: 20px; height: 20px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 8px rgba(28,102,84,.12); }
+    .dot::after { content: attr(data-label); position: absolute; left: 30px; top: -5px; white-space: nowrap; font-size: 16px; font-weight: 600; }
+
+    /* === TITLE AND CLOSING COMPOSITIONS === */
+    .title-slide .slide-shell { padding-top: 102px; }
+    .title-kicker { display: flex; align-items: center; gap: 16px; }
+    .title-kicker::before { content: ""; width: 42px; height: 2px; background: var(--accent); }
+    .title-slide h1 { margin-top: 78px; }
+    .title-slide .lead { margin-top: 38px; max-width: 760px; }
+    .title-index {
+      position: absolute;
+      right: 116px;
+      top: 104px;
+      width: 420px;
+      height: 420px;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+    }
+    .title-index::before, .title-index::after { content: ""; position: absolute; background: var(--line); }
+    .title-index::before { width: 1px; height: 100%; left: 50%; }
+    .title-index::after { height: 1px; width: 100%; top: 50%; }
+    .title-index span { position: absolute; width: 92px; height: 92px; border-radius: 50%; display: grid; place-items: center; background: var(--accent); color: white; font-size: 20px; left: 164px; top: 164px; }
+    .closing h2 { font-size: 98px; max-width: 1350px; }
+    .source-links { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-top: 44px; }
+    .source-links a { display: block; text-decoration: none; padding: 24px 28px; border: 1px solid var(--line); border-radius: 14px; background: var(--paper-raised); font-size: 19px; }
+
+    /* === MOTION === */
+    .reveal { opacity: 0; transform: translateY(22px); transition: opacity var(--duration) var(--ease-out), transform var(--duration) var(--ease-out); }
+    .slide.visible .reveal { opacity: 1; transform: translateY(0); }
+    .reveal:nth-child(1) { transition-delay: 70ms; }
+    .reveal:nth-child(2) { transition-delay: 140ms; }
+    .reveal:nth-child(3) { transition-delay: 210ms; }
+    .reveal:nth-child(4) { transition-delay: 280ms; }
+    .reveal:nth-child(5) { transition-delay: 350ms; }
+    .bar-fill { transform-origin: left center; transform: scaleX(0); transition: transform 900ms var(--ease-out) 220ms; }
+    .slide.visible .bar-fill { transform: scaleX(1); }
+
+    /* === VIEWPORT CHROME AND EDITOR === */
+    .deck-controls { display: flex; align-items: center; gap: 12px; padding: 9px 14px; border: 1px solid rgba(23,23,20,.15); border-radius: 99px; background: rgba(247,245,239,.88); backdrop-filter: blur(12px); color: var(--ink); box-shadow: 0 8px 28px rgba(23,23,20,.08); }
+    .deck-controls button { border: 0; width: 32px; height: 32px; border-radius: 50%; background: transparent; cursor: pointer; color: var(--ink); }
+    .deck-controls button:hover { background: rgba(23,23,20,.08); }
+    .counter { min-width: 58px; text-align: center; font-size: 13px; font-variant-numeric: tabular-nums; }
+    .progress { position: fixed; left: 0; bottom: 0; z-index: 1001; height: 3px; width: 100%; background: rgba(23,23,20,.08); }
+    .progress span { display: block; height: 100%; width: 0; background: var(--accent); transition: width 280ms var(--ease-out); }
+    .edit-hotzone { position: fixed; top: 0; left: 0; width: 80px; height: 80px; z-index: 10000; cursor: pointer; }
+    .edit-toggle { position: fixed; top: 18px; left: 18px; z-index: 10001; opacity: 0; pointer-events: none; transition: opacity .3s ease; border: 1px solid rgba(23,23,20,.16); border-radius: 99px; background: var(--paper-raised); color: var(--ink); padding: 10px 15px; box-shadow: 0 8px 28px rgba(23,23,20,.1); cursor: pointer; }
+    .edit-toggle.show, .edit-toggle.active { opacity: 1; pointer-events: auto; }
+    .export-toggle { position: fixed; top: 18px; left: 132px; z-index: 10001; opacity: 0; pointer-events: none; transition: opacity .3s ease; border: 1px solid rgba(23,23,20,.16); border-radius: 99px; background: var(--paper-raised); padding: 10px 15px; cursor: pointer; }
+    .editing .export-toggle { opacity: 1; pointer-events: auto; }
+    .editing [contenteditable="true"] { outline: 2px dashed rgba(28,102,84,.45); outline-offset: 7px; border-radius: 3px; }
+    .editing .deck-controls { opacity: .35; }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+  </style>
+</head>
+<body>
+  <!-- === ACCESSIBLE STATUS === -->
+  <div id="slideStatus" class="sr-only" aria-live="polite"></div>
+  <div class="deck-viewport">
+    <main class="deck-stage" id="deckStage" aria-label="RBT4DNN seminar presentation">
+
+      <!-- === 01 TITLE === -->
+      <section class="slide title-slide active" role="group" aria-roledescription="slide" aria-label="1 of 16: RBT4DNN">
+        <div class="slide-shell">
+          <div class="title-kicker eyebrow reveal">Independent seminar review + artifact study</div>
+          <h1 class="reveal" data-edit>RBT4DNN</h1>
+          <p class="lead reveal" data-edit>Requirements-based testing of neural networks</p>
+          <ul class="bullets reveal" style="max-width:850px">
+            <li data-edit>Natural-language requirements define the test target.</li>
+            <li data-edit>LoRA is the targeting mechanism.</li>
+            <li data-edit>Validity is the key critique.</li>
+          </ul>
+          <div class="title-index reveal" aria-hidden="true"><span>R → T</span></div>
+          <div class="spacer"></div>
+          <div class="slide-foot"><span>Requirements → targeted tests → evidence</span><span class="page-tag">01 / 16</span></div>
+        </div>
+      </section>
+
+      <!-- === 02 PROBLEM === -->
+      <section class="slide" role="group" aria-roledescription="slide" aria-label="2 of 16: Average accuracy hides requirement failures">
+        <div class="slide-shell">
+          <div class="slide-head"><p class="eyebrow reveal">Problem</p><h2 class="reveal" data-edit>Average accuracy hides requirement failures</h2></div>
+          <div class="split">
+            <p class="quote reveal" data-edit>“Works on average” is not the same as “works in this scenario.”</p>
+            <div class="number-list reveal">
+              <article class="card"><h3 data-edit>Benchmarks average</h3><p data-edit>Standard benchmarks answer the average case.</p></article>
+              <article class="card soft"><h3 data-edit>Requirements specify</h3><p data-edit>Requirements ask for specific scenario behavior.</p></article>
+              <article class="card"><h3 data-edit>Tests must qualify</h3><p data-edit>Synthetic tests are useful only when they hit the scenario.</p></article>
+            </div>
+          </div>
+          <div class="slide-foot"><span>Motivation</span><span class="page-tag">02 / 16</span></div>
+        </div>
+      </section>
+
+      <!-- === 03 STRUCTURED REQUIREMENT === -->
+      <section class="slide" role="group" aria-roledescription="slide" aria-label="3 of 16: Natural-language requirements become executable">
+        <div class="slide-shell">
+          <div class="slide-head"><p class="eyebrow reveal">Method</p><h2 class="reveal" data-edit>RBT4DNN makes natural-language requirements executable</h2></div>
+          <div class="grid-3" style="margin-top:58px">
+            <article class="card soft reveal"><p class="eyebrow">01</p><h3 data-edit>Precondition</h3><p data-edit>Which generated inputs count.</p></article>
+            <article class="card reveal"><p class="eyebrow">02</p><h3 data-edit>Postcondition</h3><p data-edit>What the model must do.</p></article>
+            <article class="card warm-card reveal"><p class="eyebrow">03</p><h3 data-edit>Glossary</h3><p data-edit>Maps language to visual properties.</p></article>
+          </div>
+          <p class="lead reveal" style="margin-top:46px" data-edit>The paper is about requirements-based testing with structured natural language—not generic data augmentation.</p>
+          <div class="spacer"></div><div class="slide-foot"><span>Original paper: Mozumder et al. (2025)</span><span class="page-tag">03 / 16</span></div>
+        </div>
+      </section>
+
+      <!-- === 04 PIPELINE === -->
+      <section class="slide" role="group" aria-roledescription="slide" aria-label="4 of 16: Requirement-to-test-data pipeline">
+        <div class="slide-shell">
+          <div class="slide-head"><p class="eyebrow reveal">Method</p><h2 class="reveal" data-edit>The method is a requirement-to-test-data pipeline</h2></div>
+          <div class="pipeline reveal" aria-label="Four-step pipeline">
+            <article class="step"><p class="step-index">01</p><h3>Specify</h3><p data-edit>Write the precondition, postcondition, and glossary.</p></article>
+            <article class="step"><p class="step-index">02</p><h3>Filter</h3><p data-edit>Filter seed examples by the requirement precondition.</p></article>
+            <article class="step"><p class="step-index">03</p><h3>Adapt</h3><p data-edit>Fine-tune one LoRA adapter for that requirement.</p></article>
+            <article class="step"><p class="step-index">04</p><h3>Test</h3><p data-edit>Generate tests, then check the model against the postcondition.</p></article>
+          </div>
+          <div class="spacer"></div><div class="slide-foot"><span>Independent reconstruction from the paper’s method</span><span class="page-tag">04 / 16</span></div>
+        </div>
+      </section>
+
+      <!-- === 05 LORA === -->
+      <section class="slide" role="group" aria-roledescription="slide" aria-label="5 of 16: LoRA targeting">
+        <div class="slide-shell">
+          <div class="slide-head"><p class="eyebrow reveal">Method</p><h2 class="reveal" data-edit>LoRA matters because prompting misses the target distribution</h2></div>
+          <div class="split">
+            <div class="reveal">
+              <div class="metric-pair">
+                <div><p class="eyebrow">Prompt only</p><div class="big warm">↗ drift</div><p data-edit>Scene style and camera distribution can change.</p></div>
+                <div><p class="eyebrow">Targeted LoRA</p><div class="big accent">◎ closer</div><p data-edit>Samples move toward the training scenario.</p></div>
+              </div>
+            </div>
+            <div class="reveal">
+              <p class="quote" data-edit>Better targeting—at the cost of one adapter per requirement.</p>
+              <p class="lead" style="margin-top:34px" data-edit>This improves targeting, but raises scalability questions.</p>
+            </div>
+          </div>
+          <div class="slide-foot"><span>Targeting quality ↔ operational cost</span><span class="page-tag">05 / 16</span></div>
+        </div>
+      </section>
+
+      <!-- === 06 DOMAINS === -->
+      <section class="slide" role="group" aria-roledescription="slide" aria-label="6 of 16: Four visual domains">
+        <div class="slide-shell">
+          <div class="slide-head"><p class="eyebrow reveal">Evidence</p><h2 class="reveal" data-edit>The paper evaluates four visual domains</h2></div>
+          <div class="grid-4 domains" style="margin-top:54px">
+            <article class="card reveal"><div class="domain-mark">M</div><div><h3>MNIST</h3><p data-edit>Simple and easy to audit.</p></div></article>
+            <article class="card reveal"><div class="domain-mark">S</div><div><h3>SGSM</h3><p data-edit>Scene-graph semantics expose validity.</p></div></article>
+            <article class="card reveal"><div class="domain-mark">C</div><div><h3>CelebA-HQ</h3><p data-edit>Attributes on natural images.</p></div></article>
+            <article class="card reveal"><div class="domain-mark">I</div><div><h3>ImageNet</h3><p data-edit>Broader object-domain behavior.</p></div></article>
+          </div>
+          <p class="lead reveal" style="margin-top:44px" data-edit>The evaluation is strongest when pass rate and precondition match are reported together.</p>
+          <div class="spacer"></div><div class="slide-foot"><span>No paper or dataset images republished</span><span class="page-tag">06 / 16</span></div>
+        </div>
+      </section>
+
+      <!-- === 07 REPLICATION === -->
+      <section class="slide" role="group" aria-roledescription="slide" aria-label="7 of 16: MNIST artifact comparison">
+        <div class="slide-shell">
+          <div class="slide-head"><p class="eyebrow reveal">Artifact comparison</p><h2 class="reveal" data-edit>The MNIST artifact reproduces the paper closely</h2></div>
+          <div class="split">
+            <div class="reveal">
+              <div class="metric-pair">
+                <div><p class="eyebrow">Requirements checked</p><div class="big">7</div><p>MNIST M1–M7</p></div>
+                <div><p class="eyebrow">Largest absolute delta</p><div class="big accent">0.013</div><p>Recorded local vs paper pass rate</p></div>
+              </div>
+              <p class="small" style="margin-top:22px">Artifact-level comparison of precomputed fields; no fresh LoRA training or full image reclassification.</p>
+            </div>
+            <div class="bar-chart reveal" aria-label="Absolute pass-rate deltas">
+              <div class="bar-row"><span class="bar-label">M1</span><div class="bar-track"><div class="bar-fill" style="--value:8%"></div></div><span class="bar-value">.001</span></div>
+              <div class="bar-row"><span class="bar-label">M2</span><div class="bar-track"><div class="bar-fill" style="--value:100%"></div></div><span class="bar-value">.013</span></div>
+              <div class="bar-row"><span class="bar-label">M3</span><div class="bar-track"><div class="bar-fill" style="--value:46%"></div></div><span class="bar-value">.006</span></div>
+              <div class="bar-row"><span class="bar-label">M4</span><div class="bar-track"><div class="bar-fill warm-fill" style="--value:92%"></div></div><span class="bar-value">.012</span></div>
+              <div class="bar-row"><span class="bar-label">M5–M7</span><div class="bar-track"><div class="bar-fill" style="--value:46%"></div></div><span class="bar-value">≤.006</span></div>
+            </div>
+          </div>
+          <div class="slide-foot"><span>experiments/replication/results.csv</span><span class="page-tag">07 / 16</span></div>
+        </div>
+      </section>
+
+      <!-- === 08 OFF TARGET === -->
+      <section class="slide" role="group" aria-roledescription="slide" aria-label="8 of 16: Off-target generation">
+        <div class="slide-shell">
+          <div class="slide-head"><p class="eyebrow reveal">Validity gap</p><h2 class="reveal" data-edit>Off-target generation can make a weak test look strong</h2></div>
+          <div class="grid-2" style="margin-top:52px">
+            <article class="card soft reveal"><p class="eyebrow">Targeted LoRA · M3</p><div class="grid-2" style="margin-top:26px"><div><div class="metric">69.4%</div><p>pass rate</p></div><div><div class="metric accent">95.8%</div><p>precondition match</p></div></div><p data-edit>Lower pass rate, but generated tests mostly match the target.</p></article>
+            <article class="card warm-card reveal"><p class="eyebrow">All-data generator · M3</p><div class="grid-2" style="margin-top:26px"><div><div class="metric">99.6%</div><p>pass rate</p></div><div><div class="metric warm">7.4%</div><p>precondition match</p></div></div><p data-edit>High pass rate, but almost no matching thick 7s.</p></article>
+          </div>
+          <p class="quote reveal" style="margin-top:46px" data-edit>Pass rate alone can be misleading.</p>
+          <div class="spacer"></div><div class="slide-foot"><span>Aggregate paper metrics joined in the seminar analysis</span><span class="page-tag">08 / 16</span></div>
+        </div>
+      </section>
+
+      <!-- === 09 VALID FAILURE === -->
+      <section class="slide" role="group" aria-roledescription="slide" aria-label="9 of 16: Valid-failure yield">
+        <div class="slide-shell">
+          <div class="slide-head"><p class="eyebrow reveal">Replication lens</p><h2 class="reveal" data-edit>Valid-failure yield is the better comparison metric</h2></div>
+          <div class="split">
+            <div class="reveal"><div class="formula"><span class="accent">precondition match</span> × (1 − pass rate)</div><ul class="bullets"><li data-edit>Combines valid precondition match and postcondition failure.</li><li data-edit>Ranks requirements by useful failures, not just generated images.</li></ul></div>
+            <div class="bar-chart reveal" aria-label="Estimated valid-failure rate">
+              <div class="bar-row"><span class="bar-label">SGSM S2</span><div class="bar-track"><div class="bar-fill" style="--value:100%"></div></div><span class="bar-value">73.6%</span></div>
+              <div class="bar-row"><span class="bar-label">MNIST M3</span><div class="bar-track"><div class="bar-fill" style="--value:40%"></div></div><span class="bar-value">29.3%</span></div>
+              <div class="bar-row"><span class="bar-label">SGSM S1</span><div class="bar-track"><div class="bar-fill" style="--value:36%"></div></div><span class="bar-value">26.3%</span></div>
+              <div class="bar-row"><span class="bar-label">CelebA C6</span><div class="bar-track"><div class="bar-fill warm-fill" style="--value:27%"></div></div><span class="bar-value">20.0%</span></div>
+            </div>
+          </div>
+          <div class="slide-foot"><span>Aggregate estimate, not observed joint labels · experiments/precondition-validity</span><span class="page-tag">09 / 16</span></div>
+        </div>
+      </section>
+
+      <!-- === 10 COST === -->
+      <section class="slide" role="group" aria-roledescription="slide" aria-label="10 of 16: Cost per valid failure">
+        <div class="slide-shell">
+          <div class="slide-head"><p class="eyebrow reveal">Prioritization</p><h2 class="reveal" data-edit>Cost per valid failure changes which tests look attractive</h2></div>
+          <div class="split">
+            <div class="bar-chart reveal" aria-label="Illustrative dollars per estimated valid failure">
+              <div class="bar-row"><span class="bar-label">SGSM S2</span><div class="bar-track"><div class="bar-fill" style="--value:17%"></div></div><span class="bar-value">$0.05</span></div>
+              <div class="bar-row"><span class="bar-label">MNIST M3</span><div class="bar-track"><div class="bar-fill" style="--value:40%"></div></div><span class="bar-value">$0.12</span></div>
+              <div class="bar-row"><span class="bar-label">SGSM S1</span><div class="bar-track"><div class="bar-fill" style="--value:47%"></div></div><span class="bar-value">$0.14</span></div>
+              <div class="bar-row"><span class="bar-label">CelebA C6</span><div class="bar-track"><div class="bar-fill warm-fill" style="--value:60%"></div></div><span class="bar-value">$0.18</span></div>
+              <div class="bar-row"><span class="bar-label">CelebA C2</span><div class="bar-track"><div class="bar-fill warm-fill" style="--value:100%"></div></div><span class="bar-value">$0.30</span></div>
+            </div>
+            <div class="reveal"><p class="quote" data-edit>Cheap generation is not enough. Valid failures are the useful unit.</p><ul class="bullets"><li data-edit>Dollar values are illustrative.</li><li data-edit>The comparison is still useful for prioritization.</li></ul></div>
+          </div>
+          <div class="slide-foot"><span>Illustrative assumptions · experiments/cost-analysis</span><span class="page-tag">10 / 16</span></div>
+        </div>
+      </section>
+
+      <!-- === 11 MNIST SHARED GENERATOR === -->
+      <section class="slide" role="group" aria-roledescription="slide" aria-label="11 of 16: Shared generator on MNIST">
+        <div class="slide-shell">
+          <div class="slide-head"><p class="eyebrow reveal">Extension experiment</p><h2 class="reveal" data-edit>A shared generator works on MNIST but weakens on natural images</h2></div>
+          <div class="split">
+            <figure class="sample-frame reveal"><img src="assets/mnist-shared-generator-samples.png" alt="Grid of MNIST digits generated by the seminar project's shared conditional VAE"></figure>
+            <div class="reveal"><div class="metric-pair"><div><p class="eyebrow">Shared VAE</p><div class="big accent">.945</div><p>mean pass rate</p></div><div><p class="eyebrow">Paper LoRA</p><div class="big">.942</div><p>reference mean</p></div></div><ul class="bullets"><li data-edit>MNIST shared VAE is close to paper LoRA.</li><li data-edit>But MNIST is the easy case.</li></ul></div>
+          </div>
+          <div class="slide-foot"><span>3 seeds · no exact training-image matches · generated sample grid</span><span class="page-tag">11 / 16</span></div>
+        </div>
+      </section>
+
+      <!-- === 12 CELEBA === -->
+      <section class="slide" role="group" aria-roledescription="slide" aria-label="12 of 16: Shared generator on CelebA-HQ">
+        <div class="slide-shell">
+          <div class="slide-head"><p class="eyebrow reveal">Extension experiment</p><h2 class="reveal" data-edit>CelebA shows why shared generation is risky</h2></div>
+          <div class="split">
+            <div class="reveal"><p class="quote" data-edit>Classifier validation is only <span class="warm">0.636</span>.</p><p class="lead" style="margin-top:34px" data-edit>This is a caution signal rather than a final benchmark.</p><div class="card warm-card" style="margin-top:36px"><p class="eyebrow">Generated-image alignment</p><div class="metric">0.613</div><p>Top-1 requirement-classifier alignment</p></div></div>
+            <figure class="sample-frame reveal"><img src="assets/celeba-shared-generator-samples.png" alt="Grid of natural-image samples generated by the seminar project's shared conditional VAE"></figure>
+          </div>
+          <div class="slide-foot"><span>1 seed · weak evaluator · generated sample grid</span><span class="page-tag">12 / 16</span></div>
+        </div>
+      </section>
+
+      <!-- === 13 VALIDITY CHECKS === -->
+      <section class="slide" role="group" aria-roledescription="slide" aria-label="13 of 16: Independent validity checks">
+        <div class="slide-shell">
+          <div class="slide-head"><p class="eyebrow reveal">Critique</p><h2 class="reveal" data-edit>Generated images need independent validity checks</h2></div>
+          <div class="validity-stack" style="margin-top:54px">
+            <article class="card reveal"><p class="eyebrow">Model-side check</p><div class="metric">Classifier</div><p data-edit>Can be circular when the evaluator shares the tested model’s assumptions.</p></article>
+            <div class="join reveal">+</div>
+            <article class="card soft reveal"><p class="eyebrow">Semantic check</p><div class="metric accent">External judgment</div><p data-edit>LLM audit highlights risk, but is not ground truth.</p></article>
+          </div>
+          <div class="grid-2" style="margin-top:28px"><div class="card reveal"><p class="eyebrow">Small audit</p><div class="metric">42 / 42</div><p>completed samples; 0.738 judged valid</p></div><div class="card warm-card reveal"><p class="eyebrow">Stronger replication</p><div class="metric">Human agreement</div><p data-edit>Report agreement for generated-input validity labels.</p></div></div>
+          <div class="spacer"></div><div class="slide-foot"><span>Small external LLM audit; not ground truth</span><span class="page-tag">13 / 16</span></div>
+        </div>
+      </section>
+
+      <!-- === 14 HUMAN SEMANTICS === -->
+      <section class="slide" role="group" aria-roledescription="slide" aria-label="14 of 16: Human semantic work">
+        <div class="slide-shell">
+          <div class="slide-head"><p class="eyebrow reveal">Critique</p><h2 class="reveal" data-edit>The hardest part is still human semantic work</h2></div>
+          <div class="grid-4" style="margin-top:56px">
+            <article class="card reveal"><p class="eyebrow">01</p><h3 data-edit>Requirements</h3><p data-edit>Humans decide which behavior matters.</p></article>
+            <article class="card reveal"><p class="eyebrow">02</p><h3 data-edit>Glossaries</h3><p data-edit>Language is mapped to visual properties.</p></article>
+            <article class="card reveal"><p class="eyebrow">03</p><h3 data-edit>Label rules</h3><p data-edit>Ambiguity becomes test-data ambiguity.</p></article>
+            <article class="card warm-card reveal"><p class="eyebrow">04</p><h3 data-edit>Agreement</h3><p data-edit>Validators may disagree on precondition satisfaction.</p></article>
+          </div>
+          <p class="quote reveal" style="margin-top:48px" data-edit>RBT4DNN is only as strong as its semantic layer.</p>
+          <div class="spacer"></div><div class="slide-foot"><span>Reproducibility and industrial scale depend on semantic rigor</span><span class="page-tag">14 / 16</span></div>
+        </div>
+      </section>
+
+      <!-- === 15 FUTURE STUDY === -->
+      <section class="slide" role="group" aria-roledescription="slide" aria-label="15 of 16: Stronger replication">
+        <div class="slide-shell">
+          <div class="slide-head"><p class="eyebrow reveal">Future study</p><h2 class="reveal" data-edit>A stronger replication should test validity, cost, and coverage together</h2></div>
+          <div class="split">
+            <div class="number-list reveal">
+              <article class="card"><h3 data-edit>Compare generators</h3><p data-edit>Per-requirement LoRA, shared generator, prompt-only, and retrieved real data.</p></article>
+              <article class="card"><h3 data-edit>Report four metrics</h3><p data-edit>Precondition validity, pass rate, valid-failure yield, and cost per useful failure.</p></article>
+              <article class="card"><h3 data-edit>Add agreement</h3><p data-edit>Human validity labels in harder semantic domains.</p></article>
+            </div>
+            <div class="coverage-axis reveal" aria-label="Conceptual chart of validity, coverage, and cost">
+              <span class="dot" style="left:18%;bottom:21%" data-label="prompt-only"></span>
+              <span class="dot" style="left:45%;bottom:42%" data-label="shared generator"></span>
+              <span class="dot" style="left:68%;bottom:70%" data-label="targeted LoRA"></span>
+              <span class="dot" style="left:82%;bottom:84%;background:var(--warm)" data-label="goal: triangulated evidence"></span>
+            </div>
+          </div>
+          <div class="slide-foot"><span>Proposed replication design</span><span class="page-tag">15 / 16</span></div>
+        </div>
+      </section>
+
+      <!-- === 16 TAKEAWAY AND SOURCES === -->
+      <section class="slide closing" role="group" aria-roledescription="slide" aria-label="16 of 16: Takeaway and sources">
+        <div class="slide-shell">
+          <div class="slide-head"><p class="eyebrow reveal">Takeaway</p><h2 class="reveal" data-edit>RBT4DNN is useful if <span class="accent">validity</span> becomes the main result</h2></div>
+          <div class="grid-3" style="margin-top:42px">
+            <article class="card reveal"><h3 data-edit>Language</h3><p data-edit>The core idea is structured natural-language testing.</p></article>
+            <article class="card reveal"><h3 data-edit>Targeting</h3><p data-edit>LoRA is the practical mechanism for targeted generation.</p></article>
+            <article class="card warm-card reveal"><h3 data-edit>Validity</h3><p data-edit>Labels, glossaries, and generated-input checks are the strongest critique.</p></article>
+          </div>
+          <p class="quote reveal" style="font-size:42px;margin-top:36px" data-edit>Discussion: is this natural-language testing, or glossary-based test generation?</p>
+          <div class="source-links reveal" aria-label="Primary sources">
+            <a href="https://arxiv.org/abs/2504.02737">Original paper · arXiv:2504.02737</a>
+            <a href="https://github.com/less-lab-uva/RBT4DNN">Original artifact · less-lab-uva/RBT4DNN</a>
+          </div>
+          <div class="spacer"></div><div class="slide-foot"><span>Independent seminar study · not affiliated with the original authors</span><span class="page-tag">16 / 16</span></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- === PRESENTATION CONTROLS: outside the fixed stage === -->
+  <nav class="deck-controls" aria-label="Presentation controls">
+    <button id="previousSlide" type="button" aria-label="Previous slide">←</button>
+    <span class="counter" id="slideCounter">1 / 16</span>
+    <button id="nextSlide" type="button" aria-label="Next slide">→</button>
+  </nav>
+  <div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
+
+  <!-- === INLINE EDITING CONTROLS === -->
+  <div class="edit-hotzone" title="Edit mode (E)" aria-hidden="true"></div>
+  <button class="edit-toggle" id="editToggle" type="button" title="Edit mode (E)">Edit</button>
+  <button class="export-toggle" id="exportToggle" type="button" title="Export edited HTML">Export HTML</button>
+
+  <script>
+    /* === FIXED-STAGE PRESENTATION CONTROLLER === */
+    class SlidePresentation {
+      constructor() {
+        this.slides = [...document.querySelectorAll('.slide')];
+        this.stage = document.getElementById('deckStage');
+        this.currentSlide = 0;
+        this.wheelLocked = false;
+        this.touchStartX = 0;
+        this.touchStartY = 0;
+        this.setupStageScale();
+        this.setupNavigation();
+        this.showSlide(this.indexFromHash());
+      }
+
+      indexFromHash() {
+        const value = Number.parseInt(location.hash.replace('#', ''), 10);
+        return Number.isFinite(value) ? value - 1 : 0;
+      }
+
+      setupStageScale() {
+        const scale = () => {
+          const factor = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+          const x = (window.innerWidth - 1920 * factor) / 2;
+          const y = (window.innerHeight - 1080 * factor) / 2;
+          this.stage.style.transform = `translate(${x}px, ${y}px) scale(${factor})`;
+        };
+        scale();
+        window.addEventListener('resize', scale);
+      }
+
+      setupNavigation() {
+        document.getElementById('previousSlide').addEventListener('click', () => this.previous());
+        document.getElementById('nextSlide').addEventListener('click', () => this.next());
+        document.addEventListener('keydown', event => {
+          if (document.body.classList.contains('editing') || event.target.isContentEditable) return;
+          if (['ArrowRight', 'ArrowDown', ' ', 'PageDown'].includes(event.key)) { event.preventDefault(); this.next(); }
+          if (['ArrowLeft', 'ArrowUp', 'PageUp'].includes(event.key)) { event.preventDefault(); this.previous(); }
+          if (event.key === 'Home') { event.preventDefault(); this.showSlide(0); }
+          if (event.key === 'End') { event.preventDefault(); this.showSlide(this.slides.length - 1); }
+        });
+        window.addEventListener('hashchange', () => this.showSlide(this.indexFromHash(), false));
+        window.addEventListener('wheel', event => {
+          if (document.body.classList.contains('editing') || this.wheelLocked || Math.abs(event.deltaY) < 20) return;
+          this.wheelLocked = true;
+          event.deltaY > 0 ? this.next() : this.previous();
+          window.setTimeout(() => { this.wheelLocked = false; }, 520);
+        }, { passive: true });
+        window.addEventListener('touchstart', event => {
+          this.touchStartX = event.changedTouches[0].clientX;
+          this.touchStartY = event.changedTouches[0].clientY;
+        }, { passive: true });
+        window.addEventListener('touchend', event => {
+          if (document.body.classList.contains('editing')) return;
+          const dx = event.changedTouches[0].clientX - this.touchStartX;
+          const dy = event.changedTouches[0].clientY - this.touchStartY;
+          if (Math.abs(dx) > 48 && Math.abs(dx) > Math.abs(dy)) dx < 0 ? this.next() : this.previous();
+        }, { passive: true });
+      }
+
+      next() { this.showSlide(this.currentSlide + 1); }
+      previous() { this.showSlide(this.currentSlide - 1); }
+
+      showSlide(index, updateHash = true) {
+        this.currentSlide = Math.max(0, Math.min(index, this.slides.length - 1));
+        this.slides.forEach((slide, slideIndex) => {
+          const visible = slideIndex === this.currentSlide;
+          slide.classList.toggle('active', visible);
+          slide.classList.toggle('visible', visible);
+          slide.setAttribute('aria-hidden', String(!visible));
+        });
+        const number = this.currentSlide + 1;
+        document.getElementById('slideCounter').textContent = `${number} / ${this.slides.length}`;
+        document.getElementById('progressBar').style.width = `${number / this.slides.length * 100}%`;
+        document.getElementById('slideStatus').textContent = this.slides[this.currentSlide].getAttribute('aria-label');
+        if (updateHash) history.replaceState(null, '', `#${number}`);
+      }
+    }
+
+    /* === LOCAL INLINE EDITOR === */
+    class InlineEditor {
+      constructor() {
+        this.isActive = false;
+        this.storageKey = 'rbt4dnn-seminar-slide-edits-v1';
+        this.nodes = [...document.querySelectorAll('[data-edit]')];
+        this.nodes.forEach((node, index) => node.dataset.editId = `edit-${index + 1}`);
+        this.restore();
+      }
+
+      toggleEditMode() {
+        this.isActive = !this.isActive;
+        document.body.classList.toggle('editing', this.isActive);
+        document.getElementById('editToggle').classList.toggle('active', this.isActive);
+        document.getElementById('editToggle').textContent = this.isActive ? 'Done' : 'Edit';
+        this.nodes.forEach(node => node.setAttribute('contenteditable', String(this.isActive)));
+        if (!this.isActive) this.save();
+      }
+
+      save() {
+        const edits = Object.fromEntries(this.nodes.map(node => [node.dataset.editId, node.innerHTML]));
+        localStorage.setItem(this.storageKey, JSON.stringify(edits));
+      }
+
+      restore() {
+        try {
+          const edits = JSON.parse(localStorage.getItem(this.storageKey) || '{}');
+          this.nodes.forEach(node => { if (edits[node.dataset.editId] !== undefined) node.innerHTML = edits[node.dataset.editId]; });
+        } catch (error) { console.warn('Could not restore slide edits.', error); }
+      }
+
+      exportHtml() {
+        this.save();
+        const clone = document.documentElement.cloneNode(true);
+        clone.querySelectorAll('[contenteditable]').forEach(node => node.setAttribute('contenteditable', 'false'));
+        clone.querySelector('body').classList.remove('editing');
+        const blob = new Blob(['<!doctype html>\n' + clone.outerHTML], { type: 'text/html' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'rbt4dnn-edited.html';
+        link.click();
+        window.setTimeout(() => URL.revokeObjectURL(link.href), 1000);
+      }
+    }
+
+    const presentation = new SlidePresentation();
+    const editor = new InlineEditor();
+
+    /* === EDITOR INTERACTIONS: hotzone, keyboard, autosave, export === */
+    const hotzone = document.querySelector('.edit-hotzone');
+    const editToggle = document.getElementById('editToggle');
+    let hideTimeout = null;
+    hotzone.addEventListener('mouseenter', () => { clearTimeout(hideTimeout); editToggle.classList.add('show'); });
+    hotzone.addEventListener('mouseleave', () => { hideTimeout = setTimeout(() => { if (!editor.isActive) editToggle.classList.remove('show'); }, 400); });
+    editToggle.addEventListener('mouseenter', () => clearTimeout(hideTimeout));
+    editToggle.addEventListener('mouseleave', () => { hideTimeout = setTimeout(() => { if (!editor.isActive) editToggle.classList.remove('show'); }, 400); });
+    editToggle.addEventListener('click', () => editor.toggleEditMode());
+    hotzone.addEventListener('click', () => editor.toggleEditMode());
+    document.getElementById('exportToggle').addEventListener('click', () => editor.exportHtml());
+    document.addEventListener('input', event => { if (event.target.matches('[data-edit]')) editor.save(); });
+    document.addEventListener('keydown', event => {
+      if ((event.key === 'e' || event.key === 'E') && !event.target.isContentEditable) editor.toggleEditMode();
+      if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 's' && editor.isActive) { event.preventDefault(); editor.save(); }
+    });
+  </script>
+</body>
+</html>

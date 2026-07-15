@@ -24,7 +24,7 @@ seminar:
 | MNIST LoRA ablation | Original comparison logic applied to the paper's aggregate ablation measurements; no new LoRAs are trained. |
 | LLM validity audit | An original, small external semantic audit of a fixed sample of upstream-generated images. It is not ground truth. |
 | Shared-generator experiments | Original exploratory VAE baselines trained on upstream-generated samples for MNIST and CelebA-HQ. They are not replications of the paper's FLUX/LoRA method. |
-| Review, paper, and presentation | Independent authored synthesis and critique for the seminar. HTML slide source and manuscript source are added when reviewed. |
+| Review, paper, and presentation | Independent authored synthesis and critique for the seminar. The HTML slide source is included; manuscript source is added when reviewed. |
 
 The main observations are therefore not all replication results. The artifact comparison found a
 largest MNIST pass-rate difference of `0.013` between its recorded fields and the paper reference.
@@ -44,8 +44,8 @@ individual summaries before interpreting these figures.
 - [`data/`](data/) — the authored aggregate table plus provenance and checksum manifests; the
   upstream image corpus is restored locally and remains ignored.
 - [`references/`](references/) — stable citations and provenance notes instead of copied papers.
-- `slides/` — source for the HTML presentation once published; the deployed project URL is
-  <https://casparbreloh.github.io/rbt4dnn-seminar/>.
+- [`slides/`](slides/) — source and independently generated assets for the HTML presentation;
+  the planned GitHub Pages project URL is <https://casparbreloh.github.io/rbt4dnn-seminar/>.
 - `paper/` — reviewed manuscript source once published.
 
 Private working notes, local reference PDFs, downloaded images, environments, caches, and
