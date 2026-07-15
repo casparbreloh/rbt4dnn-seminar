@@ -33,6 +33,24 @@ uv sync
 uv run python scripts/reproduce.py
 ```
 
+This lightweight command is metadata-only: it rebuilds summaries from the committed CSV
+and paper-result fields and does not classify the image corpus. In particular, the replication
+table copies the precomputed local pass-rate fields from `data/requirements.csv`; it is a
+comparison of recorded artifact results, not a fresh image re-evaluation.
+
+The image-dependent audit, training baselines, and direct MNIST evaluation require the exact
+upstream corpus. Verify an existing checkout or restore it from the pinned upstream GitHub
+revision:
+
+```bash
+uv run python scripts/fetch_data.py --verify
+uv run python scripts/fetch_data.py
+```
+
+The manifest records all 14,500 local paths, sizes, SHA-256 hashes, and upstream mappings.
+The fetcher downloads directly from the authors' public repository; this project does not
+repackage or grant redistribution rights to those images.
+
 Run the training experiments too:
 
 ```bash

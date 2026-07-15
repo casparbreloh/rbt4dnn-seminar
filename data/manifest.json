@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "description": "Exact generated-image subset copied from the public RBT4DNN artifact; provenance metadata only, not a redistribution grant.",
+  "source": {
+    "repository": "https://github.com/less-lab-uva/RBT4DNN",
+    "commit": "c3deff871ed41043d83a05289faab84c41706586",
+    "archive_url": "https://codeload.github.com/less-lab-uva/RBT4DNN/tar.gz/c3deff871ed41043d83a05289faab84c41706586",
+    "archive_root": "RBT4DNN-c3deff871ed41043d83a05289faab84c41706586",
+    "upstream_prefix": "data/images_from_loras",
+    "license_note": "No upstream repository license was found during the publication audit. Fetch directly from the authors' public artifact; do not repackage or redistribute without permission. CelebA-family restrictions may also apply."
+  },
+  "datasets": {
+    "celeba-hq": {"file_count": 700},
+    "imagenet": {"file_count": 400},
+    "mnist": {"file_count": 12700},
+    "sgsm": {"file_count": 700}
+  },
+  "file_count": 14500,
+  "checksum_sidecar": "manifest-files.tsv",
+  "execution_paths": {
+    "scripts/reproduce.py": "metadata-only by default; --training and --llm are corpus-required",
+    "experiments/replication/notebook.ipynb": "metadata-only; compares precomputed CSV fields and does not classify images",
+    "experiments/precondition-validity/notebook.ipynb": "metadata-only",
+    "experiments/mnist-lora-ablation/notebook.ipynb": "metadata-only",
+    "experiments/cost-analysis/notebook.ipynb": "metadata-only",
+    "experiments/llm-validity-audit/notebook.ipynb": "corpus-required: mnist, celeba-hq, sgsm",
+    "experiments/mnist-shared-generator/notebook.ipynb": "corpus-required: mnist",
+    "experiments/celeba-shared-generator/notebook.ipynb": "corpus-required: celeba-hq",
+    "src/mnist.py:evaluate_mnist_images": "corpus-required: mnist"
+  }
+}

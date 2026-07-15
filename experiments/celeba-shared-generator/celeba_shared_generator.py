@@ -14,7 +14,7 @@ from torch.utils.data import DataLoader, Dataset, Subset
 from torchvision import transforms
 from torchvision.utils import make_grid, save_image
 
-from shared import CsvRow, find_repo_root, write_csv, write_text
+from shared import CsvRow, find_repo_root, validate_image_corpus, write_csv, write_text
 
 REQUIREMENTS = ["C1", "C2", "C3", "C4", "C5", "C6", "C7"]
 DEFAULT_SEEDS = [7]
@@ -590,6 +590,7 @@ def train_and_evaluate(
     seeds: list[int] | None = None,
 ) -> list[Path]:
     root = find_repo_root(root)
+    validate_image_corpus(root, ["celeba-hq"])
     config = config or TrainConfig()
     seeds = seeds or DEFAULT_SEEDS
     seed_rows: list[CsvRow] = []

@@ -1,8 +1,8 @@
 # Replication Summary
 
-**Question:** Do the copied MNIST generated images reproduce the paper's reported classifier pass rates closely enough to use them as a stable artifact?
+**Question:** How close are the copied, precomputed MNIST pass-rate values to the paper's reported classifier pass rates?
 
-**Method:** Re-evaluate the copied generated images with the same MNIST target-label requirements and compare local pass rates with the paper reference.
+**Method:** Copy the precomputed local pass-rate fields from `data/requirements.csv` and compare them with the paper reference fields. This command does not classify images.
 
 **Result:** Rows checked: `7`. Largest absolute delta versus the paper reference: `0.013`.
 

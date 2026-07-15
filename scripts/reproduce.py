@@ -90,6 +90,17 @@ def main() -> None:
     root = find_root()
     add_paths(root)
 
+    # Corpus-required modes validate all inputs before any experiment can rewrite outputs.
+    required_datasets: set[str] = set()
+    if args.training:
+        required_datasets.update({"mnist", "celeba-hq"})
+    if args.llm:
+        required_datasets.update({"mnist", "celeba-hq", "sgsm"})
+    if required_datasets:
+        from shared import validate_image_corpus
+
+        validate_image_corpus(root, required_datasets)
+
     written: list[Path] = []
     for name in EXPERIMENTS:
         written.extend(EXPERIMENTS[name](root))

@@ -15,7 +15,7 @@ from torchvision import transforms
 from torchvision.utils import make_grid, save_image
 
 from mnist import PAPER, evaluate_mnist_folders
-from shared import CsvRow, find_repo_root, write_csv, write_text
+from shared import CsvRow, find_repo_root, validate_image_corpus, write_csv, write_text
 
 REQUIREMENTS = ["M1", "M2", "M3", "M4", "M5", "M6"]
 RESULT_FIELDS = [
@@ -454,6 +454,7 @@ def train_and_evaluate(
     seeds: list[int] | None = None,
 ) -> list[Path]:
     root = find_repo_root(root)
+    validate_image_corpus(root, ["mnist"])
     config = config or TrainConfig()
     seeds = seeds or DEFAULT_SEEDS
     seed_rows: list[CsvRow] = []

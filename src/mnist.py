@@ -3,7 +3,15 @@ from __future__ import annotations
 from pathlib import Path
 from typing import TypedDict
 
-from shared import CsvRow, find_repo_root, read_csv_rows, requirements_csv, write_csv, write_text
+from shared import (
+    CsvRow,
+    find_repo_root,
+    read_csv_rows,
+    requirements_csv,
+    validate_image_corpus,
+    write_csv,
+    write_text,
+)
 
 TARGET = {
     "M1": 2,
@@ -80,11 +88,12 @@ def replication_summary(rows: list[CsvRow]) -> str:
     lines = [
         "# Replication Summary",
         "",
-        "**Question:** Do the copied MNIST generated images reproduce the paper's reported "
-        "classifier pass rates closely enough to use them as a stable artifact?",
+        "**Question:** How close are the copied, precomputed MNIST pass-rate values to the "
+        "paper's reported classifier pass rates?",
         "",
-        "**Method:** Re-evaluate the copied generated images with the same MNIST target-label "
-        "requirements and compare local pass rates with the paper reference.",
+        "**Method:** Copy the precomputed local pass-rate fields from `data/requirements.csv` "
+        "and compare them with the paper reference fields. This command does not classify "
+        "images.",
         "",
         f"**Result:** Rows checked: `{len(rows)}`. Largest absolute delta versus the paper "
         f"reference: `{max_delta:.3f}`.",
@@ -109,6 +118,7 @@ def evaluate_mnist_images(
     variants: list[str] | None = None,
 ) -> list[EvaluationRow]:
     root = find_repo_root(root)
+    validate_image_corpus(root, ["mnist"])
     base = root / "data" / "images" / "mnist"
     selected_variants = variants or ["", "Allreq_", "Alldata_"]
     folders = {

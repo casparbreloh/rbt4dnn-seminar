@@ -10,7 +10,15 @@ import urllib.request
 from pathlib import Path
 from statistics import mean
 
-from shared import CsvRow, find_repo_root, image_folder, requirement_rows, write_csv, write_text
+from shared import (
+    CsvRow,
+    find_repo_root,
+    image_folder,
+    requirement_rows,
+    validate_image_corpus,
+    write_csv,
+    write_text,
+)
 
 DATASETS = ["mnist", "celeba-hq", "sgsm"]
 DEFAULT_MODEL = "google/gemini-3-flash-preview"
@@ -58,6 +66,7 @@ def select_samples(
 ) -> list[CsvRow]:
     root = find_repo_root(root)
     selected_datasets = set(datasets or DATASETS)
+    validate_image_corpus(root, selected_datasets)
     rows: list[CsvRow] = []
     for row in requirement_rows(root):
         if row["dataset"] not in selected_datasets or row["method"] != "lr":
