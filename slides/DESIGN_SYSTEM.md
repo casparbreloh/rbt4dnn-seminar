@@ -55,6 +55,8 @@ Every slide and the surrounding letterbox use the same cream paper canvas. Blue 
 signals inside diagrams and metrics, never alternate slide themes. Rounded rectangles, shadows,
 badges, nested panels, and decorative gradients are excluded from the slide system. The small
 navigation and editing controls sit outside the authored stage and are not presentation content.
+Headers and footers use one fixed baseline across the deck; headers never animate or draw a
+separator rule.
 
 ## Editing rules
 
