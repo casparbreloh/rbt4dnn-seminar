@@ -1,0 +1,49 @@
+cff-version: 1.2.0
+message: >-
+  If you use this seminar artifact, please cite this project and the original
+  RBT4DNN paper.
+title: >-
+  Requirements-based Testing of Neural Networks: Independent Seminar Review,
+  Artifact Check, and Extensions
+type: software
+authors:
+  - family-names: Breloh
+    given-names: Caspar
+repository-code: https://github.com/casparbreloh/rbt4dnn-seminar
+url: https://casparbreloh.github.io/rbt4dnn-seminar/
+abstract: >-
+  An independent seminar review of RBT4DNN with a reproducible artifact check,
+  secondary analyses, and exploratory shared-generator and semantic-validity
+  extensions. This repository is not the original RBT4DNN artifact.
+keywords:
+  - deep neural network testing
+  - requirements-based testing
+  - test generation
+  - reproducibility
+license: MIT
+references:
+  - type: article
+    title: "rbt4dnn: Requirements-based Testing of Neural Networks"
+    authors:
+      - family-names: Mozumder
+        given-names: Nusrat Jahan
+      - family-names: Toledo
+        given-names: Felipe
+      - family-names: Dola
+        given-names: Swaroopa
+      - family-names: Dwyer
+        given-names: Matthew B.
+    year: 2025
+    url: https://arxiv.org/abs/2504.02737
+  - type: software
+    title: RBT4DNN original artifact
+    authors:
+      - family-names: Mozumder
+        given-names: Nusrat Jahan
+      - family-names: Toledo
+        given-names: Felipe
+      - family-names: Dola
+        given-names: Swaroopa
+      - family-names: Dwyer
+        given-names: Matthew B.
+    repository-code: https://github.com/less-lab-uva/RBT4DNN
