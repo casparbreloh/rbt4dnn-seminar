@@ -115,6 +115,8 @@ def check_slides() -> None:
     targets = parser.local_targets
     targets += re.findall(r"url\(['\"]?([^)'\"]+)", html)
     for target in targets:
+        if target.startswith("#"):
+            continue
         parsed = urlparse(target)
         if parsed.scheme == "data":
             continue

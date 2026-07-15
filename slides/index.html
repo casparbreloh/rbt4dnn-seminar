@@ -11,7 +11,7 @@
   <style>
     /* === DESIGN TOKENS: the entire visual system starts here === */
     :root {
-      --stage-bg: #d9d7d0;
+      --stage-bg: #f4f1e9;
       --slide-bg: #f4f1e9;
       --cream: #f4f1e9;
       --paper: #fbfaf6;
@@ -286,7 +286,36 @@
     .dot { position: absolute; width: 16px; height: 16px; background: var(--blue); border-radius: 50%; }
     .dot::after { content: attr(data-label); position: absolute; left: 28px; top: -4px; white-space: nowrap; font-family: var(--font-mono); font-size: 14px; }
 
-    /* === PRIMITIVE 5: FIGURES === */
+    /* === PRIMITIVE 5: EXPLANATORY DIAGRAMS === */
+    .diagram { width: 100%; height: 520px; overflow: visible; }
+    .diagram text { font-family: var(--font-sans); fill: var(--ink); }
+    .diagram .d-label { font-size: 25px; font-weight: 520; letter-spacing: -.02em; }
+    .diagram .d-micro { font-family: var(--font-mono); font-size: 14px; letter-spacing: .04em; text-transform: uppercase; fill: var(--muted); }
+    .diagram .d-value { font-size: 54px; font-weight: 540; letter-spacing: -.055em; }
+    .diagram .d-line { fill: none; stroke: var(--ink); stroke-width: 1.5; vector-effect: non-scaling-stroke; }
+    .diagram .d-line-soft { fill: none; stroke: var(--line); stroke-width: 1.2; vector-effect: non-scaling-stroke; }
+    .diagram .d-dash { stroke-dasharray: 8 8; }
+    .diagram .d-blue { fill: var(--blue); stroke: var(--blue); }
+    .diagram .d-orange { fill: var(--orange); stroke: var(--orange); }
+    .diagram .accent-blue { fill: var(--blue); }
+    .diagram .accent-orange { fill: var(--orange); }
+    .diagram .d-paper { fill: var(--cream); stroke: var(--ink); stroke-width: 1.5; }
+    .diagram .flow-path { stroke-dasharray: 700; stroke-dashoffset: 700; transition: stroke-dashoffset 1.15s var(--ease) 160ms; }
+    .slide.visible .diagram .flow-path { stroke-dashoffset: 0; }
+    .diagram .flow-dot { opacity: 0; transform-box: fill-box; transform-origin: center; transform: scale(.4); transition: opacity 360ms ease, transform 520ms var(--ease); }
+    .slide.visible .diagram .flow-dot { opacity: 1; transform: scale(1); }
+    .diagram .flow-dot:nth-of-type(2n) { transition-delay: 120ms; }
+    .diagram .flow-dot:nth-of-type(3n) { transition-delay: 220ms; }
+
+    /* Flat comparison rows combine data and a target-distribution diagram. */
+    .compare-board { border-top: 1px solid var(--ink); }
+    .compare-case { display: grid; grid-template-columns: 260px 210px 210px 1fr; min-height: 205px; align-items: center; gap: 32px; border-bottom: 1px solid var(--ink); }
+    .compare-case h3 { font-size: 30px; line-height: 1.05; letter-spacing: -.035em; font-weight: 520; }
+    .compare-metric strong { display: block; font-size: 58px; line-height: .92; letter-spacing: -.055em; font-weight: 540; }
+    .compare-metric span { display: block; margin-top: 12px; font-family: var(--font-mono); font-size: 13px; color: var(--muted); }
+    .target-mini { width: 100%; height: 178px; }
+
+    /* === PRIMITIVE 6: FIGURES === */
     .figure { position: relative; height: 560px; overflow: hidden; background: #e7e3da; }
     .figure img { width: 100%; height: 100%; object-fit: cover; }
     .figure.contain img { object-fit: contain; }
@@ -307,20 +336,6 @@
     .syntax-value { font-size: 43px; letter-spacing: -.035em; }
     .domain-word { font-size: 72px; line-height: .92; letter-spacing: -.055em; font-weight: 520; }
     .domain-note { margin-top: 75px !important; }
-    .split-field { display: grid; grid-template-columns: 1fr 1fr; height: 100%; }
-    .field { padding: 74px 78px 64px; display: flex; flex-direction: column; }
-    .field.blue { background: var(--blue); color: #fff; }
-    .field.orange { background: var(--orange); color: var(--ink); }
-    .field .topline::after { display: none; }
-    .field .stat-value { margin-top: 250px; }
-    .field .field-secondary { margin-top: 44px; display: flex; gap: 70px; }
-    .field .field-secondary strong { display: block; font-size: 49px; line-height: 1; letter-spacing: -.05em; }
-    .field .field-secondary span { display: block; margin-top: 10px; font-family: var(--font-mono); font-size: 14px; }
-    .dark { --slide-bg: var(--ink); background: var(--ink); color: var(--cream); }
-    .dark .lead, .dark .caption, .dark .footer, .dark .rail-row p, .dark .rule-cell p { color: rgba(244,241,233,.66); }
-    .dark .topline::after, .dark .footer { border-color: rgba(244,241,233,.22); }
-    .dark .figure { background: #292925; }
-    .dark .figure-label { background: var(--cream); color: var(--ink); }
     .source-links { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid currentColor; margin-top: 52px; }
     .source-links a { padding: 24px 30px 24px 0; border-bottom: 1px solid currentColor; text-decoration: none; font-family: var(--font-mono); font-size: 16px; }
     .source-links a + a { padding-left: 30px; border-left: 1px solid currentColor; }
@@ -415,8 +430,8 @@
         </div>
       </section>
 
-      <!-- === 05 / DARK CONTRAST === -->
-      <section class="slide dark" role="group" aria-roledescription="slide" aria-label="5 of 16: LoRA targeting">
+      <!-- === 05 / TARGET DISTRIBUTION DIAGRAM === -->
+      <section class="slide" role="group" aria-roledescription="slide" aria-label="5 of 16: LoRA targeting">
         <div class="frame">
           <div class="topline reveal"><span>Targeting</span><span>LoRA</span></div>
           <div class="content cols-2 wide-left">
@@ -424,11 +439,27 @@
               <h2 class="statement reveal" data-edit>Closer to the target.<br><span class="accent-orange">One adapter each.</span></h2>
               <p class="lead reveal" style="margin-top:42px" data-edit>LoRA reduces prompt drift, but turns every requirement into a separate operational artifact.</p>
             </div>
-            <div class="rail reveal">
-              <div class="rail-row"><span class="index">A</span><h3>Prompt only</h3><p>More distribution drift</p></div>
-              <div class="rail-row"><span class="index">B</span><h3>Targeted LoRA</h3><p>Closer scenario samples</p></div>
-              <div class="rail-row"><span class="index">C</span><h3>Trade-off</h3><p>Targeting quality ↔ adapter cost</p></div>
-            </div>
+            <svg class="diagram reveal" viewBox="0 0 720 520" role="img" aria-label="Prompt-only samples drift away while targeted LoRA samples concentrate inside the target distribution">
+              <defs><marker id="arrow5" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#11110f"/></marker></defs>
+              <text class="d-micro" x="24" y="34">seed examples</text>
+              <circle class="d-line d-dash" cx="86" cy="255" r="61"/>
+              <circle class="d-blue flow-dot" cx="62" cy="232" r="6"/><circle class="d-blue flow-dot" cx="96" cy="219" r="6"/><circle class="d-blue flow-dot" cx="111" cy="256" r="6"/><circle class="d-blue flow-dot" cx="76" cy="276" r="6"/><circle class="d-blue flow-dot" cx="103" cy="291" r="6"/>
+              <path class="d-line flow-path" d="M152 232 C230 210 246 125 330 116" marker-end="url(#arrow5)"/>
+              <path class="d-line flow-path" d="M152 278 C220 300 240 404 318 407" marker-end="url(#arrow5)"/>
+              <text class="d-label" x="352" y="70">Prompt only</text>
+              <text class="d-micro" x="352" y="94">distribution drift</text>
+              <ellipse class="d-line d-dash" cx="572" cy="132" rx="105" ry="70"/>
+              <text class="d-micro" x="530" y="136">target</text>
+              <circle class="d-orange flow-dot" cx="438" cy="112" r="6"/><circle class="d-orange flow-dot" cx="477" cy="190" r="6"/><circle class="d-orange flow-dot" cx="620" cy="52" r="6"/><circle class="d-orange flow-dot" cx="676" cy="160" r="6"/><circle class="d-orange flow-dot" cx="560" cy="120" r="6"/>
+              <circle class="d-paper" cx="360" cy="407" r="42"/>
+              <circle class="d-line" cx="360" cy="407" r="26"/>
+              <text class="d-micro" x="342" y="412">LoRA</text>
+              <path class="d-line flow-path" d="M402 407 C456 407 470 407 492 407" marker-end="url(#arrow5)"/>
+              <text class="d-label" x="352" y="330">Targeted LoRA</text>
+              <text class="d-micro" x="352" y="354">scenario concentration</text>
+              <ellipse class="d-line d-dash" cx="590" cy="407" rx="102" ry="70"/>
+              <circle class="d-blue flow-dot" cx="548" cy="389" r="6"/><circle class="d-blue flow-dot" cx="576" cy="428" r="6"/><circle class="d-blue flow-dot" cx="610" cy="382" r="6"/><circle class="d-blue flow-dot" cx="637" cy="418" r="6"/><circle class="d-blue flow-dot" cx="599" cy="406" r="6"/>
+            </svg>
           </div>
           <div class="footer"><span>Better targeting, harder scaling</span><span>05 / 16</span></div>
         </div>
@@ -474,23 +505,38 @@
         </div>
       </section>
 
-      <!-- === 08 / FULL-BLEED COMPARISON === -->
+      <!-- === 08 / TARGET-MATCH COMPARISON DIAGRAM === -->
       <section class="slide" role="group" aria-roledescription="slide" aria-label="8 of 16: Off-target generation">
-        <div class="split-field">
-          <div class="field blue">
-            <div class="topline reveal"><span>Targeted LoRA · M3</span><span>on target</span></div>
-            <div class="stat-value reveal">69.4%</div>
-            <p class="lead reveal" style="color:rgba(255,255,255,.76)">pass rate</p>
-            <div class="field-secondary reveal"><div><strong>95.8%</strong><span>precondition match</span></div></div>
-            <div class="spacer"></div><div class="footer" style="color:rgba(255,255,255,.7);border-color:rgba(255,255,255,.28)"><span>Mostly the requested scenario</span><span>08A</span></div>
+        <div class="frame">
+          <div class="topline reveal"><span>Validity gap</span><span>Pass rate needs context</span></div>
+          <div class="content">
+            <h2 class="headline reveal" data-edit>A strong-looking result can miss the target.</h2>
+            <div class="compare-board reveal" style="margin-top:54px">
+              <div class="compare-case">
+                <h3>Targeted LoRA<br><span class="caption">M3 · on target</span></h3>
+                <div class="compare-metric"><strong>69.4%</strong><span>PASS RATE</span></div>
+                <div class="compare-metric"><strong class="accent-blue">95.8%</strong><span>PRECONDITION MATCH</span></div>
+                <svg class="target-mini diagram" viewBox="0 0 470 178" role="img" aria-label="Most targeted LoRA samples fall inside the target scenario">
+                  <ellipse cx="330" cy="89" rx="100" ry="65" fill="none" stroke="#11110f" stroke-width="1.5" stroke-dasharray="7 7"/>
+                  <text x="300" y="94" class="d-micro">target</text>
+                  <circle cx="285" cy="62" r="6" class="d-blue"/><circle cx="320" cy="115" r="6" class="d-blue"/><circle cx="346" cy="67" r="6" class="d-blue"/><circle cx="377" cy="104" r="6" class="d-blue"/><circle cx="352" cy="91" r="6" class="d-blue"/><circle cx="408" cy="75" r="6" class="d-blue"/>
+                  <path d="M20 89 H210" fill="none" stroke="#3157d5" stroke-width="3"/><text x="20" y="71" class="d-micro">relevant evidence</text>
+                </svg>
+              </div>
+              <div class="compare-case">
+                <h3>All-data generator<br><span class="caption">M3 · off target</span></h3>
+                <div class="compare-metric"><strong>99.6%</strong><span>PASS RATE</span></div>
+                <div class="compare-metric"><strong class="accent-orange">7.4%</strong><span>PRECONDITION MATCH</span></div>
+                <svg class="target-mini diagram" viewBox="0 0 470 178" role="img" aria-label="Most all-data samples fall outside the target scenario">
+                  <ellipse cx="330" cy="89" rx="100" ry="65" fill="none" stroke="#11110f" stroke-width="1.5" stroke-dasharray="7 7"/>
+                  <text x="300" y="94" class="d-micro">target</text>
+                  <circle cx="80" cy="53" r="6" class="d-orange"/><circle cx="126" cy="123" r="6" class="d-orange"/><circle cx="181" cy="47" r="6" class="d-orange"/><circle cx="220" cy="135" r="6" class="d-orange"/><circle cx="414" cy="30" r="6" class="d-orange"/><circle cx="352" cy="91" r="6" class="d-orange"/>
+                  <path d="M20 89 H210" fill="none" stroke="#f05a38" stroke-width="3" stroke-dasharray="7 7"/><text x="20" y="71" class="d-micro">irrelevant volume</text>
+                </svg>
+              </div>
+            </div>
           </div>
-          <div class="field orange">
-            <div class="topline reveal"><span>All-data generator · M3</span><span>off target</span></div>
-            <div class="stat-value reveal">99.6%</div>
-            <p class="lead reveal" style="color:rgba(17,17,15,.72)">pass rate</p>
-            <div class="field-secondary reveal"><div><strong>7.4%</strong><span>precondition match</span></div></div>
-            <div class="spacer"></div><div class="footer" style="color:rgba(17,17,15,.72);border-color:rgba(17,17,15,.28)"><span>A strong-looking but weak test</span><span>08B</span></div>
-          </div>
+          <div class="footer"><span>Aggregate paper metrics joined in the seminar analysis</span><span>08 / 16</span></div>
         </div>
       </section>
 
@@ -516,7 +562,7 @@
       </section>
 
       <!-- === 10 / COST === -->
-      <section class="slide dark" role="group" aria-roledescription="slide" aria-label="10 of 16: Cost per valid failure">
+      <section class="slide" role="group" aria-roledescription="slide" aria-label="10 of 16: Cost per valid failure">
         <div class="frame">
           <div class="topline reveal"><span>Prioritization</span><span>$ / useful failure</span></div>
           <div class="content cols-2">
@@ -553,7 +599,7 @@
       </section>
 
       <!-- === 12 / IMAGE + WARNING === -->
-      <section class="slide dark" role="group" aria-roledescription="slide" aria-label="12 of 16: Shared generator on CelebA-HQ">
+      <section class="slide" role="group" aria-roledescription="slide" aria-label="12 of 16: Shared generator on CelebA-HQ">
         <div class="frame">
           <div class="topline reveal"><span>Extension experiment</span><span>Shared generator · CelebA-HQ</span></div>
           <div class="content cols-2 wide-left">
@@ -571,35 +617,59 @@
         </div>
       </section>
 
-      <!-- === 13 / TWO CHECKS === -->
+      <!-- === 13 / VALIDATION GATE DIAGRAM === -->
       <section class="slide" role="group" aria-roledescription="slide" aria-label="13 of 16: Independent validity checks">
         <div class="frame">
           <div class="topline reveal"><span>Critique</span><span>Independent validity</span></div>
-          <div class="content">
-            <h2 class="headline reveal" data-edit>Generated images need a second opinion.</h2>
-            <div class="rule-grid cols-3 reveal" style="margin-top:72px">
-              <div class="rule-cell"><div class="index">01 / MODEL-SIDE</div><h3>Classifier</h3><p data-edit>Can be circular when it shares the tested model’s assumptions.</p></div>
-              <div class="rule-cell"><div class="index">02 / SEMANTIC</div><h3>External judgment</h3><p data-edit>An LLM audit surfaces risk, but is not ground truth.</p></div>
-              <div class="rule-cell"><div class="index">03 / NEXT</div><h3>Human agreement</h3><p data-edit>Harder domains need explicit validity labels and agreement.</p></div>
+          <div class="content cols-2 wide-left">
+            <div>
+              <h2 class="headline reveal" data-edit>Generated images need a second opinion.</h2>
+              <p class="lead reveal" style="margin-top:40px" data-edit>A model-side check is useful, but semantic evidence needs an evaluator outside the tested system.</p>
+              <div class="stat reveal" style="margin-top:58px"><span class="stat-value accent-blue" style="font-size:88px">42 / 42</span><span class="stat-label">audit samples completed · 0.738 judged valid</span></div>
             </div>
-            <div class="stat reveal" style="margin-top:54px"><span class="stat-value accent-blue" style="font-size:88px">42 / 42</span><span class="stat-label">audit samples completed · 0.738 judged valid</span></div>
+            <svg class="diagram reveal" viewBox="0 0 760 520" role="img" aria-label="Generated samples pass through model-side and semantic validity gates before becoming evidence">
+              <defs><marker id="arrow13" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#11110f"/></marker></defs>
+              <text class="d-micro" x="16" y="42">generated samples</text>
+              <circle class="d-orange flow-dot" cx="42" cy="110" r="6"/><circle class="d-orange flow-dot" cx="94" cy="92" r="6"/><circle class="d-orange flow-dot" cx="118" cy="137" r="6"/><circle class="d-orange flow-dot" cx="62" cy="158" r="6"/><circle class="d-orange flow-dot" cx="138" cy="72" r="6"/>
+              <path class="d-line flow-path" d="M158 116 H244" marker-end="url(#arrow13)"/>
+              <circle class="d-paper" cx="316" cy="116" r="70"/>
+              <text class="d-micro" x="278" y="105">gate 01</text><text class="d-label" x="268" y="136">classifier</text>
+              <path class="d-line flow-path" d="M386 116 H468" marker-end="url(#arrow13)"/>
+              <path class="d-paper" d="M552 39 L629 116 L552 193 L475 116 Z"/>
+              <text class="d-micro" x="521" y="105">gate 02</text><text class="d-label" x="507" y="136">semantic</text>
+              <path class="d-line flow-path" d="M629 116 H714" marker-end="url(#arrow13)"/>
+              <circle class="d-blue flow-dot" cx="738" cy="116" r="9"/>
+              <text class="d-micro" x="696" y="85">evidence</text>
+              <path class="d-line-soft" d="M316 186 V315 H552 V193"/>
+              <text class="d-label" x="294" y="361">Independent agreement closes the loop.</text>
+              <text class="d-micro" x="294" y="392">classifier signal + external judgment + human labels</text>
+              <path class="d-line d-dash" d="M552 417 C440 487 230 480 92 410" marker-end="url(#arrow13)"/>
+              <text class="d-micro" x="232" y="484">revise glossary and label rules</text>
+            </svg>
           </div>
           <div class="footer"><span>Small external LLM audit; not ground truth</span><span>13 / 16</span></div>
         </div>
       </section>
 
-      <!-- === 14 / HUMAN WORK === -->
+      <!-- === 14 / SEMANTIC LOOP DIAGRAM === -->
       <section class="slide" role="group" aria-roledescription="slide" aria-label="14 of 16: Human semantic work">
         <div class="frame">
           <div class="topline reveal"><span>Critique</span><span>Semantic labor</span></div>
           <div class="content cols-2 wide-left">
             <h2 class="statement reveal" data-edit>The hard part is still <span class="accent-orange">human.</span></h2>
-            <div class="rail reveal">
-              <div class="rail-row"><span class="index">01</span><h3>Requirements</h3><p>Which behavior matters?</p></div>
-              <div class="rail-row"><span class="index">02</span><h3>Glossaries</h3><p>What do the words mean visually?</p></div>
-              <div class="rail-row"><span class="index">03</span><h3>Label rules</h3><p>Which inputs count?</p></div>
-              <div class="rail-row"><span class="index">04</span><h3>Agreement</h3><p>Do validators agree?</p></div>
-            </div>
+            <svg class="diagram reveal" viewBox="0 0 700 520" role="img" aria-label="A cycle connecting requirements, glossaries, label rules, and agreement">
+              <defs><marker id="arrow14" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#11110f"/></marker></defs>
+              <circle class="d-line-soft d-dash" cx="350" cy="260" r="180"/>
+              <path class="d-line flow-path" d="M350 80 A180 180 0 0 1 530 260" marker-end="url(#arrow14)"/>
+              <path class="d-line flow-path" d="M530 260 A180 180 0 0 1 350 440" marker-end="url(#arrow14)"/>
+              <path class="d-line flow-path" d="M350 440 A180 180 0 0 1 170 260" marker-end="url(#arrow14)"/>
+              <path class="d-line flow-path" d="M170 260 A180 180 0 0 1 350 80" marker-end="url(#arrow14)"/>
+              <circle class="d-paper" cx="350" cy="80" r="62"/><text class="d-micro" x="327" y="72">01</text><text class="d-label" x="281" y="104">requirements</text>
+              <circle class="d-paper" cx="530" cy="260" r="62"/><text class="d-micro" x="507" y="252">02</text><text class="d-label" x="478" y="284">glossary</text>
+              <circle class="d-paper" cx="350" cy="440" r="62"/><text class="d-micro" x="327" y="432">03</text><text class="d-label" x="296" y="464">label rules</text>
+              <circle class="d-paper" cx="170" cy="260" r="62"/><text class="d-micro" x="147" y="252">04</text><text class="d-label" x="112" y="284">agreement</text>
+              <text class="d-micro" x="300" y="247">semantic</text><text class="d-value accent-orange" x="284" y="294">validity</text>
+            </svg>
           </div>
           <div class="footer"><span>Semantic rigor sets the ceiling</span><span>14 / 16</span></div>
         </div>

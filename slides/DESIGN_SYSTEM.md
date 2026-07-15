@@ -8,7 +8,7 @@ but there are no routes, generated pages, or framework dependencies.
 
 The system combines three observed keynote traits:
 
-- OpenAI-style directness: oversized sans-serif statements, flat color fields, and one dominant
+- OpenAI-style directness: oversized sans-serif statements, sparse signal color, and one dominant
   idea per slide.
 - Linear-style craft: strict alignment, thin rules, restrained motion, and diagrams drawn on the
   canvas instead of placed inside dashboard cards.
@@ -44,20 +44,21 @@ Use these before creating a new class:
 | `.sequence` | A flat four-step process |
 | `.bars` | Direct data bars without axes or chart furniture |
 | `.axis` | Sparse conceptual plot |
+| `.diagram` | Shared SVG grammar for flows, targets, gates, and cycles |
+| `.compare-board` | Metric comparison paired with target-distribution diagrams |
 | `.figure` | A single experiment image with a provenance label |
 | `.footer` | Source/context line and page number |
 
-The `dark`, `blue`, and `orange` compositions change the canvas rather than wrapping content in
-cards. Rounded rectangles, shadows, badges, nested panels, and decorative gradients are excluded
-from the slide system. The small navigation and editing controls sit outside the authored stage
-and are not presentation content.
+Every slide and the surrounding letterbox use the same cream paper canvas. Blue and orange are
+signals inside diagrams and metrics, never alternate slide themes. Rounded rectangles, shadows,
+badges, nested panels, and decorative gradients are excluded from the slide system. The small
+navigation and editing controls sit outside the authored stage and are not presentation content.
 
 ## Editing rules
 
 1. Keep one dominant idea per slide.
-2. Prefer a rule, whitespace, or full-canvas color change over a bordered container.
+2. Prefer a rule, whitespace, or direct diagram over a bordered container.
 3. Use at most one primary diagram or figure on a slide.
 4. Add a new primitive only when at least three slides can reuse it.
 5. Keep content inside the fixed 1920 × 1080 stage; phone views scale rather than reflow.
 6. Press `E` in the browser for local text editing. Those edits remain local until exported.
-
