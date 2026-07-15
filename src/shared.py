@@ -3,6 +3,7 @@ from __future__ import annotations
 import csv
 import hashlib
 import json
+from collections import Counter
 from collections.abc import Iterable, Mapping
 from pathlib import Path
 from typing import Any
@@ -138,6 +139,13 @@ def write_text(path: Path, text: str) -> None:
 
 def requirement_rows(root: Path | None = None) -> list[CsvRow]:
     root = find_repo_root(root)
+    # This field describes the pinned review corpus, not whatever ignored files happen to
+    # exist in a particular checkout.  Deriving it from the manifest keeps metadata-only
+    # reproduction deterministic in a fresh clone while still exposing the smaller sample
+    # size used by this artifact.
+    manifest_counts = Counter(
+        str(Path(entry["local_path"]).parent) for entry in load_data_manifest(root)["files"]
+    )
     rows = []
     for row in read_csv_rows(root / ROOT_MARKER):
         method = row["variant"]
@@ -156,7 +164,14 @@ def requirement_rows(root: Path | None = None) -> list[CsvRow]:
                 "paper_reference_pass_rate": row["paper_reference_pass_rate"],
                 "notes": row["notes"],
                 "available_images": str(
-                    count_available_images(root, row["dataset"], row["requirement"], method)
+                    manifest_counts[
+                        str(
+                            Path("data")
+                            / "images"
+                            / image_dataset_name(row["dataset"])
+                            / image_folder(row["dataset"], row["requirement"], method)
+                        )
+                    ]
                 ),
             }
         )
@@ -173,14 +188,3 @@ def image_folder(dataset: str, requirement: str, method: str) -> str:
     if dataset == "mnist" and method == "alldata":
         return f"Alldata_{requirement}"
     return requirement
-
-
-def count_available_images(root: Path, dataset: str, requirement: str, method: str) -> int:
-    folder = (
-        root
-        / "data"
-        / "images"
-        / image_dataset_name(dataset)
-        / image_folder(dataset, requirement, method)
-    )
-    return len(list(folder.glob("*.png")))

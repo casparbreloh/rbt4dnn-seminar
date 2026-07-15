@@ -1,0 +1,45 @@
+name: Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  required-checks:
+    name: Required checks
+    uses: ./.github/workflows/ci.yml
+
+  package:
+    name: Package static presentation
+    needs: [required-checks]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: slides
+
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: [required-checks, package]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy presentation
+        id: deployment
+        uses: actions/deploy-pages@v4

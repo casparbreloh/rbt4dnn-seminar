@@ -156,7 +156,8 @@ class ExecutionContractTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
             (root / "data").mkdir()
-            shutil.copy(ROOT / "data/requirements.csv", root / "data/requirements.csv")
+            for name in ["requirements.csv", "manifest.json", "manifest-files.tsv"]:
+                shutil.copy(ROOT / "data" / name, root / "data" / name)
             shutil.copytree(ROOT / "src", root / "src")
             shutil.copytree(ROOT / "scripts", root / "scripts")
             for name in [
@@ -179,6 +180,14 @@ class ExecutionContractTests(unittest.TestCase):
             )
             self.assertEqual(result.returncode, 0, result.stderr)
             self.assertTrue((root / "experiments/replication/results.csv").exists())
+            self.assertEqual(
+                (root / "experiments/precondition-validity/results.csv").read_bytes(),
+                (ROOT / "experiments/precondition-validity/results.csv").read_bytes(),
+            )
+            self.assertEqual(
+                (root / "experiments/mnist-lora-ablation/results.csv").read_bytes(),
+                (ROOT / "experiments/mnist-lora-ablation/results.csv").read_bytes(),
+            )
 
     def test_corpus_mode_fails_before_metadata_outputs(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:

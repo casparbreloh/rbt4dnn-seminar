@@ -6,8 +6,8 @@ Nusrat Jahan Mozumder, Felipe Toledo, Swaroopa Dola, and Matthew B. Dwyer.
 
 - [Original paper (arXiv:2504.02737)](https://arxiv.org/abs/2504.02737)
 - [Original RBT4DNN artifact](https://github.com/less-lab-uva/RBT4DNN)
-- [Seminar project and HTML presentation](https://casparbreloh.github.io/rbt4dnn-seminar/)
-  (deployment is planned; the URL may not be live yet)
+- [Seminar project source](https://github.com/casparbreloh/rbt4dnn-seminar)
+- [HTML presentation](https://casparbreloh.github.io/rbt4dnn-seminar/)
 
 This is not an official RBT4DNN repository and is not affiliated with or endorsed by the
 original authors. Their paper and artifact remain the authoritative sources for RBT4DNN.
@@ -45,7 +45,7 @@ individual summaries before interpreting these figures.
   upstream image corpus is restored locally and remains ignored.
 - [`references/`](references/) — stable citations and provenance notes instead of copied papers.
 - [`slides/`](slides/) — source and independently generated assets for the HTML presentation;
-  the planned GitHub Pages project URL is <https://casparbreloh.github.io/rbt4dnn-seminar/>.
+  the presentation is published at <https://casparbreloh.github.io/rbt4dnn-seminar/>.
 - `paper/` — reviewed manuscript source once published.
 
 Private working notes, local reference PDFs, downloaded images, environments, caches, and
@@ -107,6 +107,7 @@ uv run ruff format --check
 uv run ruff check
 uv run ty check
 uv run python -m unittest discover -s tests
+uv run python scripts/check_publication.py
 ```
 
 ## Citation and licensing
