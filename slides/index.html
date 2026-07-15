@@ -26,7 +26,7 @@
       --font-sans: "Instrument Sans", sans-serif;
       --font-mono: "IBM Plex Mono", monospace;
       --pad-x: 104px;
-      --pad-y: 74px;
+      --pad-y: 60px;
       --ease: cubic-bezier(.16, 1, .3, 1);
       --duration: 520ms;
     }
@@ -191,16 +191,6 @@
       letter-spacing: .04em;
       text-transform: uppercase;
     }
-    .topline::after {
-      content: "";
-      position: absolute;
-      top: 124px;
-      left: var(--pad-x);
-      right: var(--pad-x);
-      height: 1px;
-      background: currentColor;
-      opacity: .22;
-    }
     .display, .headline, .statement {
       font-family: var(--font-sans);
       font-weight: 500;
@@ -227,7 +217,7 @@
     }
 
     /* === PRIMITIVE 2: OPEN GRID + SPLITS === */
-    .content { flex: 1; padding-top: 58px; }
+    .content { flex: 1; padding-top: 38px; }
     .cols-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 90px; align-items: center; }
     .cols-2.wide-left { grid-template-columns: 1.18fr .82fr; }
     .cols-2.wide-right { grid-template-columns: .82fr 1.18fr; }
@@ -346,13 +336,12 @@
     .figure-label { position: absolute; left: 20px; bottom: 18px; padding: 8px 10px; background: var(--paper); font-family: var(--font-mono); font-size: 13px; }
 
     /* === COMPOSITIONS: variations made only from primitives === */
-    .title-slide .frame { padding-top: 62px; }
-    .title-slide .topline::after { top: 112px; }
-    .title-copy { margin-top: 92px; }
+    .title-slide .frame { padding-top: 52px; }
+    .title-copy { margin-top: 68px; }
     .title-copy .display { max-width: 1380px; }
     .title-copy .lead { margin-top: 44px; }
     .title-mark { position: absolute; right: 104px; bottom: 114px; font-family: var(--font-mono); font-size: 15px; writing-mode: vertical-rl; transform: rotate(180deg); }
-    .statement-slide .statement { margin-top: 92px; }
+    .statement-slide .statement { margin-top: 64px; }
     .statement-slide .lead { margin-top: 42px; }
     .syntax { margin-top: 58px; border-top: 1px solid currentColor; }
     .syntax-line { display: grid; grid-template-columns: 220px 1fr 260px; gap: 42px; padding: 27px 0; border-bottom: 1px solid currentColor; align-items: baseline; }

@@ -35,7 +35,7 @@ Use these before creating a new class:
 | Primitive | Purpose |
 | --- | --- |
 | `.frame` | Shared slide margin and vertical structure |
-| `.topline` | Section label, slide context, and top hairline |
+| `.topline` | Compact section label and slide context |
 | `.display`, `.headline`, `.statement` | Three deliberate headline scales |
 | `.cols-2` | Open two-column composition without a container |
 | `.rule-grid` + `.rule-cell` | Comparable items separated only by hairlines |
