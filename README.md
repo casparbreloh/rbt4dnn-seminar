@@ -44,8 +44,9 @@ individual summaries before interpreting these figures.
 - [`data/`](data/) — the authored aggregate table plus provenance and checksum manifests; the
   upstream image corpus is restored locally and remains ignored.
 - [`references/`](references/) — stable citations and provenance notes instead of copied papers.
-- [`slides/`](slides/) — source and independently generated assets for the HTML presentation;
-  the presentation is published at <https://casparbreloh.github.io/rbt4dnn-seminar/>.
+- [`slides/`](slides/) — the single-file HTML presentation, its reusable
+  [design-system primitives](slides/DESIGN_SYSTEM.md), and independently generated assets; the
+  live deck is <https://casparbreloh.github.io/rbt4dnn-seminar/>.
 - `paper/` — reviewed manuscript source once published.
 
 Private working notes, local reference PDFs, downloaded images, environments, caches, and

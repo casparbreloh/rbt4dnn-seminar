@@ -7,29 +7,28 @@
   <title>RBT4DNN — Requirements-based testing of neural networks</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&amp;family=Newsreader:opsz,wght@6..72,400;6..72,500&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=Instrument+Sans:wdth,wght@75..100,400..700&amp;display=swap" rel="stylesheet">
   <style>
-    /* === DESIGN TOKENS: edit these first === */
+    /* === DESIGN TOKENS: the entire visual system starts here === */
     :root {
-      --stage-bg: #e9e7e1;
-      --slide-bg: #f7f5ef;
-      --paper: #f7f5ef;
-      --paper-raised: #fdfcf8;
-      --ink: #171714;
-      --muted: #6d6b64;
-      --faint: #aaa69d;
-      --line: #d8d4ca;
-      --line-strong: #b9b4aa;
-      --accent: #1c6654;
-      --accent-soft: #dcebe5;
-      --warm: #a45134;
-      --warm-soft: #f0ddd4;
-      --font-display: "Newsreader", serif;
-      --font-body: "Manrope", sans-serif;
-      --slide-padding-x: 116px;
-      --slide-padding-y: 86px;
-      --ease-out: cubic-bezier(.16, 1, .3, 1);
-      --duration: 620ms;
+      --stage-bg: #d9d7d0;
+      --slide-bg: #f4f1e9;
+      --cream: #f4f1e9;
+      --paper: #fbfaf6;
+      --ink: #11110f;
+      --muted: #68665f;
+      --line: rgba(17, 17, 15, .22);
+      --line-soft: rgba(17, 17, 15, .11);
+      --blue: #3157d5;
+      --orange: #f05a38;
+      --mint: #b8dfcc;
+      --acid: #d9f56d;
+      --font-sans: "Instrument Sans", sans-serif;
+      --font-mono: "IBM Plex Mono", monospace;
+      --pad-x: 104px;
+      --pad-y: 74px;
+      --ease: cubic-bezier(.16, 1, .3, 1);
+      --duration: 520ms;
     }
 
     /* === RESET === */
@@ -172,438 +171,482 @@
         }
     }
 
-    /* === STAGE AND TYPOGRAPHY === */
-    body { font-family: var(--font-body); color: var(--ink); }
-    .slide::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(circle at 90% 7%, rgba(28,102,84,.06), transparent 31%),
-        linear-gradient(90deg, transparent 115px, rgba(23,23,20,.035) 116px, transparent 117px);
-      pointer-events: none;
-    }
-    .slide-shell {
+    /* === PRIMITIVE 1: FRAME + TYPOGRAPHY === */
+    body { font-family: var(--font-sans); color: var(--ink); }
+    .frame {
       position: relative;
       height: 100%;
-      padding: var(--slide-padding-y) var(--slide-padding-x);
+      padding: var(--pad-y) var(--pad-x) 66px;
       display: flex;
       flex-direction: column;
     }
-    .eyebrow {
-      font-size: 20px;
-      line-height: 1;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      color: var(--muted);
-      font-weight: 700;
-    }
-    h1, h2, .statement {
-      font-family: var(--font-display);
-      font-weight: 400;
-      letter-spacing: -.035em;
-    }
-    h1 { font-size: 142px; line-height: .92; max-width: 1320px; }
-    h2 { font-size: 80px; line-height: 1.02; max-width: 1420px; }
-    h3 { font-size: 30px; line-height: 1.2; letter-spacing: -.02em; }
-    .lead { font-size: 32px; line-height: 1.48; color: var(--muted); max-width: 1120px; }
-    .small { font-size: 20px; line-height: 1.45; color: var(--muted); }
-    .mono { font-size: 18px; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); }
-    .accent { color: var(--accent); }
-    .warm { color: var(--warm); }
-    .spacer { flex: 1; }
-    .slide-head { display: flex; flex-direction: column; gap: 24px; }
-    .slide-foot {
+    .topline {
+      min-height: 36px;
       display: flex;
+      align-items: flex-start;
       justify-content: space-between;
-      align-items: flex-end;
-      border-top: 1px solid var(--line);
-      padding-top: 18px;
-      color: var(--muted);
+      font-family: var(--font-mono);
       font-size: 17px;
+      line-height: 1.3;
+      letter-spacing: .04em;
+      text-transform: uppercase;
     }
-    .page-tag { font-variant-numeric: tabular-nums; }
-
-    /* === LAYOUT PRIMITIVES === */
-    .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; }
-    .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
-    .grid-4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; }
-    .split { display: grid; grid-template-columns: 1.05fr .95fr; gap: 70px; align-items: center; flex: 1; }
-    .card {
-      padding: 34px;
-      background: rgba(253,252,248,.72);
-      border: 1px solid var(--line);
-      border-radius: 18px;
-    }
-    .card.soft { background: rgba(220,235,229,.52); border-color: rgba(28,102,84,.18); }
-    .card.warm-card { background: rgba(240,221,212,.52); border-color: rgba(164,81,52,.18); }
-    .card p { margin-top: 14px; font-size: 24px; line-height: 1.45; color: var(--muted); }
-    .card .metric { margin-top: 12px; font-size: 60px; line-height: 1; letter-spacing: -.045em; }
-    .bullets { list-style: none; display: grid; gap: 22px; margin-top: 38px; }
-    .bullets li { position: relative; padding-left: 34px; font-size: 28px; line-height: 1.4; color: #33322d; }
-    .bullets li::before { content: ""; position: absolute; left: 0; top: .58em; width: 10px; height: 10px; border-radius: 50%; background: var(--accent); }
-    .number-list { display: grid; gap: 20px; counter-reset: steps; }
-    .number-list .card { position: relative; padding-left: 88px; }
-    .number-list .card::before { counter-increment: steps; content: counter(steps, decimal-leading-zero); position: absolute; left: 28px; top: 34px; color: var(--accent); font-size: 18px; font-weight: 700; }
-    .quote {
-      font-family: var(--font-display);
-      font-size: 62px;
-      line-height: 1.12;
-      max-width: 1390px;
-      letter-spacing: -.025em;
-    }
-    .rule { height: 1px; background: var(--line); width: 100%; }
-
-    /* === DIAGRAMS AND DATA GRAPHICS === */
-    .pipeline { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; align-items: stretch; margin-top: 58px; }
-    .pipeline .step { min-height: 266px; position: relative; padding: 34px 30px; border: 1px solid var(--line); border-radius: 18px; background: var(--paper-raised); }
-    .pipeline .step:not(:last-child)::after { content: "→"; position: absolute; right: -29px; top: 108px; color: var(--line-strong); font-size: 28px; z-index: 2; }
-    .step-index { font-size: 18px; color: var(--accent); font-weight: 700; margin-bottom: 46px; }
-    .step p { margin-top: 16px; font-size: 21px; line-height: 1.4; color: var(--muted); }
-    .bar-chart { display: grid; gap: 24px; }
-    .bar-row { display: grid; grid-template-columns: 180px 1fr 90px; gap: 20px; align-items: center; }
-    .bar-label { font-size: 22px; font-weight: 600; }
-    .bar-track { height: 16px; background: #e6e2d9; border-radius: 99px; overflow: hidden; }
-    .bar-fill { height: 100%; width: var(--value); background: var(--accent); border-radius: inherit; }
-    .bar-fill.warm-fill { background: var(--warm); }
-    .bar-value { font-size: 22px; text-align: right; font-variant-numeric: tabular-nums; }
-    .metric-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 18px; overflow: hidden; }
-    .metric-pair > div { background: var(--paper-raised); padding: 38px; }
-    .metric-pair .big { font-size: 86px; letter-spacing: -.055em; line-height: 1; margin-top: 24px; }
-    .metric-pair p { font-size: 21px; color: var(--muted); line-height: 1.45; margin-top: 16px; }
-    .formula { font-family: var(--font-display); font-size: 53px; padding: 34px 40px; border: 1px solid var(--line); background: var(--paper-raised); border-radius: 18px; }
-    .sample-frame { height: 508px; display: flex; align-items: center; justify-content: center; background: #eeeae0; border: 1px solid var(--line); border-radius: 20px; overflow: hidden; }
-    .sample-frame img { width: 100%; height: 100%; object-fit: contain; image-rendering: auto; }
-    .domains .card { min-height: 252px; display: flex; flex-direction: column; justify-content: space-between; }
-    .domain-mark { width: 54px; height: 54px; border-radius: 50%; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent); font-weight: 700; }
-    .validity-stack { display: grid; grid-template-columns: 1fr 64px 1fr; align-items: stretch; gap: 20px; }
-    .validity-stack .join { display: grid; place-items: center; color: var(--muted); font-size: 34px; }
-    .coverage-axis { position: relative; height: 300px; border-left: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); margin: 22px 32px 0 65px; }
-    .coverage-axis::before { content: "semantic validity"; position: absolute; left: -64px; top: 112px; transform: rotate(-90deg); color: var(--muted); font-size: 16px; }
-    .coverage-axis::after { content: "coverage and cost →"; position: absolute; right: 0; bottom: -34px; color: var(--muted); font-size: 16px; }
-    .dot { position: absolute; width: 20px; height: 20px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 8px rgba(28,102,84,.12); }
-    .dot::after { content: attr(data-label); position: absolute; left: 30px; top: -5px; white-space: nowrap; font-size: 16px; font-weight: 600; }
-
-    /* === TITLE AND CLOSING COMPOSITIONS === */
-    .title-slide .slide-shell { padding-top: 102px; }
-    .title-kicker { display: flex; align-items: center; gap: 16px; }
-    .title-kicker::before { content: ""; width: 42px; height: 2px; background: var(--accent); }
-    .title-slide h1 { margin-top: 78px; }
-    .title-slide .lead { margin-top: 38px; max-width: 760px; }
-    .title-index {
+    .topline::after {
+      content: "";
       position: absolute;
-      right: 116px;
-      top: 104px;
-      width: 420px;
-      height: 420px;
-      border: 1px solid var(--line);
-      border-radius: 50%;
+      top: 124px;
+      left: var(--pad-x);
+      right: var(--pad-x);
+      height: 1px;
+      background: currentColor;
+      opacity: .22;
     }
-    .title-index::before, .title-index::after { content: ""; position: absolute; background: var(--line); }
-    .title-index::before { width: 1px; height: 100%; left: 50%; }
-    .title-index::after { height: 1px; width: 100%; top: 50%; }
-    .title-index span { position: absolute; width: 92px; height: 92px; border-radius: 50%; display: grid; place-items: center; background: var(--accent); color: white; font-size: 20px; left: 164px; top: 164px; }
-    .closing h2 { font-size: 98px; max-width: 1350px; }
-    .source-links { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-top: 44px; }
-    .source-links a { display: block; text-decoration: none; padding: 24px 28px; border: 1px solid var(--line); border-radius: 14px; background: var(--paper-raised); font-size: 19px; }
+    .display, .headline, .statement {
+      font-family: var(--font-sans);
+      font-weight: 500;
+      letter-spacing: -.055em;
+    }
+    .display { font-size: 166px; line-height: .86; }
+    .headline { font-size: 88px; line-height: .96; max-width: 1510px; }
+    .statement { font-size: 112px; line-height: .98; max-width: 1570px; }
+    .lead { font-size: 31px; line-height: 1.42; max-width: 1040px; color: var(--muted); }
+    .caption { font-family: var(--font-mono); font-size: 16px; line-height: 1.45; color: var(--muted); }
+    .accent-blue { color: var(--blue); }
+    .accent-orange { color: var(--orange); }
+    .spacer { flex: 1; }
+    .footer {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      padding-top: 16px;
+      border-top: 1px solid var(--line-soft);
+      font-family: var(--font-mono);
+      font-size: 14px;
+      line-height: 1.35;
+      color: var(--muted);
+    }
 
-    /* === MOTION === */
-    .reveal { opacity: 0; transform: translateY(22px); transition: opacity var(--duration) var(--ease-out), transform var(--duration) var(--ease-out); }
-    .slide.visible .reveal { opacity: 1; transform: translateY(0); }
-    .reveal:nth-child(1) { transition-delay: 70ms; }
-    .reveal:nth-child(2) { transition-delay: 140ms; }
-    .reveal:nth-child(3) { transition-delay: 210ms; }
-    .reveal:nth-child(4) { transition-delay: 280ms; }
-    .reveal:nth-child(5) { transition-delay: 350ms; }
-    .bar-fill { transform-origin: left center; transform: scaleX(0); transition: transform 900ms var(--ease-out) 220ms; }
+    /* === PRIMITIVE 2: OPEN GRID + SPLITS === */
+    .content { flex: 1; padding-top: 58px; }
+    .cols-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 90px; align-items: center; }
+    .cols-2.wide-left { grid-template-columns: 1.18fr .82fr; }
+    .cols-2.wide-right { grid-template-columns: .82fr 1.18fr; }
+    .rule-grid { display: grid; border-top: 1px solid currentColor; }
+    .rule-grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+    .rule-grid.cols-4 { grid-template-columns: repeat(4, 1fr); }
+    .rule-cell {
+      min-width: 0;
+      padding: 30px 30px 24px 0;
+      border-bottom: 1px solid currentColor;
+      border-right: 1px solid currentColor;
+    }
+    .rule-cell + .rule-cell { padding-left: 30px; }
+    .rule-cell:last-child { border-right: 0; }
+    .rule-cell .index { font-family: var(--font-mono); font-size: 15px; margin-bottom: 84px; }
+    .rule-cell h3 { font-size: 38px; line-height: 1.05; letter-spacing: -.035em; font-weight: 520; }
+    .rule-cell p { margin-top: 16px; font-size: 23px; line-height: 1.38; color: var(--muted); }
+
+    /* === PRIMITIVE 3: RAILS, STATS, AND SEQUENCES === */
+    .rail { display: grid; border-top: 1px solid currentColor; }
+    .rail-row {
+      display: grid;
+      grid-template-columns: 104px 410px 1fr;
+      align-items: baseline;
+      gap: 26px;
+      padding: 25px 0;
+      border-bottom: 1px solid currentColor;
+    }
+    .rail-row .index { font-family: var(--font-mono); font-size: 16px; }
+    .rail-row h3 { font-size: 31px; font-weight: 520; letter-spacing: -.03em; }
+    .rail-row p { font-size: 22px; line-height: 1.35; color: var(--muted); }
+    .stat { display: flex; flex-direction: column; gap: 18px; }
+    .stat-value { font-size: 130px; line-height: .82; letter-spacing: -.07em; font-weight: 540; font-variant-numeric: tabular-nums; }
+    .stat-label { max-width: 400px; font-size: 23px; line-height: 1.35; color: var(--muted); }
+    .sequence { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid currentColor; border-bottom: 1px solid currentColor; }
+    .sequence-step { position: relative; min-height: 360px; padding: 28px 48px 28px 0; }
+    .sequence-step + .sequence-step { padding-left: 48px; border-left: 1px solid currentColor; }
+    .sequence-step .index { font-family: var(--font-mono); font-size: 16px; }
+    .sequence-step h3 { margin-top: 176px; font-size: 38px; line-height: 1; font-weight: 520; letter-spacing: -.04em; }
+    .sequence-step p { margin-top: 15px; max-width: 290px; font-size: 21px; line-height: 1.35; color: var(--muted); }
+
+    /* === PRIMITIVE 4: DIRECT DATA GRAPHICS === */
+    .bars { display: grid; gap: 25px; }
+    .bar-row { display: grid; grid-template-columns: 160px 1fr 100px; gap: 24px; align-items: center; }
+    .bar-label, .bar-value { font-family: var(--font-mono); font-size: 17px; }
+    .bar-value { text-align: right; }
+    .bar-track { height: 5px; background: var(--line-soft); }
+    .bar-fill { height: 100%; width: var(--value); background: var(--blue); transform-origin: left; transform: scaleX(0); transition: transform 800ms var(--ease) 180ms; }
+    .bar-fill.orange { background: var(--orange); }
     .slide.visible .bar-fill { transform: scaleX(1); }
+    .formula { font-size: 60px; line-height: 1.05; letter-spacing: -.045em; font-weight: 500; }
+    .formula .operator { color: var(--muted); padding: 0 16px; }
+    .axis { position: relative; height: 390px; margin: 12px 20px 0 70px; border-left: 1px solid currentColor; border-bottom: 1px solid currentColor; }
+    .axis::before { content: "semantic validity"; position: absolute; left: -72px; top: 160px; transform: rotate(-90deg); font-family: var(--font-mono); font-size: 14px; }
+    .axis::after { content: "coverage + cost →"; position: absolute; right: 0; bottom: -34px; font-family: var(--font-mono); font-size: 14px; }
+    .dot { position: absolute; width: 16px; height: 16px; background: var(--blue); border-radius: 50%; }
+    .dot::after { content: attr(data-label); position: absolute; left: 28px; top: -4px; white-space: nowrap; font-family: var(--font-mono); font-size: 14px; }
 
-    /* === VIEWPORT CHROME AND EDITOR === */
-    .deck-controls { display: flex; align-items: center; gap: 12px; padding: 9px 14px; border: 1px solid rgba(23,23,20,.15); border-radius: 99px; background: rgba(247,245,239,.88); backdrop-filter: blur(12px); color: var(--ink); box-shadow: 0 8px 28px rgba(23,23,20,.08); }
-    .deck-controls button { border: 0; width: 32px; height: 32px; border-radius: 50%; background: transparent; cursor: pointer; color: var(--ink); }
-    .deck-controls button:hover { background: rgba(23,23,20,.08); }
-    .counter { min-width: 58px; text-align: center; font-size: 13px; font-variant-numeric: tabular-nums; }
-    .progress { position: fixed; left: 0; bottom: 0; z-index: 1001; height: 3px; width: 100%; background: rgba(23,23,20,.08); }
-    .progress span { display: block; height: 100%; width: 0; background: var(--accent); transition: width 280ms var(--ease-out); }
+    /* === PRIMITIVE 5: FIGURES === */
+    .figure { position: relative; height: 560px; overflow: hidden; background: #e7e3da; }
+    .figure img { width: 100%; height: 100%; object-fit: cover; }
+    .figure.contain img { object-fit: contain; }
+    .figure-label { position: absolute; left: 20px; bottom: 18px; padding: 8px 10px; background: var(--paper); font-family: var(--font-mono); font-size: 13px; }
+
+    /* === COMPOSITIONS: variations made only from primitives === */
+    .title-slide .frame { padding-top: 62px; }
+    .title-slide .topline::after { top: 112px; }
+    .title-copy { margin-top: 92px; }
+    .title-copy .display { max-width: 1380px; }
+    .title-copy .lead { margin-top: 44px; }
+    .title-mark { position: absolute; right: 104px; bottom: 114px; font-family: var(--font-mono); font-size: 15px; writing-mode: vertical-rl; transform: rotate(180deg); }
+    .statement-slide .statement { margin-top: 92px; }
+    .statement-slide .lead { margin-top: 42px; }
+    .syntax { margin-top: 58px; border-top: 1px solid currentColor; }
+    .syntax-line { display: grid; grid-template-columns: 250px 1fr; gap: 42px; padding: 27px 0; border-bottom: 1px solid currentColor; align-items: baseline; }
+    .syntax-key { font-family: var(--font-mono); font-size: 18px; text-transform: uppercase; }
+    .syntax-value { font-size: 43px; letter-spacing: -.035em; }
+    .domain-word { font-size: 72px; line-height: .92; letter-spacing: -.055em; font-weight: 520; }
+    .domain-note { margin-top: 75px !important; }
+    .split-field { display: grid; grid-template-columns: 1fr 1fr; height: 100%; }
+    .field { padding: 74px 78px 64px; display: flex; flex-direction: column; }
+    .field.blue { background: var(--blue); color: #fff; }
+    .field.orange { background: var(--orange); color: var(--ink); }
+    .field .topline::after { display: none; }
+    .field .stat-value { margin-top: 250px; }
+    .field .field-secondary { margin-top: 44px; display: flex; gap: 70px; }
+    .field .field-secondary strong { display: block; font-size: 49px; line-height: 1; letter-spacing: -.05em; }
+    .field .field-secondary span { display: block; margin-top: 10px; font-family: var(--font-mono); font-size: 14px; }
+    .dark { --slide-bg: var(--ink); background: var(--ink); color: var(--cream); }
+    .dark .lead, .dark .caption, .dark .footer, .dark .rail-row p, .dark .rule-cell p { color: rgba(244,241,233,.66); }
+    .dark .topline::after, .dark .footer { border-color: rgba(244,241,233,.22); }
+    .dark .figure { background: #292925; }
+    .dark .figure-label { background: var(--cream); color: var(--ink); }
+    .source-links { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid currentColor; margin-top: 52px; }
+    .source-links a { padding: 24px 30px 24px 0; border-bottom: 1px solid currentColor; text-decoration: none; font-family: var(--font-mono); font-size: 16px; }
+    .source-links a + a { padding-left: 30px; border-left: 1px solid currentColor; }
+
+    /* === MOTION: one restrained entrance system === */
+    .reveal { opacity: 0; transform: translateY(18px); transition: opacity var(--duration) var(--ease), transform var(--duration) var(--ease); }
+    .slide.visible .reveal { opacity: 1; transform: translateY(0); }
+    .reveal:nth-child(2) { transition-delay: 70ms; }
+    .reveal:nth-child(3) { transition-delay: 140ms; }
+    .reveal:nth-child(4) { transition-delay: 210ms; }
+    .reveal:nth-child(5) { transition-delay: 280ms; }
+
+    /* === VIEWPORT CHROME + INLINE EDITOR === */
+    .deck-controls { display: flex; align-items: center; gap: 10px; padding: 7px 11px; border: 1px solid rgba(17,17,15,.16); border-radius: 99px; background: rgba(251,250,246,.9); backdrop-filter: blur(12px); color: var(--ink); opacity: 0; transition: opacity 180ms ease; }
+    .deck-controls:hover, .deck-controls:focus-within { opacity: 1; }
+    .deck-controls button { border: 0; width: 30px; height: 30px; border-radius: 50%; background: transparent; cursor: pointer; color: var(--ink); }
+    .deck-controls button:hover { background: rgba(17,17,15,.08); }
+    .counter { min-width: 56px; text-align: center; font-family: var(--font-mono); font-size: 12px; }
+    .progress { position: fixed; left: 0; bottom: 0; z-index: 1001; height: 2px; width: 100%; background: rgba(17,17,15,.08); }
+    .progress span { display: block; height: 100%; width: 0; background: var(--orange); transition: width 280ms var(--ease); }
     .edit-hotzone { position: fixed; top: 0; left: 0; width: 80px; height: 80px; z-index: 10000; cursor: pointer; }
-    .edit-toggle { position: fixed; top: 18px; left: 18px; z-index: 10001; opacity: 0; pointer-events: none; transition: opacity .3s ease; border: 1px solid rgba(23,23,20,.16); border-radius: 99px; background: var(--paper-raised); color: var(--ink); padding: 10px 15px; box-shadow: 0 8px 28px rgba(23,23,20,.1); cursor: pointer; }
-    .edit-toggle.show, .edit-toggle.active { opacity: 1; pointer-events: auto; }
-    .export-toggle { position: fixed; top: 18px; left: 132px; z-index: 10001; opacity: 0; pointer-events: none; transition: opacity .3s ease; border: 1px solid rgba(23,23,20,.16); border-radius: 99px; background: var(--paper-raised); padding: 10px 15px; cursor: pointer; }
-    .editing .export-toggle { opacity: 1; pointer-events: auto; }
-    .editing [contenteditable="true"] { outline: 2px dashed rgba(28,102,84,.45); outline-offset: 7px; border-radius: 3px; }
+    .edit-toggle, .export-toggle { position: fixed; top: 18px; z-index: 10001; opacity: 0; pointer-events: none; transition: opacity .3s ease; border: 1px solid rgba(17,17,15,.16); border-radius: 99px; background: var(--paper); color: var(--ink); padding: 10px 15px; cursor: pointer; }
+    .edit-toggle { left: 18px; }
+    .export-toggle { left: 132px; }
+    .edit-toggle.show, .edit-toggle.active, .editing .export-toggle { opacity: 1; pointer-events: auto; }
+    .editing [contenteditable="true"] { outline: 2px dashed rgba(49,87,213,.55); outline-offset: 7px; }
     .editing .deck-controls { opacity: .35; }
     .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+    @media (hover: none) { .deck-controls { opacity: 1; } }
   </style>
 </head>
 <body>
-  <!-- === ACCESSIBLE STATUS === -->
   <div id="slideStatus" class="sr-only" aria-live="polite"></div>
   <div class="deck-viewport">
     <main class="deck-stage" id="deckStage" aria-label="RBT4DNN seminar presentation">
 
-      <!-- === 01 TITLE === -->
+      <!-- === 01 / TITLE: giant type, no dashboard furniture === -->
       <section class="slide title-slide active" role="group" aria-roledescription="slide" aria-label="1 of 16: RBT4DNN">
-        <div class="slide-shell">
-          <div class="title-kicker eyebrow reveal">Independent seminar review + artifact study</div>
-          <h1 class="reveal" data-edit>RBT4DNN</h1>
-          <p class="lead reveal" data-edit>Requirements-based testing of neural networks</p>
-          <ul class="bullets reveal" style="max-width:850px">
-            <li data-edit>Natural-language requirements define the test target.</li>
-            <li data-edit>LoRA is the targeting mechanism.</li>
-            <li data-edit>Validity is the key critique.</li>
-          </ul>
-          <div class="title-index reveal" aria-hidden="true"><span>R → T</span></div>
+        <div class="frame">
+          <div class="topline reveal"><span>Independent seminar review</span><span>2026</span></div>
+          <div class="title-copy">
+            <h1 class="display reveal" data-edit>Testing by<br>requirement.</h1>
+            <p class="lead reveal" data-edit>RBT4DNN turns structured natural language into targeted tests for neural networks.</p>
+          </div>
+          <div class="title-mark">RBT4DNN / ARTIFACT STUDY / 01</div>
           <div class="spacer"></div>
-          <div class="slide-foot"><span>Requirements → targeted tests → evidence</span><span class="page-tag">01 / 16</span></div>
+          <div class="footer"><span>Mozumder et al. (2025) · independent review</span><span>01 / 16</span></div>
         </div>
       </section>
 
-      <!-- === 02 PROBLEM === -->
-      <section class="slide" role="group" aria-roledescription="slide" aria-label="2 of 16: Average accuracy hides requirement failures">
-        <div class="slide-shell">
-          <div class="slide-head"><p class="eyebrow reveal">Problem</p><h2 class="reveal" data-edit>Average accuracy hides requirement failures</h2></div>
-          <div class="split">
-            <p class="quote reveal" data-edit>“Works on average” is not the same as “works in this scenario.”</p>
-            <div class="number-list reveal">
-              <article class="card"><h3 data-edit>Benchmarks average</h3><p data-edit>Standard benchmarks answer the average case.</p></article>
-              <article class="card soft"><h3 data-edit>Requirements specify</h3><p data-edit>Requirements ask for specific scenario behavior.</p></article>
-              <article class="card"><h3 data-edit>Tests must qualify</h3><p data-edit>Synthetic tests are useful only when they hit the scenario.</p></article>
-            </div>
-          </div>
-          <div class="slide-foot"><span>Motivation</span><span class="page-tag">02 / 16</span></div>
+      <!-- === 02 / STATEMENT === -->
+      <section class="slide statement-slide" role="group" aria-roledescription="slide" aria-label="2 of 16: Average accuracy hides requirement failures">
+        <div class="frame">
+          <div class="topline reveal"><span>Problem</span><span>Average ≠ scenario</span></div>
+          <p class="statement reveal" data-edit>“Works on average” is not the same as “works <span class="accent-orange">here</span>.”</p>
+          <p class="lead reveal" data-edit>Benchmarks summarize. Requirements specify the case that must work. A generated test only matters when it actually matches that case.</p>
+          <div class="spacer"></div>
+          <div class="footer"><span>Motivation</span><span>02 / 16</span></div>
         </div>
       </section>
 
-      <!-- === 03 STRUCTURED REQUIREMENT === -->
+      <!-- === 03 / SYNTAX === -->
       <section class="slide" role="group" aria-roledescription="slide" aria-label="3 of 16: Natural-language requirements become executable">
-        <div class="slide-shell">
-          <div class="slide-head"><p class="eyebrow reveal">Method</p><h2 class="reveal" data-edit>RBT4DNN makes natural-language requirements executable</h2></div>
-          <div class="grid-3" style="margin-top:58px">
-            <article class="card soft reveal"><p class="eyebrow">01</p><h3 data-edit>Precondition</h3><p data-edit>Which generated inputs count.</p></article>
-            <article class="card reveal"><p class="eyebrow">02</p><h3 data-edit>Postcondition</h3><p data-edit>What the model must do.</p></article>
-            <article class="card warm-card reveal"><p class="eyebrow">03</p><h3 data-edit>Glossary</h3><p data-edit>Maps language to visual properties.</p></article>
+        <div class="frame">
+          <div class="topline reveal"><span>Method</span><span>Structured natural language</span></div>
+          <div class="content">
+            <h2 class="headline reveal" data-edit>A requirement becomes a small executable specification.</h2>
+            <div class="syntax reveal">
+              <div class="syntax-line"><span class="syntax-key">If</span><span class="syntax-value" data-edit>the generated input satisfies the precondition</span></div>
+              <div class="syntax-line"><span class="syntax-key">Expect</span><span class="syntax-value" data-edit>the model to satisfy the postcondition</span></div>
+              <div class="syntax-line"><span class="syntax-key">Define</span><span class="syntax-value" data-edit>ambiguous visual terms in a glossary</span></div>
+            </div>
           </div>
-          <p class="lead reveal" style="margin-top:46px" data-edit>The paper is about requirements-based testing with structured natural language—not generic data augmentation.</p>
-          <div class="spacer"></div><div class="slide-foot"><span>Original paper: Mozumder et al. (2025)</span><span class="page-tag">03 / 16</span></div>
+          <div class="footer"><span>Original paper: Mozumder et al. (2025)</span><span>03 / 16</span></div>
         </div>
       </section>
 
-      <!-- === 04 PIPELINE === -->
+      <!-- === 04 / SEQUENCE === -->
       <section class="slide" role="group" aria-roledescription="slide" aria-label="4 of 16: Requirement-to-test-data pipeline">
-        <div class="slide-shell">
-          <div class="slide-head"><p class="eyebrow reveal">Method</p><h2 class="reveal" data-edit>The method is a requirement-to-test-data pipeline</h2></div>
-          <div class="pipeline reveal" aria-label="Four-step pipeline">
-            <article class="step"><p class="step-index">01</p><h3>Specify</h3><p data-edit>Write the precondition, postcondition, and glossary.</p></article>
-            <article class="step"><p class="step-index">02</p><h3>Filter</h3><p data-edit>Filter seed examples by the requirement precondition.</p></article>
-            <article class="step"><p class="step-index">03</p><h3>Adapt</h3><p data-edit>Fine-tune one LoRA adapter for that requirement.</p></article>
-            <article class="step"><p class="step-index">04</p><h3>Test</h3><p data-edit>Generate tests, then check the model against the postcondition.</p></article>
+        <div class="frame">
+          <div class="topline reveal"><span>Method</span><span>Requirement → evidence</span></div>
+          <div class="content">
+            <h2 class="headline reveal" data-edit>Four moves. One test pipeline.</h2>
+            <div class="sequence reveal" style="margin-top:62px" aria-label="Four-step pipeline">
+              <div class="sequence-step"><span class="index">01</span><h3>Specify</h3><p data-edit>Write the precondition, postcondition, and glossary.</p></div>
+              <div class="sequence-step"><span class="index">02</span><h3>Filter</h3><p data-edit>Select seed examples that match the target scenario.</p></div>
+              <div class="sequence-step"><span class="index">03</span><h3>Adapt</h3><p data-edit>Fine-tune one LoRA adapter for the requirement.</p></div>
+              <div class="sequence-step"><span class="index">04</span><h3>Test</h3><p data-edit>Generate inputs and check the postcondition.</p></div>
+            </div>
           </div>
-          <div class="spacer"></div><div class="slide-foot"><span>Independent reconstruction from the paper’s method</span><span class="page-tag">04 / 16</span></div>
+          <div class="footer"><span>Independent reconstruction of the method</span><span>04 / 16</span></div>
         </div>
       </section>
 
-      <!-- === 05 LORA === -->
-      <section class="slide" role="group" aria-roledescription="slide" aria-label="5 of 16: LoRA targeting">
-        <div class="slide-shell">
-          <div class="slide-head"><p class="eyebrow reveal">Method</p><h2 class="reveal" data-edit>LoRA matters because prompting misses the target distribution</h2></div>
-          <div class="split">
-            <div class="reveal">
-              <div class="metric-pair">
-                <div><p class="eyebrow">Prompt only</p><div class="big warm">↗ drift</div><p data-edit>Scene style and camera distribution can change.</p></div>
-                <div><p class="eyebrow">Targeted LoRA</p><div class="big accent">◎ closer</div><p data-edit>Samples move toward the training scenario.</p></div>
-              </div>
+      <!-- === 05 / DARK CONTRAST === -->
+      <section class="slide dark" role="group" aria-roledescription="slide" aria-label="5 of 16: LoRA targeting">
+        <div class="frame">
+          <div class="topline reveal"><span>Targeting</span><span>LoRA</span></div>
+          <div class="content cols-2 wide-left">
+            <div>
+              <h2 class="statement reveal" data-edit>Closer to the target.<br><span class="accent-orange">One adapter each.</span></h2>
+              <p class="lead reveal" style="margin-top:42px" data-edit>LoRA reduces prompt drift, but turns every requirement into a separate operational artifact.</p>
             </div>
-            <div class="reveal">
-              <p class="quote" data-edit>Better targeting—at the cost of one adapter per requirement.</p>
-              <p class="lead" style="margin-top:34px" data-edit>This improves targeting, but raises scalability questions.</p>
+            <div class="rail reveal">
+              <div class="rail-row"><span class="index">A</span><h3>Prompt only</h3><p>More distribution drift</p></div>
+              <div class="rail-row"><span class="index">B</span><h3>Targeted LoRA</h3><p>Closer scenario samples</p></div>
+              <div class="rail-row"><span class="index">C</span><h3>Trade-off</h3><p>Targeting quality ↔ adapter cost</p></div>
             </div>
           </div>
-          <div class="slide-foot"><span>Targeting quality ↔ operational cost</span><span class="page-tag">05 / 16</span></div>
+          <div class="footer"><span>Better targeting, harder scaling</span><span>05 / 16</span></div>
         </div>
       </section>
 
-      <!-- === 06 DOMAINS === -->
+      <!-- === 06 / DOMAIN MATRIX === -->
       <section class="slide" role="group" aria-roledescription="slide" aria-label="6 of 16: Four visual domains">
-        <div class="slide-shell">
-          <div class="slide-head"><p class="eyebrow reveal">Evidence</p><h2 class="reveal" data-edit>The paper evaluates four visual domains</h2></div>
-          <div class="grid-4 domains" style="margin-top:54px">
-            <article class="card reveal"><div class="domain-mark">M</div><div><h3>MNIST</h3><p data-edit>Simple and easy to audit.</p></div></article>
-            <article class="card reveal"><div class="domain-mark">S</div><div><h3>SGSM</h3><p data-edit>Scene-graph semantics expose validity.</p></div></article>
-            <article class="card reveal"><div class="domain-mark">C</div><div><h3>CelebA-HQ</h3><p data-edit>Attributes on natural images.</p></div></article>
-            <article class="card reveal"><div class="domain-mark">I</div><div><h3>ImageNet</h3><p data-edit>Broader object-domain behavior.</p></div></article>
+        <div class="frame">
+          <div class="topline reveal"><span>Evidence</span><span>Four domains</span></div>
+          <div class="content">
+            <h2 class="headline reveal" data-edit>From digits to natural images.</h2>
+            <div class="rule-grid cols-4 reveal" style="margin-top:66px">
+              <div class="rule-cell"><div class="index">01 / M</div><div class="domain-word">MNIST</div><p class="domain-note" data-edit>Simple, inspectable.</p></div>
+              <div class="rule-cell"><div class="index">02 / S</div><div class="domain-word">SGSM</div><p class="domain-note" data-edit>Semantic scenes.</p></div>
+              <div class="rule-cell"><div class="index">03 / C</div><div class="domain-word">CelebA</div><p class="domain-note" data-edit>Natural attributes.</p></div>
+              <div class="rule-cell"><div class="index">04 / I</div><div class="domain-word">ImageNet</div><p class="domain-note" data-edit>Broad objects.</p></div>
+            </div>
+            <p class="lead reveal" style="margin-top:48px" data-edit>Pass rate and precondition match are meaningful only when read together.</p>
           </div>
-          <p class="lead reveal" style="margin-top:44px" data-edit>The evaluation is strongest when pass rate and precondition match are reported together.</p>
-          <div class="spacer"></div><div class="slide-foot"><span>No paper or dataset images republished</span><span class="page-tag">06 / 16</span></div>
+          <div class="footer"><span>No paper or dataset images republished</span><span>06 / 16</span></div>
         </div>
       </section>
 
-      <!-- === 07 REPLICATION === -->
+      <!-- === 07 / REPLICATION STAT === -->
       <section class="slide" role="group" aria-roledescription="slide" aria-label="7 of 16: MNIST artifact comparison">
-        <div class="slide-shell">
-          <div class="slide-head"><p class="eyebrow reveal">Artifact comparison</p><h2 class="reveal" data-edit>The MNIST artifact reproduces the paper closely</h2></div>
-          <div class="split">
-            <div class="reveal">
-              <div class="metric-pair">
-                <div><p class="eyebrow">Requirements checked</p><div class="big">7</div><p>MNIST M1–M7</p></div>
-                <div><p class="eyebrow">Largest absolute delta</p><div class="big accent">0.013</div><p>Recorded local vs paper pass rate</p></div>
-              </div>
-              <p class="small" style="margin-top:22px">Artifact-level comparison of precomputed fields; no fresh LoRA training or full image reclassification.</p>
+        <div class="frame">
+          <div class="topline reveal"><span>Artifact comparison</span><span>MNIST · M1–M7</span></div>
+          <div class="content cols-2 wide-left">
+            <div>
+              <h2 class="headline reveal" data-edit>The artifact tracks the paper closely.</h2>
+              <div class="stat reveal" style="margin-top:80px"><span class="stat-value accent-blue">0.013</span><span class="stat-label">largest absolute pass-rate difference across seven MNIST requirements</span></div>
             </div>
-            <div class="bar-chart reveal" aria-label="Absolute pass-rate deltas">
+            <div class="bars reveal" aria-label="Absolute pass-rate deltas">
               <div class="bar-row"><span class="bar-label">M1</span><div class="bar-track"><div class="bar-fill" style="--value:8%"></div></div><span class="bar-value">.001</span></div>
               <div class="bar-row"><span class="bar-label">M2</span><div class="bar-track"><div class="bar-fill" style="--value:100%"></div></div><span class="bar-value">.013</span></div>
               <div class="bar-row"><span class="bar-label">M3</span><div class="bar-track"><div class="bar-fill" style="--value:46%"></div></div><span class="bar-value">.006</span></div>
-              <div class="bar-row"><span class="bar-label">M4</span><div class="bar-track"><div class="bar-fill warm-fill" style="--value:92%"></div></div><span class="bar-value">.012</span></div>
+              <div class="bar-row"><span class="bar-label">M4</span><div class="bar-track"><div class="bar-fill orange" style="--value:92%"></div></div><span class="bar-value">.012</span></div>
               <div class="bar-row"><span class="bar-label">M5–M7</span><div class="bar-track"><div class="bar-fill" style="--value:46%"></div></div><span class="bar-value">≤.006</span></div>
+              <p class="caption" style="margin-top:22px">Precomputed artifact fields; no fresh LoRA training or full reclassification.</p>
             </div>
           </div>
-          <div class="slide-foot"><span>experiments/replication/results.csv</span><span class="page-tag">07 / 16</span></div>
+          <div class="footer"><span>experiments/replication/results.csv</span><span>07 / 16</span></div>
         </div>
       </section>
 
-      <!-- === 08 OFF TARGET === -->
+      <!-- === 08 / FULL-BLEED COMPARISON === -->
       <section class="slide" role="group" aria-roledescription="slide" aria-label="8 of 16: Off-target generation">
-        <div class="slide-shell">
-          <div class="slide-head"><p class="eyebrow reveal">Validity gap</p><h2 class="reveal" data-edit>Off-target generation can make a weak test look strong</h2></div>
-          <div class="grid-2" style="margin-top:52px">
-            <article class="card soft reveal"><p class="eyebrow">Targeted LoRA · M3</p><div class="grid-2" style="margin-top:26px"><div><div class="metric">69.4%</div><p>pass rate</p></div><div><div class="metric accent">95.8%</div><p>precondition match</p></div></div><p data-edit>Lower pass rate, but generated tests mostly match the target.</p></article>
-            <article class="card warm-card reveal"><p class="eyebrow">All-data generator · M3</p><div class="grid-2" style="margin-top:26px"><div><div class="metric">99.6%</div><p>pass rate</p></div><div><div class="metric warm">7.4%</div><p>precondition match</p></div></div><p data-edit>High pass rate, but almost no matching thick 7s.</p></article>
+        <div class="split-field">
+          <div class="field blue">
+            <div class="topline reveal"><span>Targeted LoRA · M3</span><span>on target</span></div>
+            <div class="stat-value reveal">69.4%</div>
+            <p class="lead reveal" style="color:rgba(255,255,255,.76)">pass rate</p>
+            <div class="field-secondary reveal"><div><strong>95.8%</strong><span>precondition match</span></div></div>
+            <div class="spacer"></div><div class="footer" style="color:rgba(255,255,255,.7);border-color:rgba(255,255,255,.28)"><span>Mostly the requested scenario</span><span>08A</span></div>
           </div>
-          <p class="quote reveal" style="margin-top:46px" data-edit>Pass rate alone can be misleading.</p>
-          <div class="spacer"></div><div class="slide-foot"><span>Aggregate paper metrics joined in the seminar analysis</span><span class="page-tag">08 / 16</span></div>
+          <div class="field orange">
+            <div class="topline reveal"><span>All-data generator · M3</span><span>off target</span></div>
+            <div class="stat-value reveal">99.6%</div>
+            <p class="lead reveal" style="color:rgba(17,17,15,.72)">pass rate</p>
+            <div class="field-secondary reveal"><div><strong>7.4%</strong><span>precondition match</span></div></div>
+            <div class="spacer"></div><div class="footer" style="color:rgba(17,17,15,.72);border-color:rgba(17,17,15,.28)"><span>A strong-looking but weak test</span><span>08B</span></div>
+          </div>
         </div>
       </section>
 
-      <!-- === 09 VALID FAILURE === -->
+      <!-- === 09 / FORMULA + YIELD === -->
       <section class="slide" role="group" aria-roledescription="slide" aria-label="9 of 16: Valid-failure yield">
-        <div class="slide-shell">
-          <div class="slide-head"><p class="eyebrow reveal">Replication lens</p><h2 class="reveal" data-edit>Valid-failure yield is the better comparison metric</h2></div>
-          <div class="split">
-            <div class="reveal"><div class="formula"><span class="accent">precondition match</span> × (1 − pass rate)</div><ul class="bullets"><li data-edit>Combines valid precondition match and postcondition failure.</li><li data-edit>Ranks requirements by useful failures, not just generated images.</li></ul></div>
-            <div class="bar-chart reveal" aria-label="Estimated valid-failure rate">
+        <div class="frame">
+          <div class="topline reveal"><span>Derived metric</span><span>Validity × failure</span></div>
+          <div class="content cols-2 wide-left">
+            <div>
+              <h2 class="headline reveal" data-edit>Count failures that are actually valid.</h2>
+              <p class="formula reveal" style="margin-top:86px"><span class="accent-blue">valid-failure yield</span><br><span class="operator">=</span> match × (1 − pass)</p>
+              <p class="caption reveal" style="margin-top:28px">Approximation from aggregate rates; not observed joint labels.</p>
+            </div>
+            <div class="bars reveal" aria-label="Estimated valid-failure rate">
               <div class="bar-row"><span class="bar-label">SGSM S2</span><div class="bar-track"><div class="bar-fill" style="--value:100%"></div></div><span class="bar-value">73.6%</span></div>
               <div class="bar-row"><span class="bar-label">MNIST M3</span><div class="bar-track"><div class="bar-fill" style="--value:40%"></div></div><span class="bar-value">29.3%</span></div>
               <div class="bar-row"><span class="bar-label">SGSM S1</span><div class="bar-track"><div class="bar-fill" style="--value:36%"></div></div><span class="bar-value">26.3%</span></div>
-              <div class="bar-row"><span class="bar-label">CelebA C6</span><div class="bar-track"><div class="bar-fill warm-fill" style="--value:27%"></div></div><span class="bar-value">20.0%</span></div>
+              <div class="bar-row"><span class="bar-label">CelebA C6</span><div class="bar-track"><div class="bar-fill orange" style="--value:27%"></div></div><span class="bar-value">20.0%</span></div>
             </div>
           </div>
-          <div class="slide-foot"><span>Aggregate estimate, not observed joint labels · experiments/precondition-validity</span><span class="page-tag">09 / 16</span></div>
+          <div class="footer"><span>experiments/precondition-validity</span><span>09 / 16</span></div>
         </div>
       </section>
 
-      <!-- === 10 COST === -->
-      <section class="slide" role="group" aria-roledescription="slide" aria-label="10 of 16: Cost per valid failure">
-        <div class="slide-shell">
-          <div class="slide-head"><p class="eyebrow reveal">Prioritization</p><h2 class="reveal" data-edit>Cost per valid failure changes which tests look attractive</h2></div>
-          <div class="split">
-            <div class="bar-chart reveal" aria-label="Illustrative dollars per estimated valid failure">
+      <!-- === 10 / COST === -->
+      <section class="slide dark" role="group" aria-roledescription="slide" aria-label="10 of 16: Cost per valid failure">
+        <div class="frame">
+          <div class="topline reveal"><span>Prioritization</span><span>$ / useful failure</span></div>
+          <div class="content cols-2">
+            <div class="bars reveal" aria-label="Illustrative dollars per estimated valid failure">
               <div class="bar-row"><span class="bar-label">SGSM S2</span><div class="bar-track"><div class="bar-fill" style="--value:17%"></div></div><span class="bar-value">$0.05</span></div>
               <div class="bar-row"><span class="bar-label">MNIST M3</span><div class="bar-track"><div class="bar-fill" style="--value:40%"></div></div><span class="bar-value">$0.12</span></div>
               <div class="bar-row"><span class="bar-label">SGSM S1</span><div class="bar-track"><div class="bar-fill" style="--value:47%"></div></div><span class="bar-value">$0.14</span></div>
-              <div class="bar-row"><span class="bar-label">CelebA C6</span><div class="bar-track"><div class="bar-fill warm-fill" style="--value:60%"></div></div><span class="bar-value">$0.18</span></div>
-              <div class="bar-row"><span class="bar-label">CelebA C2</span><div class="bar-track"><div class="bar-fill warm-fill" style="--value:100%"></div></div><span class="bar-value">$0.30</span></div>
+              <div class="bar-row"><span class="bar-label">CelebA C6</span><div class="bar-track"><div class="bar-fill orange" style="--value:60%"></div></div><span class="bar-value">$0.18</span></div>
+              <div class="bar-row"><span class="bar-label">CelebA C2</span><div class="bar-track"><div class="bar-fill orange" style="--value:100%"></div></div><span class="bar-value">$0.30</span></div>
             </div>
-            <div class="reveal"><p class="quote" data-edit>Cheap generation is not enough. Valid failures are the useful unit.</p><ul class="bullets"><li data-edit>Dollar values are illustrative.</li><li data-edit>The comparison is still useful for prioritization.</li></ul></div>
+            <div>
+              <p class="statement reveal" data-edit>Cheap generation is not enough.</p>
+              <p class="lead reveal" style="margin-top:42px" data-edit>The useful unit is cost per valid failure—not cost per image.</p>
+            </div>
           </div>
-          <div class="slide-foot"><span>Illustrative assumptions · experiments/cost-analysis</span><span class="page-tag">10 / 16</span></div>
+          <div class="footer"><span>Illustrative assumptions · experiments/cost-analysis</span><span>10 / 16</span></div>
         </div>
       </section>
 
-      <!-- === 11 MNIST SHARED GENERATOR === -->
+      <!-- === 11 / IMAGE + METRIC === -->
       <section class="slide" role="group" aria-roledescription="slide" aria-label="11 of 16: Shared generator on MNIST">
-        <div class="slide-shell">
-          <div class="slide-head"><p class="eyebrow reveal">Extension experiment</p><h2 class="reveal" data-edit>A shared generator works on MNIST but weakens on natural images</h2></div>
-          <div class="split">
-            <figure class="sample-frame reveal"><img src="assets/mnist-shared-generator-samples.png" alt="Grid of MNIST digits generated by the seminar project's shared conditional VAE"></figure>
-            <div class="reveal"><div class="metric-pair"><div><p class="eyebrow">Shared VAE</p><div class="big accent">.945</div><p>mean pass rate</p></div><div><p class="eyebrow">Paper LoRA</p><div class="big">.942</div><p>reference mean</p></div></div><ul class="bullets"><li data-edit>MNIST shared VAE is close to paper LoRA.</li><li data-edit>But MNIST is the easy case.</li></ul></div>
-          </div>
-          <div class="slide-foot"><span>3 seeds · no exact training-image matches · generated sample grid</span><span class="page-tag">11 / 16</span></div>
-        </div>
-      </section>
-
-      <!-- === 12 CELEBA === -->
-      <section class="slide" role="group" aria-roledescription="slide" aria-label="12 of 16: Shared generator on CelebA-HQ">
-        <div class="slide-shell">
-          <div class="slide-head"><p class="eyebrow reveal">Extension experiment</p><h2 class="reveal" data-edit>CelebA shows why shared generation is risky</h2></div>
-          <div class="split">
-            <div class="reveal"><p class="quote" data-edit>Classifier validation is only <span class="warm">0.636</span>.</p><p class="lead" style="margin-top:34px" data-edit>This is a caution signal rather than a final benchmark.</p><div class="card warm-card" style="margin-top:36px"><p class="eyebrow">Generated-image alignment</p><div class="metric">0.613</div><p>Top-1 requirement-classifier alignment</p></div></div>
-            <figure class="sample-frame reveal"><img src="assets/celeba-shared-generator-samples.png" alt="Grid of natural-image samples generated by the seminar project's shared conditional VAE"></figure>
-          </div>
-          <div class="slide-foot"><span>1 seed · weak evaluator · generated sample grid</span><span class="page-tag">12 / 16</span></div>
-        </div>
-      </section>
-
-      <!-- === 13 VALIDITY CHECKS === -->
-      <section class="slide" role="group" aria-roledescription="slide" aria-label="13 of 16: Independent validity checks">
-        <div class="slide-shell">
-          <div class="slide-head"><p class="eyebrow reveal">Critique</p><h2 class="reveal" data-edit>Generated images need independent validity checks</h2></div>
-          <div class="validity-stack" style="margin-top:54px">
-            <article class="card reveal"><p class="eyebrow">Model-side check</p><div class="metric">Classifier</div><p data-edit>Can be circular when the evaluator shares the tested model’s assumptions.</p></article>
-            <div class="join reveal">+</div>
-            <article class="card soft reveal"><p class="eyebrow">Semantic check</p><div class="metric accent">External judgment</div><p data-edit>LLM audit highlights risk, but is not ground truth.</p></article>
-          </div>
-          <div class="grid-2" style="margin-top:28px"><div class="card reveal"><p class="eyebrow">Small audit</p><div class="metric">42 / 42</div><p>completed samples; 0.738 judged valid</p></div><div class="card warm-card reveal"><p class="eyebrow">Stronger replication</p><div class="metric">Human agreement</div><p data-edit>Report agreement for generated-input validity labels.</p></div></div>
-          <div class="spacer"></div><div class="slide-foot"><span>Small external LLM audit; not ground truth</span><span class="page-tag">13 / 16</span></div>
-        </div>
-      </section>
-
-      <!-- === 14 HUMAN SEMANTICS === -->
-      <section class="slide" role="group" aria-roledescription="slide" aria-label="14 of 16: Human semantic work">
-        <div class="slide-shell">
-          <div class="slide-head"><p class="eyebrow reveal">Critique</p><h2 class="reveal" data-edit>The hardest part is still human semantic work</h2></div>
-          <div class="grid-4" style="margin-top:56px">
-            <article class="card reveal"><p class="eyebrow">01</p><h3 data-edit>Requirements</h3><p data-edit>Humans decide which behavior matters.</p></article>
-            <article class="card reveal"><p class="eyebrow">02</p><h3 data-edit>Glossaries</h3><p data-edit>Language is mapped to visual properties.</p></article>
-            <article class="card reveal"><p class="eyebrow">03</p><h3 data-edit>Label rules</h3><p data-edit>Ambiguity becomes test-data ambiguity.</p></article>
-            <article class="card warm-card reveal"><p class="eyebrow">04</p><h3 data-edit>Agreement</h3><p data-edit>Validators may disagree on precondition satisfaction.</p></article>
-          </div>
-          <p class="quote reveal" style="margin-top:48px" data-edit>RBT4DNN is only as strong as its semantic layer.</p>
-          <div class="spacer"></div><div class="slide-foot"><span>Reproducibility and industrial scale depend on semantic rigor</span><span class="page-tag">14 / 16</span></div>
-        </div>
-      </section>
-
-      <!-- === 15 FUTURE STUDY === -->
-      <section class="slide" role="group" aria-roledescription="slide" aria-label="15 of 16: Stronger replication">
-        <div class="slide-shell">
-          <div class="slide-head"><p class="eyebrow reveal">Future study</p><h2 class="reveal" data-edit>A stronger replication should test validity, cost, and coverage together</h2></div>
-          <div class="split">
-            <div class="number-list reveal">
-              <article class="card"><h3 data-edit>Compare generators</h3><p data-edit>Per-requirement LoRA, shared generator, prompt-only, and retrieved real data.</p></article>
-              <article class="card"><h3 data-edit>Report four metrics</h3><p data-edit>Precondition validity, pass rate, valid-failure yield, and cost per useful failure.</p></article>
-              <article class="card"><h3 data-edit>Add agreement</h3><p data-edit>Human validity labels in harder semantic domains.</p></article>
+        <div class="frame">
+          <div class="topline reveal"><span>Extension experiment</span><span>Shared generator · MNIST</span></div>
+          <div class="content cols-2 wide-right">
+            <div>
+              <h2 class="headline reveal" data-edit>Shared generation works on the easy case.</h2>
+              <div class="stat reveal" style="margin-top:72px"><span class="stat-value accent-blue">.945</span><span class="stat-label">mean pass rate · shared VAE<br>paper LoRA reference: .942</span></div>
+              <p class="caption reveal" style="margin-top:32px">3 seeds · no exact training-image matches</p>
             </div>
-            <div class="coverage-axis reveal" aria-label="Conceptual chart of validity, coverage, and cost">
+            <figure class="figure contain reveal"><img src="assets/mnist-shared-generator-samples.png" alt="Grid of MNIST digits generated by the seminar project's shared conditional VAE"><figcaption class="figure-label">Generated samples / seminar experiment</figcaption></figure>
+          </div>
+          <div class="footer"><span>MNIST is the easy case</span><span>11 / 16</span></div>
+        </div>
+      </section>
+
+      <!-- === 12 / IMAGE + WARNING === -->
+      <section class="slide dark" role="group" aria-roledescription="slide" aria-label="12 of 16: Shared generator on CelebA-HQ">
+        <div class="frame">
+          <div class="topline reveal"><span>Extension experiment</span><span>Shared generator · CelebA-HQ</span></div>
+          <div class="content cols-2 wide-left">
+            <figure class="figure contain reveal"><img src="assets/celeba-shared-generator-samples.png" alt="Grid of natural-image samples generated by the seminar project's shared conditional VAE"><figcaption class="figure-label">Generated samples / seminar experiment</figcaption></figure>
+            <div>
+              <h2 class="headline reveal" data-edit>Natural images expose the weakness.</h2>
+              <div class="rule-grid cols-3 reveal" style="margin-top:72px">
+                <div class="rule-cell"><div class="index">VALIDATION</div><div class="stat-value" style="font-size:74px">.636</div></div>
+                <div class="rule-cell"><div class="index">ALIGNMENT</div><div class="stat-value accent-orange" style="font-size:74px">.613</div></div>
+                <div class="rule-cell"><div class="index">READING</div><p style="margin-top:34px" data-edit>Caution signal, not final benchmark.</p></div>
+              </div>
+            </div>
+          </div>
+          <div class="footer"><span>1 seed · weak evaluator</span><span>12 / 16</span></div>
+        </div>
+      </section>
+
+      <!-- === 13 / TWO CHECKS === -->
+      <section class="slide" role="group" aria-roledescription="slide" aria-label="13 of 16: Independent validity checks">
+        <div class="frame">
+          <div class="topline reveal"><span>Critique</span><span>Independent validity</span></div>
+          <div class="content">
+            <h2 class="headline reveal" data-edit>Generated images need a second opinion.</h2>
+            <div class="rule-grid cols-3 reveal" style="margin-top:72px">
+              <div class="rule-cell"><div class="index">01 / MODEL-SIDE</div><h3>Classifier</h3><p data-edit>Can be circular when it shares the tested model’s assumptions.</p></div>
+              <div class="rule-cell"><div class="index">02 / SEMANTIC</div><h3>External judgment</h3><p data-edit>An LLM audit surfaces risk, but is not ground truth.</p></div>
+              <div class="rule-cell"><div class="index">03 / NEXT</div><h3>Human agreement</h3><p data-edit>Harder domains need explicit validity labels and agreement.</p></div>
+            </div>
+            <div class="stat reveal" style="margin-top:54px"><span class="stat-value accent-blue" style="font-size:88px">42 / 42</span><span class="stat-label">audit samples completed · 0.738 judged valid</span></div>
+          </div>
+          <div class="footer"><span>Small external LLM audit; not ground truth</span><span>13 / 16</span></div>
+        </div>
+      </section>
+
+      <!-- === 14 / HUMAN WORK === -->
+      <section class="slide" role="group" aria-roledescription="slide" aria-label="14 of 16: Human semantic work">
+        <div class="frame">
+          <div class="topline reveal"><span>Critique</span><span>Semantic labor</span></div>
+          <div class="content cols-2 wide-left">
+            <h2 class="statement reveal" data-edit>The hard part is still <span class="accent-orange">human.</span></h2>
+            <div class="rail reveal">
+              <div class="rail-row"><span class="index">01</span><h3>Requirements</h3><p>Which behavior matters?</p></div>
+              <div class="rail-row"><span class="index">02</span><h3>Glossaries</h3><p>What do the words mean visually?</p></div>
+              <div class="rail-row"><span class="index">03</span><h3>Label rules</h3><p>Which inputs count?</p></div>
+              <div class="rail-row"><span class="index">04</span><h3>Agreement</h3><p>Do validators agree?</p></div>
+            </div>
+          </div>
+          <div class="footer"><span>Semantic rigor sets the ceiling</span><span>14 / 16</span></div>
+        </div>
+      </section>
+
+      <!-- === 15 / FUTURE STUDY === -->
+      <section class="slide" role="group" aria-roledescription="slide" aria-label="15 of 16: Stronger replication">
+        <div class="frame">
+          <div class="topline reveal"><span>Future study</span><span>Triangulated evidence</span></div>
+          <div class="content cols-2 wide-left">
+            <div>
+              <h2 class="headline reveal" data-edit>Test validity, cost, and coverage together.</h2>
+              <div class="rail reveal" style="margin-top:64px">
+                <div class="rail-row"><span class="index">01</span><h3>Generators</h3><p data-edit>LoRA, shared, prompt-only, retrieved real data</p></div>
+                <div class="rail-row"><span class="index">02</span><h3>Metrics</h3><p data-edit>match, pass, valid failure, useful cost</p></div>
+                <div class="rail-row"><span class="index">03</span><h3>Agreement</h3><p data-edit>human validity labels in hard domains</p></div>
+              </div>
+            </div>
+            <div class="axis reveal" aria-label="Conceptual chart of validity, coverage, and cost">
               <span class="dot" style="left:18%;bottom:21%" data-label="prompt-only"></span>
               <span class="dot" style="left:45%;bottom:42%" data-label="shared generator"></span>
               <span class="dot" style="left:68%;bottom:70%" data-label="targeted LoRA"></span>
-              <span class="dot" style="left:82%;bottom:84%;background:var(--warm)" data-label="goal: triangulated evidence"></span>
+              <span class="dot" style="left:82%;bottom:84%;background:var(--orange)" data-label="triangulated evidence"></span>
             </div>
           </div>
-          <div class="slide-foot"><span>Proposed replication design</span><span class="page-tag">15 / 16</span></div>
+          <div class="footer"><span>Proposed replication design</span><span>15 / 16</span></div>
         </div>
       </section>
 
-      <!-- === 16 TAKEAWAY AND SOURCES === -->
-      <section class="slide closing" role="group" aria-roledescription="slide" aria-label="16 of 16: Takeaway and sources">
-        <div class="slide-shell">
-          <div class="slide-head"><p class="eyebrow reveal">Takeaway</p><h2 class="reveal" data-edit>RBT4DNN is useful if <span class="accent">validity</span> becomes the main result</h2></div>
-          <div class="grid-3" style="margin-top:42px">
-            <article class="card reveal"><h3 data-edit>Language</h3><p data-edit>The core idea is structured natural-language testing.</p></article>
-            <article class="card reveal"><h3 data-edit>Targeting</h3><p data-edit>LoRA is the practical mechanism for targeted generation.</p></article>
-            <article class="card warm-card reveal"><h3 data-edit>Validity</h3><p data-edit>Labels, glossaries, and generated-input checks are the strongest critique.</p></article>
-          </div>
-          <p class="quote reveal" style="font-size:42px;margin-top:36px" data-edit>Discussion: is this natural-language testing, or glossary-based test generation?</p>
+      <!-- === 16 / TAKEAWAY === -->
+      <section class="slide statement-slide" role="group" aria-roledescription="slide" aria-label="16 of 16: Takeaway and sources">
+        <div class="frame">
+          <div class="topline reveal"><span>Takeaway</span><span>RBT4DNN</span></div>
+          <p class="statement reveal" data-edit>The method becomes useful when <span class="accent-blue">validity</span> becomes the main result.</p>
+          <p class="lead reveal" data-edit>Language defines the target. LoRA targets generation. Independent judgment determines whether the evidence counts.</p>
           <div class="source-links reveal" aria-label="Primary sources">
-            <a href="https://arxiv.org/abs/2504.02737">Original paper · arXiv:2504.02737</a>
-            <a href="https://github.com/less-lab-uva/RBT4DNN">Original artifact · less-lab-uva/RBT4DNN</a>
+            <a href="https://arxiv.org/abs/2504.02737">Original paper ↗</a>
+            <a href="https://github.com/less-lab-uva/RBT4DNN">Original artifact ↗</a>
           </div>
-          <div class="spacer"></div><div class="slide-foot"><span>Independent seminar study · not affiliated with the original authors</span><span class="page-tag">16 / 16</span></div>
+          <div class="spacer"></div>
+          <div class="footer"><span>Independent seminar study · not affiliated with the original authors</span><span>16 / 16</span></div>
         </div>
       </section>
     </main>
   </div>
 
-  <!-- === PRESENTATION CONTROLS: outside the fixed stage === -->
+  <!-- === PRESENTATION CONTROLS: one HTML file, hash fragments only === -->
   <nav class="deck-controls" aria-label="Presentation controls">
     <button id="previousSlide" type="button" aria-label="Previous slide">←</button>
     <span class="counter" id="slideCounter">1 / 16</span>
@@ -699,7 +742,7 @@
     class InlineEditor {
       constructor() {
         this.isActive = false;
-        this.storageKey = 'rbt4dnn-seminar-slide-edits-v1';
+        this.storageKey = 'rbt4dnn-seminar-slide-edits-v2';
         this.nodes = [...document.querySelectorAll('[data-edit]')];
         this.nodes.forEach((node, index) => node.dataset.editId = `edit-${index + 1}`);
         this.restore();
