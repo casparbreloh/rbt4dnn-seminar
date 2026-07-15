@@ -285,6 +285,7 @@
     .axis::after { content: "coverage + cost →"; position: absolute; right: 0; bottom: -34px; font-family: var(--font-mono); font-size: 14px; }
     .dot { position: absolute; width: 16px; height: 16px; background: var(--blue); border-radius: 50%; }
     .dot::after { content: attr(data-label); position: absolute; left: 28px; top: -4px; white-space: nowrap; font-family: var(--font-mono); font-size: 14px; }
+    .axis .dot:last-child::after { left: auto; right: 28px; }
 
     /* === PRIMITIVE 5: EXPLANATORY DIAGRAMS === */
     .diagram { width: 100%; height: 520px; overflow: visible; }
@@ -357,6 +358,27 @@
     .source-links { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid currentColor; margin-top: 52px; }
     .source-links a { padding: 24px 30px 24px 0; border-bottom: 1px solid currentColor; text-decoration: none; font-family: var(--font-mono); font-size: 16px; }
     .source-links a + a { padding-left: 30px; border-left: 1px solid currentColor; }
+    .eyebrow { font-family: var(--font-mono); font-size: 15px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+    .requirement { margin-top: 54px; padding: 34px 0; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); font-size: 47px; line-height: 1.22; letter-spacing: -.035em; }
+    .requirement strong { color: var(--blue); font-weight: 540; }
+    .finding { margin-top: 28px; font-size: 25px; line-height: 1.38; color: var(--muted); }
+    .finding strong { color: var(--ink); font-weight: 560; }
+    .source-note { font-family: var(--font-mono); font-size: 14px; line-height: 1.35; color: var(--muted); }
+    .rq-grid { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--ink); margin-top: 46px; }
+    .rq { min-height: 242px; padding: 27px 34px 26px 0; border-bottom: 1px solid var(--ink); border-right: 1px solid var(--ink); }
+    .rq:nth-child(3n + 2), .rq:nth-child(3n + 3) { padding-left: 34px; }
+    .rq:nth-child(3n) { border-right: 0; }
+    .rq .index { font-family: var(--font-mono); font-size: 15px; color: var(--blue); }
+    .rq h3 { margin-top: 48px; font-size: 31px; line-height: 1.08; letter-spacing: -.035em; font-weight: 540; }
+    .rq p { margin-top: 12px; font-size: 19px; line-height: 1.35; color: var(--muted); }
+    .metric-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 54px; margin-top: 58px; }
+    .metric-pair .stat { padding-top: 26px; border-top: 1px solid var(--ink); }
+    .metric-pair .stat-value { font-size: 108px; }
+    .bibliography { margin-top: 44px; border-top: 1px solid var(--ink); }
+    .bib-row { display: grid; grid-template-columns: 70px 1fr; gap: 24px; padding: 25px 0; border-bottom: 1px solid var(--ink); }
+    .bib-row .index { font-family: var(--font-mono); font-size: 15px; }
+    .bib-row p { font-size: 21px; line-height: 1.38; color: var(--muted); }
+    .bib-row strong { color: var(--ink); font-weight: 560; }
 
     /* === MOTION: one restrained entrance system === */
     .reveal { opacity: 0; transform: translateY(18px); transition: opacity var(--duration) var(--ease), transform var(--duration) var(--ease); }
@@ -390,154 +412,118 @@
   <div class="deck-viewport">
     <main class="deck-stage" id="deckStage" aria-label="RBT4DNN seminar presentation">
 
-      <!-- === 01 / TITLE: giant type, no dashboard furniture === -->
+      <!-- === 01 / TITLE === -->
       <section class="slide title-slide active" role="group" aria-roledescription="slide" aria-label="1 of 16: RBT4DNN">
         <div class="frame">
-          <div class="topline reveal"><span>Independent seminar review</span><span>2026</span></div>
+          <div class="topline reveal"><span>AI Testing Landscape · SS 2026</span><span>Technical University of Munich</span></div>
           <div class="title-copy">
-            <h1 class="display reveal" data-edit>Testing by<br>requirement.</h1>
-            <p class="lead reveal" data-edit>RBT4DNN turns structured natural language into targeted tests for neural networks.</p>
+            <h1 class="display reveal" data-edit>Testing neural networks<br>by requirement.</h1>
+            <p class="lead reveal" data-edit>A critical review of RBT4DNN and its evidence for requirement-guided test generation.</p>
           </div>
-          <div class="title-mark">RBT4DNN / ARTIFACT STUDY / 01</div>
+          <div class="title-mark">CASPAR BRELOH / SEMINAR PRESENTATION / 01</div>
           <div class="spacer"></div>
-          <div class="footer"><span>Mozumder et al. (2025) · independent review</span><span>01 / 16</span></div>
+          <div class="footer"><span>Caspar Breloh · Supervisors: Vivek V. Vekariya, Simon Speth · 2026</span><span>01 / 16</span></div>
         </div>
       </section>
 
-      <!-- === 02 / STATEMENT === -->
+      <!-- === 02 / PROBLEM === -->
       <section class="slide statement-slide" role="group" aria-roledescription="slide" aria-label="2 of 16: Average accuracy hides requirement failures">
         <div class="frame">
-          <div class="topline reveal"><span>Problem</span><span>Average ≠ scenario</span></div>
-          <p class="statement reveal" data-edit>“Works on average” is not the same as “works <span class="accent-orange">here</span>.”</p>
-          <p class="lead reveal" data-edit>Benchmarks summarize. Requirements specify the case that must work. A generated test only matters when it actually matches that case.</p>
+          <div class="topline reveal"><span>01 · Problem</span><span>Why requirements?</span></div>
+          <p class="statement reveal" data-edit>Accuracy answers <span class="accent-blue">how often.</span><br>Requirements ask <span class="accent-orange">when.</span></p>
+          <p class="lead reveal" data-edit>A model can perform well on a test set while violating a necessary condition in a rare, safety-relevant scenario.</p>
           <div class="scenario-map reveal" aria-label="Comparison between benchmark averages and requirement-level decisions">
-            <div class="scenario-path"><span class="index">Population view</span><span class="scenario-arrow"></span><strong>Dataset → average</strong><p data-edit>Useful for overall model quality; silent about the exact scenario.</p></div>
-            <div class="scenario-path"><span class="index">Requirement view</span><span class="scenario-arrow"></span><strong>Matching case → decision</strong><p data-edit>Useful only after the generated input passes the precondition.</p></div>
+            <div class="scenario-path"><span class="index">Conventional testing</span><span class="scenario-arrow"></span><strong>Test set → aggregate metric</strong><p data-edit>Summarizes behavior over the sampled distribution.</p></div>
+            <div class="scenario-path"><span class="index">Requirements-based testing</span><span class="scenario-arrow"></span><strong>Scenario → expected behavior</strong><p data-edit>Tests a stated input condition against its postcondition.</p></div>
           </div>
           <div class="spacer"></div>
-          <div class="footer"><span>Motivation</span><span>02 / 16</span></div>
+          <div class="footer"><span>[1] Mozumder et al., 2025, §1–2</span><span>02 / 16</span></div>
         </div>
       </section>
 
-      <!-- === 03 / SYNTAX === -->
-      <section class="slide" role="group" aria-roledescription="slide" aria-label="3 of 16: Natural-language requirements become executable">
+      <!-- === 03 / GAP AND CONTRIBUTION === -->
+      <section class="slide" role="group" aria-roledescription="slide" aria-label="3 of 16: Research gap and contribution">
         <div class="frame">
-          <div class="topline reveal"><span>Method</span><span>Structured natural language</span></div>
-          <div class="content">
-            <h2 class="headline reveal" data-edit>A requirement becomes a small executable specification.</h2>
-            <div class="syntax reveal">
-              <div class="syntax-line"><span class="syntax-key">If</span><span class="syntax-value" data-edit>the generated input satisfies the precondition</span><span class="syntax-role">validity gate<br>before scoring</span></div>
-              <div class="syntax-line"><span class="syntax-key">Expect</span><span class="syntax-value" data-edit>the model to satisfy the postcondition</span><span class="syntax-role">behavior under<br>test</span></div>
-              <div class="syntax-line"><span class="syntax-key">Define</span><span class="syntax-value" data-edit>ambiguous visual terms in a glossary</span><span class="syntax-role">shared semantic<br>reference</span></div>
-            </div>
-          </div>
-          <div class="footer"><span>Original paper: Mozumder et al. (2025)</span><span>03 / 16</span></div>
-        </div>
-      </section>
-
-      <!-- === 04 / SEQUENCE === -->
-      <section class="slide" role="group" aria-roledescription="slide" aria-label="4 of 16: Requirement-to-test-data pipeline">
-        <div class="frame">
-          <div class="topline reveal"><span>Method</span><span>Requirement → evidence</span></div>
-          <div class="content">
-            <h2 class="headline reveal" data-edit>Four moves. One test pipeline.</h2>
-            <div class="sequence reveal" style="margin-top:62px" aria-label="Four-step pipeline">
-              <div class="sequence-step"><span class="index">01</span><h3>Specify</h3><p data-edit>Write the precondition, postcondition, and glossary.</p></div>
-              <div class="sequence-step"><span class="index">02</span><h3>Filter</h3><p data-edit>Select seed examples that match the target scenario.</p></div>
-              <div class="sequence-step"><span class="index">03</span><h3>Adapt</h3><p data-edit>Fine-tune one LoRA adapter for the requirement.</p></div>
-              <div class="sequence-step"><span class="index">04</span><h3>Test</h3><p data-edit>Generate inputs and check the postcondition.</p></div>
-            </div>
-          </div>
-          <div class="footer"><span>Independent reconstruction of the method</span><span>04 / 16</span></div>
-        </div>
-      </section>
-
-      <!-- === 05 / TARGET DISTRIBUTION DIAGRAM === -->
-      <section class="slide" role="group" aria-roledescription="slide" aria-label="5 of 16: LoRA targeting">
-        <div class="frame">
-          <div class="topline reveal"><span>Targeting</span><span>LoRA</span></div>
+          <div class="topline reveal"><span>Research gap</span><span>Pixels ↔ requirements</span></div>
           <div class="content cols-2 wide-left">
             <div>
-              <h2 class="statement reveal" data-edit>Closer to the target.<br><span class="accent-orange">One adapter each.</span></h2>
-              <p class="lead reveal" style="margin-top:42px" data-edit>LoRA reduces prompt drift, but turns every requirement into a separate operational artifact.</p>
+              <h2 class="headline reveal" data-edit>Formal test generation needs a specification. DNN requirements resist one.</h2>
+              <p class="lead reveal" style="margin-top:42px" data-edit>Requirements use semantic concepts—vehicles, lanes, distance—while learned components and generators operate on pixels.</p>
             </div>
-            <svg class="diagram reveal" viewBox="0 0 720 520" role="img" aria-label="Prompt-only samples drift away while targeted LoRA samples concentrate inside the target distribution">
-              <defs><marker id="arrow5" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#11110f"/></marker></defs>
-              <text class="d-micro" x="24" y="34">seed examples</text>
-              <circle class="d-line d-dash" cx="86" cy="255" r="61"/>
-              <circle class="d-blue flow-dot" cx="62" cy="232" r="6"/><circle class="d-blue flow-dot" cx="96" cy="219" r="6"/><circle class="d-blue flow-dot" cx="111" cy="256" r="6"/><circle class="d-blue flow-dot" cx="76" cy="276" r="6"/><circle class="d-blue flow-dot" cx="103" cy="291" r="6"/>
-              <path class="d-line flow-path" d="M152 232 C230 210 246 125 330 116" marker-end="url(#arrow5)"/>
-              <path class="d-line flow-path" d="M152 278 C220 300 240 404 318 407" marker-end="url(#arrow5)"/>
-              <text class="d-label" x="352" y="70">Prompt only</text>
-              <text class="d-micro" x="352" y="94">distribution drift</text>
-              <ellipse class="d-line d-dash" cx="572" cy="132" rx="105" ry="70"/>
-              <text class="d-micro" x="530" y="136">target</text>
-              <circle class="d-orange flow-dot" cx="438" cy="112" r="6"/><circle class="d-orange flow-dot" cx="477" cy="190" r="6"/><circle class="d-orange flow-dot" cx="620" cy="52" r="6"/><circle class="d-orange flow-dot" cx="676" cy="160" r="6"/><circle class="d-orange flow-dot" cx="560" cy="120" r="6"/>
-              <circle class="d-paper" cx="360" cy="407" r="42"/>
-              <circle class="d-line" cx="360" cy="407" r="26"/>
-              <text class="d-micro" x="342" y="412">LoRA</text>
-              <path class="d-line flow-path" d="M402 407 C456 407 470 407 492 407" marker-end="url(#arrow5)"/>
-              <text class="d-label" x="352" y="330">Targeted LoRA</text>
-              <text class="d-micro" x="352" y="354">scenario concentration</text>
-              <ellipse class="d-line d-dash" cx="590" cy="407" rx="102" ry="70"/>
-              <circle class="d-blue flow-dot" cx="548" cy="389" r="6"/><circle class="d-blue flow-dot" cx="576" cy="428" r="6"/><circle class="d-blue flow-dot" cx="610" cy="382" r="6"/><circle class="d-blue flow-dot" cx="637" cy="418" r="6"/><circle class="d-blue flow-dot" cx="599" cy="406" r="6"/>
-            </svg>
+            <div class="rail reveal">
+              <div class="rail-row"><span class="index">GAP</span><h3>Formalization</h3><p data-edit>Precise input predicates are difficult to write for visual domains.</p></div>
+              <div class="rail-row"><span class="index">IDEA</span><h3>Semantic space</h3><p data-edit>Use glossary terms to express preconditions.</p></div>
+              <div class="rail-row"><span class="index">CLAIM</span><h3>Targeted tests</h3><p data-edit>Fine-tune a generator toward each requirement.</p></div>
+            </div>
           </div>
-          <div class="footer"><span>Better targeting, harder scaling</span><span>05 / 16</span></div>
+          <div class="footer"><span>[1] §1 and §3 · authors claim the first requirement-driven DNN test-input generator</span><span>03 / 16</span></div>
         </div>
+      </section>
+
+      <!-- === 04 / WORKED REQUIREMENT === -->
+      <section class="slide" role="group" aria-roledescription="slide" aria-label="4 of 16: Worked requirement">
+        <div class="frame">
+          <div class="topline reveal"><span>Worked example</span><span>SGSM · autonomous driving</span></div>
+          <div class="content">
+            <h2 class="headline reveal" data-edit>One sentence defines both the target and the oracle.</h2>
+            <p class="requirement reveal" data-edit><strong>If</strong> a vehicle is within 10 m, in front, and in the same lane, <strong>then</strong> the learned component shall not accelerate.</p>
+            <div class="scope-strip reveal">
+              <div class="scope-item"><span class="index">Precondition · input</span><p data-edit>Which generated scenes are relevant to the requirement?</p></div>
+              <div class="scope-item"><span class="index">Postcondition · output</span><p data-edit>What behavior is permitted when the precondition holds?</p></div>
+            </div>
+          </div>
+          <div class="footer"><span>[1] §1 and Table 2 · adapted example; legal motivation: Virginia Code §46.2-816</span><span>04 / 16</span></div>
+        </div>
+      </section>
+
+      <!-- === 05 / METHOD === -->
+      <section class="slide" role="group" aria-roledescription="slide" aria-label="5 of 16: RBT4DNN method">
+        <div class="frame"><div class="topline reveal"><span>02 · Method</span><span>Requirement → generated test</span></div><div class="content">
+          <h2 class="headline reveal" data-edit>Four phases turn semantics into tests.</h2>
+          <div class="sequence reveal" style="margin-top:62px" aria-label="RBT4DNN phases">
+            <div class="sequence-step"><span class="index">01</span><h3>Label</h3><p data-edit>Map training images to glossary terms.</p></div>
+            <div class="sequence-step"><span class="index">02</span><h3>Filter</h3><p data-edit>Select images satisfying the requirement precondition.</p></div>
+            <div class="sequence-step"><span class="index">03</span><h3>Fine-tune</h3><p data-edit>Train one LoRA adapter for that precondition.</p></div>
+            <div class="sequence-step"><span class="index">04</span><h3>Test</h3><p data-edit>Generate inputs, run the model, and check the postcondition.</p></div>
+          </div>
+        </div><div class="footer"><span>[1] §3 and Fig. 2 · author’s reconstruction</span><span>05 / 16</span></div></div>
       </section>
 
       <!-- === 06 / DOMAIN MATRIX === -->
       <section class="slide" role="group" aria-roledescription="slide" aria-label="6 of 16: Four visual domains">
         <div class="frame">
-          <div class="topline reveal"><span>Evidence</span><span>Four domains</span></div>
+          <div class="topline reveal"><span>03 · Evaluation design</span><span>25 requirements · 4 datasets</span></div>
           <div class="content">
-            <h2 class="headline reveal" data-edit>From digits to natural images.</h2>
+            <h2 class="headline reveal" data-edit>The evaluation spans four different semantic regimes.</h2>
             <div class="rule-grid cols-4 reveal" style="margin-top:66px">
-              <div class="rule-cell"><div class="index">01 / M</div><div class="domain-word">MNIST</div><p class="domain-note" data-edit>Simple, inspectable.</p></div>
-              <div class="rule-cell"><div class="index">02 / S</div><div class="domain-word">SGSM</div><p class="domain-note" data-edit>Semantic scenes.</p></div>
-              <div class="rule-cell"><div class="index">03 / C</div><div class="domain-word">CelebA</div><p class="domain-note" data-edit>Natural attributes.</p></div>
-              <div class="rule-cell"><div class="index">04 / I</div><div class="domain-word">ImageNet</div><p class="domain-note" data-edit>Broad objects.</p></div>
+              <div class="rule-cell"><div class="index">M1–M7 · CSFR</div><div class="domain-word">MNIST</div><p class="domain-note" data-edit>Digit morphology.</p></div>
+              <div class="rule-cell"><div class="index">C1–C7 · CSFR</div><div class="domain-word">CelebA-HQ</div><p class="domain-note" data-edit>Facial attributes.</p></div>
+              <div class="rule-cell"><div class="index">S1–S7 · SFFR</div><div class="domain-word">SGSM</div><p class="domain-note" data-edit>Driving relations.</p></div>
+              <div class="rule-cell"><div class="index">I1–I4 · SFFR</div><div class="domain-word">ImageNet</div><p class="domain-note" data-edit>Zoological features.</p></div>
             </div>
-            <p class="lead reveal" style="margin-top:48px" data-edit>Pass rate and precondition match are meaningful only when read together.</p>
-            <div class="scope-strip reveal" aria-label="Two levels of evaluation">
-              <div class="scope-item"><span class="index">Paper question</span><p data-edit>Can requirement-specific generation expose model failures?</p></div>
-              <div class="scope-item"><span class="index">Review question</span><p data-edit>Does the generated evidence still match the intended scenario?</p></div>
-            </div>
+            <p class="lead reveal" style="margin-top:48px" data-edit>CSFR tests robustness under semantic features; SFFR constrains the semantic input–output relation.</p>
           </div>
-          <div class="footer"><span>No paper or dataset images republished</span><span>06 / 16</span></div>
+          <div class="footer"><span>[1] §3.1, §4.1 and Table 2</span><span>06 / 16</span></div>
         </div>
       </section>
 
-      <!-- === 07 / REPLICATION STAT === -->
-      <section class="slide" role="group" aria-roledescription="slide" aria-label="7 of 16: MNIST artifact comparison">
-        <div class="frame">
-          <div class="topline reveal"><span>Artifact comparison</span><span>MNIST · M1–M7</span></div>
-          <div class="content cols-2 wide-left">
-            <div>
-              <h2 class="headline reveal" data-edit>The artifact tracks the paper closely.</h2>
-              <div class="stat reveal" style="margin-top:80px"><span class="stat-value accent-blue">0.013</span><span class="stat-label">largest absolute pass-rate difference across seven MNIST requirements</span></div>
-            </div>
-            <div class="bars large-bars reveal" aria-label="Absolute pass-rate deltas">
-              <div class="chart-kicker"><span>Absolute Δ pass rate</span><span>max .013</span></div>
-              <div class="bar-row"><span class="bar-label">M1</span><div class="bar-track"><div class="bar-fill" style="--value:8%"></div></div><span class="bar-value">.001</span></div>
-              <div class="bar-row"><span class="bar-label">M2</span><div class="bar-track"><div class="bar-fill" style="--value:100%"></div></div><span class="bar-value">.013</span></div>
-              <div class="bar-row"><span class="bar-label">M3</span><div class="bar-track"><div class="bar-fill" style="--value:46%"></div></div><span class="bar-value">.006</span></div>
-              <div class="bar-row"><span class="bar-label">M4</span><div class="bar-track"><div class="bar-fill orange" style="--value:92%"></div></div><span class="bar-value">.012</span></div>
-              <div class="bar-row"><span class="bar-label">M5–M7</span><div class="bar-track"><div class="bar-fill" style="--value:46%"></div></div><span class="bar-value">≤.006</span></div>
-              <p class="caption" style="margin-top:22px">Precomputed artifact fields; no fresh LoRA training or full reclassification.</p>
-            </div>
+      <!-- === 07 / RESEARCH QUESTIONS === -->
+      <section class="slide" role="group" aria-roledescription="slide" aria-label="7 of 16: Research questions"><div class="frame">
+        <div class="topline reveal"><span>Research questions</span><span>Input quality → testing value</span></div><div class="content">
+          <h2 class="headline reveal" data-edit>Six questions organize the evidence.</h2>
+          <div class="rq-grid reveal">
+            <div class="rq"><span class="index">RQ1</span><h3>Consistency</h3><p>Do generated images satisfy the requirement?</p></div><div class="rq"><span class="index">RQ2</span><h3>Realism</h3><p>Do they resemble the target training data?</p></div><div class="rq"><span class="index">RQ3</span><h3>Diversity</h3><p>Do they preserve relevant feature variation?</p></div>
+            <div class="rq"><span class="index">RQ4</span><h3>Baselines</h3><p>Do targeted tests assess requirement-specific behavior better?</p></div><div class="rq"><span class="index">RQ5</span><h3>Faults</h3><p>Do generated tests reveal requirement violations?</p></div><div class="rq"><span class="index">RQ6</span><h3>Behavior</h3><p>Do tests expose model decision patterns?</p></div>
           </div>
-          <div class="footer"><span>experiments/replication/results.csv</span><span>07 / 16</span></div>
-        </div>
-      </section>
+        </div><div class="footer"><span>[1] §4.1 · wording condensed; full questions in paper</span><span>07 / 16</span></div>
+      </div></section>
 
       <!-- === 08 / TARGET-MATCH COMPARISON DIAGRAM === -->
       <section class="slide" role="group" aria-roledescription="slide" aria-label="8 of 16: Off-target generation">
         <div class="frame">
-          <div class="topline reveal"><span>Validity gap</span><span>Pass rate needs context</span></div>
+          <div class="topline reveal"><span>RQ4 · Baseline comparison</span><span>Pass rate needs relevance</span></div>
           <div class="content">
-            <h2 class="headline reveal" data-edit>A strong-looking result can miss the target.</h2>
+            <h2 class="headline reveal" data-edit>A strong-looking pass rate can miss the requirement.</h2>
             <div class="compare-board reveal" style="margin-top:54px">
               <div class="compare-case">
                 <h3>Targeted LoRA<br><span class="caption">M3 · on target</span></h3>
@@ -563,98 +549,69 @@
               </div>
             </div>
           </div>
-          <div class="footer"><span>Aggregate paper metrics joined in the seminar analysis</span><span>08 / 16</span></div>
+          <div class="footer"><span>[1] §4.2.1 and §4.3.1 · M3 values reconstructed from released aggregate results</span><span>08 / 16</span></div>
         </div>
       </section>
 
-      <!-- === 09 / FORMULA + YIELD === -->
-      <section class="slide" role="group" aria-roledescription="slide" aria-label="9 of 16: Valid-failure yield">
+      <!-- === 09 / RQ1–RQ3 === -->
+      <section class="slide" role="group" aria-roledescription="slide" aria-label="9 of 16: Input quality results">
         <div class="frame">
-          <div class="topline reveal"><span>Derived metric</span><span>Validity × failure</span></div>
-          <div class="content cols-2 wide-left">
-            <div>
-              <h2 class="headline reveal" data-edit>Count failures that are actually valid.</h2>
-              <p class="formula reveal" style="margin-top:86px"><span class="accent-blue">valid-failure yield</span><br><span class="operator">=</span> match × (1 − pass)</p>
-              <p class="caption reveal" style="margin-top:28px">Approximation from aggregate rates; not observed joint labels.</p>
+          <div class="topline reveal"><span>RQ1–RQ3</span><span>Consistency · realism · diversity</span></div>
+          <div class="content"><h2 class="headline reveal" data-edit>Targeting improves input relevance without collapsing quality.</h2>
+            <div class="rule-grid cols-3 reveal" style="margin-top:64px">
+              <div class="rule-cell"><div class="index">RQ1 · CONSISTENCY</div><h3>98.69 / 85.99 / 94.84%</h3><p>Mean precondition match for MNIST, CelebA-HQ, and SGSM.</p></div>
+              <div class="rule-cell"><div class="index">RQ2 · REALISM</div><h3>77.09% lower KID</h3><p>Average improvement over prompting for MNIST and SGSM.</p></div>
+              <div class="rule-cell"><div class="index">RQ3 · DIVERSITY</div><h3>&gt;3× closer</h3><p>Average feature-distribution similarity for MNIST and SGSM.</p></div>
             </div>
-            <div class="bars large-bars reveal" aria-label="Estimated valid-failure rate">
-              <div class="chart-kicker"><span>Estimated yield</span><span>higher is better</span></div>
-              <div class="bar-row"><span class="bar-label">SGSM S2</span><div class="bar-track"><div class="bar-fill" style="--value:100%"></div></div><span class="bar-value">73.6%</span></div>
-              <div class="bar-row"><span class="bar-label">MNIST M3</span><div class="bar-track"><div class="bar-fill" style="--value:40%"></div></div><span class="bar-value">29.3%</span></div>
-              <div class="bar-row"><span class="bar-label">SGSM S1</span><div class="bar-track"><div class="bar-fill" style="--value:36%"></div></div><span class="bar-value">26.3%</span></div>
-              <div class="bar-row"><span class="bar-label">CelebA C6</span><div class="bar-track"><div class="bar-fill orange" style="--value:27%"></div></div><span class="bar-value">20.0%</span></div>
-              <p class="diagram-note">Validity changes the ranking: abundant failures are not automatically useful failures.</p>
-            </div>
+            <p class="finding reveal"><strong>Interpretation:</strong> evidence is strongest where the pretrained generator poorly represents the target domain; CelebA-HQ gains are smaller.</p>
           </div>
-          <div class="footer"><span>experiments/precondition-validity</span><span>09 / 16</span></div>
+          <div class="footer"><span>[1] §4.2.1–§4.2.3, Fig. 3, Tables 3–4</span><span>09 / 16</span></div>
         </div>
       </section>
 
-      <!-- === 10 / COST === -->
-      <section class="slide" role="group" aria-roledescription="slide" aria-label="10 of 16: Cost per valid failure">
+      <!-- === 10 / RQ5 === -->
+      <section class="slide" role="group" aria-roledescription="slide" aria-label="10 of 16: Fault detection">
         <div class="frame">
-          <div class="topline reveal"><span>Prioritization</span><span>$ / useful failure</span></div>
-          <div class="content cols-2">
-            <div class="bars reveal" aria-label="Illustrative dollars per estimated valid failure">
-              <div class="bar-row"><span class="bar-label">SGSM S2</span><div class="bar-track"><div class="bar-fill" style="--value:17%"></div></div><span class="bar-value">$0.05</span></div>
-              <div class="bar-row"><span class="bar-label">MNIST M3</span><div class="bar-track"><div class="bar-fill" style="--value:40%"></div></div><span class="bar-value">$0.12</span></div>
-              <div class="bar-row"><span class="bar-label">SGSM S1</span><div class="bar-track"><div class="bar-fill" style="--value:47%"></div></div><span class="bar-value">$0.14</span></div>
-              <div class="bar-row"><span class="bar-label">CelebA C6</span><div class="bar-track"><div class="bar-fill orange" style="--value:60%"></div></div><span class="bar-value">$0.18</span></div>
-              <div class="bar-row"><span class="bar-label">CelebA C2</span><div class="bar-track"><div class="bar-fill orange" style="--value:100%"></div></div><span class="bar-value">$0.30</span></div>
-            </div>
-            <div>
-              <p class="statement reveal" data-edit>Cheap generation is not enough.</p>
-              <p class="lead reveal" style="margin-top:42px" data-edit>The useful unit is cost per valid failure—not cost per image.</p>
-            </div>
+          <div class="topline reveal"><span>RQ5</span><span>Can the tests reveal faults?</span></div>
+          <div class="content cols-2 wide-left"><div><h2 class="headline reveal" data-edit>Failures appeared in 19 of 21 tested requirements.</h2><p class="lead reveal" style="margin-top:44px">The authors manually assessed 330 failing inputs from 11 requirements with pass rates below 90%.</p></div>
+            <div class="metric-pair reveal"><div class="stat"><span class="stat-value accent-blue">3.3%</span><span class="stat-label">average estimated false-positive rate</span></div><div class="stat"><span class="stat-value accent-orange">11.5%</span><span class="stat-label">worst estimated false-positive rate</span></div></div>
           </div>
-          <div class="footer"><span>Illustrative assumptions · experiments/cost-analysis</span><span>10 / 16</span></div>
+          <div class="footer"><span>[1] §4.3.2 and Fig. 7 · multi-assessor study, 30 samples × 11 requirements</span><span>10 / 16</span></div>
         </div>
       </section>
 
-      <!-- === 11 / IMAGE + METRIC === -->
-      <section class="slide" role="group" aria-roledescription="slide" aria-label="11 of 16: Shared generator on MNIST">
+      <!-- === 11 / RQ6 === -->
+      <section class="slide" role="group" aria-roledescription="slide" aria-label="11 of 16: Model decision behavior">
         <div class="frame">
-          <div class="topline reveal"><span>Extension experiment</span><span>Shared generator · MNIST</span></div>
-          <div class="content cols-2 wide-right">
-            <div>
-              <h2 class="headline reveal" data-edit>Shared generation works on the easy case.</h2>
-              <div class="stat reveal" style="margin-top:72px"><span class="stat-value accent-blue">.945</span><span class="stat-label">mean pass rate · shared VAE<br>paper LoRA reference: .942</span></div>
-              <p class="caption reveal" style="margin-top:32px">3 seeds · no exact training-image matches</p>
-            </div>
-            <figure class="figure contain reveal"><img src="assets/mnist-shared-generator-samples.png" alt="Grid of MNIST digits generated by the seminar project's shared conditional VAE"><figcaption class="figure-label">Generated samples / seminar experiment</figcaption></figure>
+          <div class="topline reveal"><span>RQ6</span><span>What do failures reveal?</span></div>
+          <div class="content cols-2 wide-left"><div><h2 class="headline reveal" data-edit>ImageNet failures exposed repeatable decision biases.</h2><p class="lead reveal" style="margin-top:44px">Background objects and partial animal views drove systematic misclassifications, revealing model-specific patterns and single-label dataset limitations.</p></div>
+            <div class="rail reveal"><div class="rail-row"><span class="index">SETUP</span><h3>3 × 4</h3><p>Three ImageNet models, four semantic requirements.</p></div><div class="rail-row"><span class="index">PASS</span><h3>93.5–99.5%</h3><p>Most outputs met the broad taxonomic postconditions.</p></div><div class="rail-row"><span class="index">FAIL</span><h3>1,486</h3><p>Total failures examined across models and requirements.</p></div></div>
           </div>
-          <div class="footer"><span>MNIST is the easy case</span><span>11 / 16</span></div>
+          <div class="footer"><span>[1] §4.3.3, Figs. 8–9 and Table 7</span><span>11 / 16</span></div>
         </div>
       </section>
 
-      <!-- === 12 / IMAGE + WARNING === -->
-      <section class="slide" role="group" aria-roledescription="slide" aria-label="12 of 16: Shared generator on CelebA-HQ">
+      <!-- === 12 / THREATS === -->
+      <section class="slide" role="group" aria-roledescription="slide" aria-label="12 of 16: Threats to validity">
         <div class="frame">
-          <div class="topline reveal"><span>Extension experiment</span><span>Shared generator · CelebA-HQ</span></div>
-          <div class="content cols-2 wide-left">
-            <figure class="figure contain reveal"><img src="assets/celeba-shared-generator-samples.png" alt="Grid of natural-image samples generated by the seminar project's shared conditional VAE"><figcaption class="figure-label">Generated samples / seminar experiment</figcaption></figure>
-            <div>
-              <h2 class="headline reveal" data-edit>Natural images expose the weakness.</h2>
-              <div class="rule-grid cols-3 reveal" style="margin-top:72px">
-                <div class="rule-cell"><div class="index">VALIDATION</div><div class="stat-value" style="font-size:74px">.636</div></div>
-                <div class="rule-cell"><div class="index">ALIGNMENT</div><div class="stat-value accent-orange" style="font-size:74px">.613</div></div>
-                <div class="rule-cell"><div class="index">READING</div><p style="margin-top:34px" data-edit>Caution signal, not final benchmark.</p></div>
-              </div>
-            </div>
+          <div class="topline reveal"><span>Threats to validity</span><span>The semantic measurement loop</span></div>
+          <div class="content"><h2 class="headline reveal" data-edit>The central uncertainty is whether the generated scene means what the test says.</h2>
+            <div class="rule-grid cols-3 reveal" style="margin-top:64px"><div class="rule-cell"><div class="index">LABEL</div><h3>What is present?</h3><p>Scene graphs, morphology, human labels, or VQA define glossary terms.</p></div><div class="rule-cell"><div class="index">MEASURE</div><h3>Does it match?</h3><p>Glossary-term classifiers operationalize consistency and diversity.</p></div><div class="rule-cell"><div class="index">REVIEW</div><h3>Is it credible?</h3><p>Selected failures receive multi-assessor human review.</p></div></div>
+            <p class="finding reveal"><strong>Hard case:</strong> precise relations such as “within 10 meters” remained difficult for generation and assessment.</p>
           </div>
-          <div class="footer"><span>1 seed · weak evaluator</span><span>12 / 16</span></div>
+          <div class="footer"><span>[1] §3.2, §4.1.6, §4.3.2 and §4.4</span><span>12 / 16</span></div>
         </div>
       </section>
 
       <!-- === 13 / VALIDATION GATE DIAGRAM === -->
       <section class="slide" role="group" aria-roledescription="slide" aria-label="13 of 16: Independent validity checks">
         <div class="frame">
-          <div class="topline reveal"><span>Critique</span><span>Independent validity</span></div>
+          <div class="topline reveal"><span>Independent critique</span><span>Evidence boundary</span></div>
           <div class="content cols-2 critique-layout">
             <div>
-              <h2 class="headline reveal" data-edit>Generated images need a second opinion.</h2>
-              <p class="lead reveal" style="margin-top:40px" data-edit>A model-side check is useful, but semantic evidence needs an evaluator outside the tested system.</p>
-              <div class="stat reveal" style="margin-top:58px"><span class="stat-value accent-blue" style="font-size:88px">42 / 42</span><span class="stat-label">audit samples completed · 0.738 judged valid</span></div>
+              <h2 class="headline reveal" data-edit>A detected failure needs two labels.</h2>
+              <p class="lead reveal" style="margin-top:40px" data-edit>First: the generated image satisfies the precondition. Second: the model violates the postcondition.</p>
+              <div class="stat reveal" style="margin-top:58px"><span class="stat-value accent-blue" style="font-size:82px">VALID ∧ FAIL</span><span class="stat-label">the joint outcome that constitutes defensible requirement-failure evidence</span></div>
             </div>
             <svg class="diagram reveal" viewBox="0 0 840 610" role="img" aria-label="Generated samples pass through model-side and semantic validity gates before becoming evidence">
               <defs><marker id="arrow13" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#11110f"/></marker></defs>
@@ -677,7 +634,7 @@
               <text class="d-micro" x="360" y="565" text-anchor="middle">feedback revises glossary and label rules</text>
             </svg>
           </div>
-          <div class="footer"><span>Small external LLM audit; not ground truth</span><span>13 / 16</span></div>
+          <div class="footer"><span>Independent seminar critique · motivated by [1] §4.3.2 and §4.4</span><span>13 / 16</span></div>
         </div>
       </section>
 
@@ -701,46 +658,46 @@
               <text class="d-micro" x="390" y="288" text-anchor="middle">semantic</text><text class="d-value accent-orange" x="390" y="340" text-anchor="middle">validity</text>
             </svg>
           </div>
-          <div class="footer"><span>Semantic rigor sets the ceiling</span><span>14 / 16</span></div>
+          <div class="footer"><span>Independent synthesis based on [1] §3.2, §4.3.2 and §4.4</span><span>14 / 16</span></div>
         </div>
       </section>
 
       <!-- === 15 / FUTURE STUDY === -->
       <section class="slide" role="group" aria-roledescription="slide" aria-label="15 of 16: Stronger replication">
         <div class="frame">
-          <div class="topline reveal"><span>Future study</span><span>Triangulated evidence</span></div>
+          <div class="topline reveal"><span>Assessment</span><span>What the paper establishes—and does not</span></div>
           <div class="content cols-2 wide-left">
             <div>
-              <h2 class="headline reveal" data-edit>Test validity, cost, and coverage together.</h2>
+              <h2 class="headline reveal" data-edit>Promising method. Incomplete assurance argument.</h2>
               <div class="rail reveal" style="margin-top:64px">
-                <div class="rail-row"><span class="index">01</span><h3>Generators</h3><p data-edit>LoRA, shared, prompt-only, retrieved real data</p></div>
-                <div class="rail-row"><span class="index">02</span><h3>Metrics</h3><p data-edit>match, pass, valid failure, useful cost</p></div>
-                <div class="rail-row"><span class="index">03</span><h3>Agreement</h3><p data-edit>human validity labels in hard domains</p></div>
+                <div class="rail-row"><span class="index">+</span><h3>Traceability</h3><p data-edit>Tests are explicitly connected to functional requirements.</p></div>
+                <div class="rail-row"><span class="index">+</span><h3>Evidence</h3><p data-edit>Four domains and six RQs show both generation and testing value.</p></div>
+                <div class="rail-row"><span class="index">−</span><h3>Coverage</h3><p data-edit>No metric establishes thorough exploration of each precondition.</p></div>
+                <div class="rail-row"><span class="index">−</span><h3>Semantics</h3><p data-edit>Validity remains dependent on imperfect labels and evaluators.</p></div>
               </div>
             </div>
             <div class="axis reveal" aria-label="Conceptual chart of validity, coverage, and cost">
-              <span class="dot" style="left:18%;bottom:21%" data-label="prompt-only"></span>
-              <span class="dot" style="left:45%;bottom:42%" data-label="shared generator"></span>
-              <span class="dot" style="left:68%;bottom:70%" data-label="targeted LoRA"></span>
-              <span class="dot" style="left:82%;bottom:84%;background:var(--orange)" data-label="triangulated evidence"></span>
+              <span class="dot" style="left:20%;bottom:22%" data-label="prompt-only"></span>
+              <span class="dot" style="left:58%;bottom:66%" data-label="RBT4DNN"></span>
+              <span class="dot" style="left:83%;bottom:86%;background:var(--orange)" data-label="independent joint labels + coverage"></span>
             </div>
           </div>
-          <div class="footer"><span>Proposed replication design</span><span>15 / 16</span></div>
+          <div class="footer"><span>Independent assessment · [1] §4.4–5</span><span>15 / 16</span></div>
         </div>
       </section>
 
       <!-- === 16 / TAKEAWAY === -->
       <section class="slide statement-slide" role="group" aria-roledescription="slide" aria-label="16 of 16: Takeaway and sources">
         <div class="frame">
-          <div class="topline reveal"><span>Takeaway</span><span>RBT4DNN</span></div>
-          <p class="statement reveal" data-edit>The method becomes useful when <span class="accent-blue">validity</span> becomes the main result.</p>
-          <p class="lead reveal" data-edit>Language defines the target. LoRA targets generation. Independent judgment determines whether the evidence counts.</p>
+          <div class="topline reveal"><span>Takeaway + primary source</span><span>RBT4DNN</span></div>
+          <p class="statement reveal" data-edit>Requirements make tests <span class="accent-blue">relevant.</span><br>Validity makes failures <span class="accent-orange">credible.</span></p>
+          <p class="lead reveal" data-edit>[1] N. J. Mozumder, F. Toledo, S. Dola, and M. B. Dwyer, “rbt4dnn: Requirements-based Testing of Neural Networks,” arXiv:2504.02737, v3, 2025.</p>
           <div class="source-links reveal" aria-label="Primary sources">
             <a href="https://arxiv.org/abs/2504.02737">Original paper ↗</a>
             <a href="https://github.com/less-lab-uva/RBT4DNN">Original artifact ↗</a>
           </div>
           <div class="spacer"></div>
-          <div class="footer"><span>Independent seminar study · not affiliated with the original authors</span><span>16 / 16</span></div>
+          <div class="footer"><span>Independent seminar review · original study and artifact linked above</span><span>16 / 16</span></div>
         </div>
       </section>
     </main>
@@ -842,7 +799,7 @@
     class InlineEditor {
       constructor() {
         this.isActive = false;
-        this.storageKey = 'rbt4dnn-seminar-slide-edits-v2';
+        this.storageKey = 'rbt4dnn-seminar-slide-edits-v3';
         this.nodes = [...document.querySelectorAll('[data-edit]')];
         this.nodes.forEach((node, index) => node.dataset.editId = `edit-${index + 1}`);
         this.restore();
