@@ -58,12 +58,31 @@ navigation and editing controls sit outside the authored stage and are not prese
 Headers and footers use one fixed baseline across the deck; headers never animate or draw a
 separator rule.
 
+## Position taxonomy
+
+Listeners should never need to relearn where a slide begins. Every slide uses one of three
+compositions:
+
+| Position | Used for | Title behavior | Body behavior |
+| --- | --- | --- | --- |
+| **Cover** | Opening slide only | Oversized display copy in the upper-left cover field | Metadata and the visual signature complete the page |
+| **Top anchor** | Explanations, methods, datasets, results, critique, and recommendations | The headline starts at the shared upper-left content coordinate | Grids, figures, and diagrams expand downward toward the footer |
+| **Center anchor** | A small number of conceptual pacing beats | The statement occupies the vertical center field | Supporting copy stays attached to the statement as one reading unit |
+
+Top anchor is the default. Center anchor is explicit through `.position-center` and should remain
+rare; it currently marks only the human-semantics bottleneck and the final takeaway. Interest comes
+from scale, evidence graphics, and pacing—not from moving the title to a new coordinate.
+
+The usable vertical field is divided into four predictable zones: topline, title, evidence body,
+and footer. Data grids and diagrams should stretch through the evidence body instead of floating in
+its upper half. Intentional negative space is reserved for center-anchor pacing slides.
+
 ## Editing rules
 
 1. Keep one dominant idea per slide.
 2. Prefer a rule, whitespace, or direct diagram over a bordered container.
 3. Use at most one primary diagram or figure on a slide.
-4. Use roughly two-thirds of the content field unless the slide is an intentional pacing beat.
+4. Use the full evidence body vertically unless the slide is an intentional center-anchor pacing beat.
 5. Add density through labels, comparisons, annotations, and evidence—not ornamental panels.
 6. Add a new primitive only when at least three slides can reuse it.
 7. Keep content inside the fixed 1920 × 1080 stage; phone views scale rather than reflow.

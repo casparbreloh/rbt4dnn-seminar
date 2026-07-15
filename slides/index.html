@@ -221,9 +221,21 @@
       color: var(--muted);
     }
 
+    /* === POSITION TAXONOMY: COVER, TOP-ANCHORED, OR CENTERED ===
+       Normal slides inherit the top anchor. Only deliberate pacing beats use
+       .position-center; the opening uses the dedicated .title-slide cover. */
+    .slide:not(.title-slide):not(.position-center) .content > .headline:first-child,
+    .slide:not(.title-slide):not(.position-center) .content > :first-child .headline:first-child {
+      margin-top: 0;
+    }
+    .slide.position-center.statement-slide .statement { margin-top: 276px; }
+    .position-center .content.cols-2 { align-items: center; }
+    .position-center .content.cols-2 > * { align-self: center; }
+
     /* === PRIMITIVE 2: OPEN GRID + SPLITS === */
-    .content { flex: 1; padding-top: 28px; }
-    .cols-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 90px; align-items: center; }
+    .content { flex: 1; min-height: 0; padding-top: 34px; }
+    .content:not(.cols-2):not(.spec-grid) { display: flex; flex-direction: column; }
+    .cols-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 90px; align-items: start; }
     .cols-2.wide-left { grid-template-columns: 1.18fr .82fr; }
     .cols-2.wide-right { grid-template-columns: .82fr 1.18fr; }
     .cols-2.critique-layout { grid-template-columns: .92fr 1.08fr; gap: 58px; }
@@ -347,6 +359,7 @@
     .title-copy .lead { margin-top: 44px; }
     .title-mark { position: absolute; right: var(--pad-x); bottom: 100px; font-family: var(--font-mono); font-size: 15px; writing-mode: vertical-rl; transform: rotate(180deg); }
     .statement-slide .statement { margin-top: 48px; }
+    .statement-slide:not(.position-center) .statement { margin-top: 34px; }
     .statement-slide .lead { margin-top: 42px; }
     .syntax { margin-top: 58px; border-top: 1px solid currentColor; }
     .syntax-line { display: grid; grid-template-columns: 220px 1fr 260px; gap: 42px; padding: 27px 0; border-bottom: 1px solid currentColor; align-items: baseline; }
@@ -407,6 +420,33 @@
     .metric-cell .index { font-family: var(--font-mono); font-size: 14px; color: var(--blue); }
     .metric-cell h3 { margin-top: 38px; font-size: 31px; font-weight: 540; letter-spacing: -.035em; }
     .metric-cell p { margin-top: 10px; font-size: 19px; line-height: 1.35; color: var(--muted); }
+
+    /* === VERTICAL ZONES: USE THE BODY FIELD, DO NOT FLOAT IN ITS TOP HALF === */
+    .content > .math-grid,
+    .content > .method-map,
+    .content > .rq-grid,
+    .content > .metric-grid,
+    .content > .sequence,
+    .content > .compare-board,
+    .content > .rule-grid {
+      flex: 1;
+      min-height: 0;
+    }
+    .content > .rq-grid,
+    .content > .metric-grid { grid-auto-rows: 1fr; }
+    .content > .compare-board { display: grid; grid-auto-rows: 1fr; }
+    .content > .rule-grid .rule-cell { height: 100%; }
+    .spec-grid > div { display: flex; flex-direction: column; min-height: 0; height: 100%; }
+    .spec-grid .spec-list { flex: 1; display: grid; grid-template-rows: repeat(4, 1fr); }
+    .spec-grid .spec-row { align-items: center; }
+    .spec-grid > div:last-child .example-box { flex: 1; }
+    .slide:not(.position-center) .content.cols-2 > div { display: flex; flex-direction: column; min-height: 100%; }
+    .slide:not(.position-center) .content.cols-2 .rail,
+    .slide:not(.position-center) .content.cols-2 .spec-list {
+      flex: 1;
+      display: grid;
+      grid-auto-rows: 1fr;
+    }
 
     /* === MOTION: one restrained entrance system === */
     .reveal { opacity: 0; transform: translateY(18px); transition: opacity var(--duration) var(--ease), transform var(--duration) var(--ease); }
@@ -775,7 +815,7 @@
       </section>
 
       <!-- === 14 / SEMANTIC LOOP DIAGRAM === -->
-      <section class="slide" role="group" aria-roledescription="slide" aria-label="25 of 31: Human semantic work">
+      <section class="slide position-center" role="group" aria-roledescription="slide" aria-label="25 of 31: Human semantic work">
         <div class="frame">
           <div class="topline reveal"><span>Critique</span><span>Semantic labor</span></div>
           <div class="content cols-2 semantic-layout">
@@ -831,8 +871,8 @@
       <!-- === 28 / SHARED-GENERATOR EXTENSION === -->
       <section class="slide" role="group" aria-roledescription="slide" aria-label="29 of 34: Shared generator extension"><div class="frame">
         <div class="topline reveal"><span>Beyond replication · contribution 04</span><span>Can one generator replace one LoRA per requirement?</span></div><div class="content cols-2">
-          <div><figure class="figure contain reveal" style="height:360px"><img src="assets/mnist-shared-generator-samples.png" alt="MNIST samples from the seminar shared conditional VAE"><figcaption class="figure-label">MNIST · shared conditional VAE</figcaption></figure><div class="stat reveal" style="margin-top:36px"><span class="stat-value accent-blue" style="font-size:86px">.945</span><span class="stat-label">mean pass · 3 seeds<br>paper LoRA reference .942</span></div></div>
-          <div><figure class="figure contain reveal" style="height:360px"><img src="assets/celeba-shared-generator-samples.png" alt="CelebA-HQ samples from the seminar shared conditional VAE"><figcaption class="figure-label">CelebA-HQ · shared conditional VAE</figcaption></figure><div class="stat reveal" style="margin-top:36px"><span class="stat-value accent-orange" style="font-size:86px">.613</span><span class="stat-label">generated-image alignment · 1 seed<br>weak evaluator; exploratory only</span></div></div>
+          <div><figure class="figure contain reveal" style="height:500px"><img src="assets/mnist-shared-generator-samples.png" alt="MNIST samples from the seminar shared conditional VAE"><figcaption class="figure-label">MNIST · shared conditional VAE</figcaption></figure><div class="stat reveal" style="margin-top:36px"><span class="stat-value accent-blue" style="font-size:86px">.945</span><span class="stat-label">mean pass · 3 seeds<br>paper LoRA reference .942</span></div></div>
+          <div><figure class="figure contain reveal" style="height:500px"><img src="assets/celeba-shared-generator-samples.png" alt="CelebA-HQ samples from the seminar shared conditional VAE"><figcaption class="figure-label">CelebA-HQ · shared conditional VAE</figcaption></figure><div class="stat reveal" style="margin-top:36px"><span class="stat-value accent-orange" style="font-size:86px">.613</span><span class="stat-label">generated-image alignment · 1 seed<br>weak evaluator; exploratory only</span></div></div>
         </div><div class="footer"><span>experiments/mnist-shared-generator · celeba-shared-generator · not a FLUX/LoRA reproduction</span><span>29 / 34</span></div>
       </div></section>
 
@@ -887,7 +927,7 @@
       </div></section>
 
       <!-- === 16 / TAKEAWAY === -->
-      <section class="slide statement-slide" role="group" aria-roledescription="slide" aria-label="33 of 34: Takeaway">
+      <section class="slide statement-slide position-center" role="group" aria-roledescription="slide" aria-label="33 of 34: Takeaway">
         <div class="frame">
           <div class="topline reveal"><span>Takeaway</span><span>RBT4DNN</span></div>
           <p class="statement reveal" data-edit>Requirements make tests <span class="accent-blue">relevant.</span><br>Validity makes failures <span class="accent-orange">credible.</span></p>
