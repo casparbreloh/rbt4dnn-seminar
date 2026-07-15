@@ -107,7 +107,7 @@ def check_slides() -> None:
     html = index.read_text()
     parser = SlideParser()
     parser.feed(html)
-    assert parser.slide_count == 16
+    assert parser.slide_count == 31
     assert '<meta name="viewport"' in html
     assert "keydown" in html and "touch" in html
     assert "contenteditable" in html
@@ -134,7 +134,7 @@ def main() -> None:
     check_readme_links()
     check_notebooks()
     check_slides()
-    print("Publication checks passed: manifest, links, notebooks, and 16-slide static site.")
+    print("Publication checks passed: manifest, links, notebooks, and 31-slide static site.")
 
 
 if __name__ == "__main__":
