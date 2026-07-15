@@ -46,6 +46,8 @@ Use these before creating a new class:
 | `.axis` | Sparse conceptual plot |
 | `.diagram` | Shared SVG grammar for flows, targets, gates, and cycles |
 | `.compare-board` | Metric comparison paired with target-distribution diagrams |
+| `.scenario-map`, `.scope-strip` | Flat reading-density strips for contrasts and research questions |
+| `.large-bars`, `.chart-kicker` | Larger evidence charts with an explicit reading frame |
 | `.figure` | A single experiment image with a provenance label |
 | `.footer` | Source/context line and page number |
 
@@ -59,6 +61,8 @@ navigation and editing controls sit outside the authored stage and are not prese
 1. Keep one dominant idea per slide.
 2. Prefer a rule, whitespace, or direct diagram over a bordered container.
 3. Use at most one primary diagram or figure on a slide.
-4. Add a new primitive only when at least three slides can reuse it.
-5. Keep content inside the fixed 1920 × 1080 stage; phone views scale rather than reflow.
-6. Press `E` in the browser for local text editing. Those edits remain local until exported.
+4. Use roughly two-thirds of the content field unless the slide is an intentional pacing beat.
+5. Add density through labels, comparisons, annotations, and evidence—not ornamental panels.
+6. Add a new primitive only when at least three slides can reuse it.
+7. Keep content inside the fixed 1920 × 1080 stage; phone views scale rather than reflow.
+8. Press `E` in the browser for local text editing. Those edits remain local until exported.

@@ -231,6 +231,11 @@
     .cols-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 90px; align-items: center; }
     .cols-2.wide-left { grid-template-columns: 1.18fr .82fr; }
     .cols-2.wide-right { grid-template-columns: .82fr 1.18fr; }
+    .cols-2.critique-layout { grid-template-columns: .92fr 1.08fr; gap: 58px; }
+    .critique-layout .headline { font-size: 82px; }
+    .critique-layout .diagram { height: 610px; }
+    .cols-2.semantic-layout { grid-template-columns: .84fr 1.16fr; gap: 62px; }
+    .semantic-layout .diagram { height: 620px; }
     .rule-grid { display: grid; border-top: 1px solid currentColor; }
     .rule-grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
     .rule-grid.cols-4 { grid-template-columns: repeat(4, 1fr); }
@@ -263,10 +268,10 @@
     .stat-value { font-size: 130px; line-height: .82; letter-spacing: -.07em; font-weight: 540; font-variant-numeric: tabular-nums; }
     .stat-label { max-width: 400px; font-size: 23px; line-height: 1.35; color: var(--muted); }
     .sequence { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid currentColor; border-bottom: 1px solid currentColor; }
-    .sequence-step { position: relative; min-height: 360px; padding: 28px 48px 28px 0; }
+    .sequence-step { position: relative; min-height: 430px; padding: 28px 48px 34px 0; }
     .sequence-step + .sequence-step { padding-left: 48px; border-left: 1px solid currentColor; }
     .sequence-step .index { font-family: var(--font-mono); font-size: 16px; }
-    .sequence-step h3 { margin-top: 176px; font-size: 38px; line-height: 1; font-weight: 520; letter-spacing: -.04em; }
+    .sequence-step h3 { margin-top: 226px; font-size: 38px; line-height: 1; font-weight: 520; letter-spacing: -.04em; }
     .sequence-step p { margin-top: 15px; max-width: 290px; font-size: 21px; line-height: 1.35; color: var(--muted); }
 
     /* === PRIMITIVE 4: DIRECT DATA GRAPHICS === */
@@ -280,8 +285,8 @@
     .slide.visible .bar-fill { transform: scaleX(1); }
     .formula { font-size: 60px; line-height: 1.05; letter-spacing: -.045em; font-weight: 500; }
     .formula .operator { color: var(--muted); padding: 0 16px; }
-    .axis { position: relative; height: 390px; margin: 12px 20px 0 70px; border-left: 1px solid currentColor; border-bottom: 1px solid currentColor; }
-    .axis::before { content: "semantic validity"; position: absolute; left: -72px; top: 160px; transform: rotate(-90deg); font-family: var(--font-mono); font-size: 14px; }
+    .axis { position: relative; height: 460px; margin: 12px 20px 0 74px; border-left: 1px solid currentColor; border-bottom: 1px solid currentColor; }
+    .axis::before { content: "semantic validity"; position: absolute; left: -54px; top: 136px; padding: 8px 0; background: var(--cream); writing-mode: vertical-rl; transform: rotate(180deg); font-family: var(--font-mono); font-size: 14px; }
     .axis::after { content: "coverage + cost →"; position: absolute; right: 0; bottom: -34px; font-family: var(--font-mono); font-size: 14px; }
     .dot { position: absolute; width: 16px; height: 16px; background: var(--blue); border-radius: 50%; }
     .dot::after { content: attr(data-label); position: absolute; left: 28px; top: -4px; white-space: nowrap; font-family: var(--font-mono); font-size: 14px; }
@@ -307,6 +312,25 @@
     .diagram .flow-dot:nth-of-type(2n) { transition-delay: 120ms; }
     .diagram .flow-dot:nth-of-type(3n) { transition-delay: 220ms; }
 
+    /* Information strips add reading density without introducing card chrome. */
+    .scenario-map { display: grid; grid-template-columns: 1fr 1fr; margin-top: 72px; border-top: 1px solid currentColor; border-bottom: 1px solid currentColor; }
+    .scenario-path { position: relative; min-height: 216px; padding: 28px 42px 30px 0; }
+    .scenario-path + .scenario-path { padding-left: 42px; border-left: 1px solid currentColor; }
+    .scenario-path .index, .scope-item .index, .chart-kicker { font-family: var(--font-mono); font-size: 14px; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
+    .scenario-path strong { display: block; margin-top: 46px; font-size: 36px; line-height: 1.05; letter-spacing: -.035em; font-weight: 520; }
+    .scenario-path p { margin-top: 12px; max-width: 570px; font-size: 21px; line-height: 1.35; color: var(--muted); }
+    .scenario-arrow { position: absolute; right: 36px; top: 90px; width: 150px; border-top: 1px solid currentColor; }
+    .scenario-arrow::after { content: ""; position: absolute; right: -1px; top: -5px; width: 9px; height: 9px; border-top: 1px solid currentColor; border-right: 1px solid currentColor; transform: rotate(45deg); }
+    .scope-strip { display: grid; grid-template-columns: 1fr 1fr; margin-top: 44px; border-top: 1px solid currentColor; border-bottom: 1px solid currentColor; }
+    .scope-item { min-height: 114px; padding: 22px 34px 22px 0; }
+    .scope-item + .scope-item { padding-left: 34px; border-left: 1px solid currentColor; }
+    .scope-item p { margin-top: 12px; font-size: 20px; line-height: 1.32; color: var(--muted); }
+    .chart-kicker { margin-bottom: 24px; display: flex; justify-content: space-between; }
+    .large-bars { gap: 34px; }
+    .large-bars .bar-row { grid-template-columns: 170px 1fr 108px; }
+    .large-bars .bar-track { height: 7px; }
+    .diagram-note { margin-top: 26px; padding-top: 18px; border-top: 1px solid var(--line); font-size: 20px; line-height: 1.35; color: var(--muted); }
+
     /* Flat comparison rows combine data and a target-distribution diagram. */
     .compare-board { border-top: 1px solid var(--ink); }
     .compare-case { display: grid; grid-template-columns: 260px 210px 210px 1fr; min-height: 205px; align-items: center; gap: 32px; border-bottom: 1px solid var(--ink); }
@@ -331,9 +355,10 @@
     .statement-slide .statement { margin-top: 92px; }
     .statement-slide .lead { margin-top: 42px; }
     .syntax { margin-top: 58px; border-top: 1px solid currentColor; }
-    .syntax-line { display: grid; grid-template-columns: 250px 1fr; gap: 42px; padding: 27px 0; border-bottom: 1px solid currentColor; align-items: baseline; }
+    .syntax-line { display: grid; grid-template-columns: 220px 1fr 260px; gap: 42px; padding: 27px 0; border-bottom: 1px solid currentColor; align-items: baseline; }
     .syntax-key { font-family: var(--font-mono); font-size: 18px; text-transform: uppercase; }
     .syntax-value { font-size: 43px; letter-spacing: -.035em; }
+    .syntax-role { font-family: var(--font-mono); font-size: 14px; line-height: 1.4; text-transform: uppercase; color: var(--muted); }
     .domain-word { font-size: 72px; line-height: .92; letter-spacing: -.055em; font-weight: 520; }
     .domain-note { margin-top: 75px !important; }
     .source-links { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid currentColor; margin-top: 52px; }
@@ -392,6 +417,10 @@
           <div class="topline reveal"><span>Problem</span><span>Average ≠ scenario</span></div>
           <p class="statement reveal" data-edit>“Works on average” is not the same as “works <span class="accent-orange">here</span>.”</p>
           <p class="lead reveal" data-edit>Benchmarks summarize. Requirements specify the case that must work. A generated test only matters when it actually matches that case.</p>
+          <div class="scenario-map reveal" aria-label="Comparison between benchmark averages and requirement-level decisions">
+            <div class="scenario-path"><span class="index">Population view</span><span class="scenario-arrow"></span><strong>Dataset → average</strong><p data-edit>Useful for overall model quality; silent about the exact scenario.</p></div>
+            <div class="scenario-path"><span class="index">Requirement view</span><span class="scenario-arrow"></span><strong>Matching case → decision</strong><p data-edit>Useful only after the generated input passes the precondition.</p></div>
+          </div>
           <div class="spacer"></div>
           <div class="footer"><span>Motivation</span><span>02 / 16</span></div>
         </div>
@@ -404,9 +433,9 @@
           <div class="content">
             <h2 class="headline reveal" data-edit>A requirement becomes a small executable specification.</h2>
             <div class="syntax reveal">
-              <div class="syntax-line"><span class="syntax-key">If</span><span class="syntax-value" data-edit>the generated input satisfies the precondition</span></div>
-              <div class="syntax-line"><span class="syntax-key">Expect</span><span class="syntax-value" data-edit>the model to satisfy the postcondition</span></div>
-              <div class="syntax-line"><span class="syntax-key">Define</span><span class="syntax-value" data-edit>ambiguous visual terms in a glossary</span></div>
+              <div class="syntax-line"><span class="syntax-key">If</span><span class="syntax-value" data-edit>the generated input satisfies the precondition</span><span class="syntax-role">validity gate<br>before scoring</span></div>
+              <div class="syntax-line"><span class="syntax-key">Expect</span><span class="syntax-value" data-edit>the model to satisfy the postcondition</span><span class="syntax-role">behavior under<br>test</span></div>
+              <div class="syntax-line"><span class="syntax-key">Define</span><span class="syntax-value" data-edit>ambiguous visual terms in a glossary</span><span class="syntax-role">shared semantic<br>reference</span></div>
             </div>
           </div>
           <div class="footer"><span>Original paper: Mozumder et al. (2025)</span><span>03 / 16</span></div>
@@ -478,6 +507,10 @@
               <div class="rule-cell"><div class="index">04 / I</div><div class="domain-word">ImageNet</div><p class="domain-note" data-edit>Broad objects.</p></div>
             </div>
             <p class="lead reveal" style="margin-top:48px" data-edit>Pass rate and precondition match are meaningful only when read together.</p>
+            <div class="scope-strip reveal" aria-label="Two levels of evaluation">
+              <div class="scope-item"><span class="index">Paper question</span><p data-edit>Can requirement-specific generation expose model failures?</p></div>
+              <div class="scope-item"><span class="index">Review question</span><p data-edit>Does the generated evidence still match the intended scenario?</p></div>
+            </div>
           </div>
           <div class="footer"><span>No paper or dataset images republished</span><span>06 / 16</span></div>
         </div>
@@ -492,7 +525,8 @@
               <h2 class="headline reveal" data-edit>The artifact tracks the paper closely.</h2>
               <div class="stat reveal" style="margin-top:80px"><span class="stat-value accent-blue">0.013</span><span class="stat-label">largest absolute pass-rate difference across seven MNIST requirements</span></div>
             </div>
-            <div class="bars reveal" aria-label="Absolute pass-rate deltas">
+            <div class="bars large-bars reveal" aria-label="Absolute pass-rate deltas">
+              <div class="chart-kicker"><span>Absolute Δ pass rate</span><span>max .013</span></div>
               <div class="bar-row"><span class="bar-label">M1</span><div class="bar-track"><div class="bar-fill" style="--value:8%"></div></div><span class="bar-value">.001</span></div>
               <div class="bar-row"><span class="bar-label">M2</span><div class="bar-track"><div class="bar-fill" style="--value:100%"></div></div><span class="bar-value">.013</span></div>
               <div class="bar-row"><span class="bar-label">M3</span><div class="bar-track"><div class="bar-fill" style="--value:46%"></div></div><span class="bar-value">.006</span></div>
@@ -550,11 +584,13 @@
               <p class="formula reveal" style="margin-top:86px"><span class="accent-blue">valid-failure yield</span><br><span class="operator">=</span> match × (1 − pass)</p>
               <p class="caption reveal" style="margin-top:28px">Approximation from aggregate rates; not observed joint labels.</p>
             </div>
-            <div class="bars reveal" aria-label="Estimated valid-failure rate">
+            <div class="bars large-bars reveal" aria-label="Estimated valid-failure rate">
+              <div class="chart-kicker"><span>Estimated yield</span><span>higher is better</span></div>
               <div class="bar-row"><span class="bar-label">SGSM S2</span><div class="bar-track"><div class="bar-fill" style="--value:100%"></div></div><span class="bar-value">73.6%</span></div>
               <div class="bar-row"><span class="bar-label">MNIST M3</span><div class="bar-track"><div class="bar-fill" style="--value:40%"></div></div><span class="bar-value">29.3%</span></div>
               <div class="bar-row"><span class="bar-label">SGSM S1</span><div class="bar-track"><div class="bar-fill" style="--value:36%"></div></div><span class="bar-value">26.3%</span></div>
               <div class="bar-row"><span class="bar-label">CelebA C6</span><div class="bar-track"><div class="bar-fill orange" style="--value:27%"></div></div><span class="bar-value">20.0%</span></div>
+              <p class="diagram-note">Validity changes the ranking: abundant failures are not automatically useful failures.</p>
             </div>
           </div>
           <div class="footer"><span>experiments/precondition-validity</span><span>09 / 16</span></div>
@@ -621,30 +657,31 @@
       <section class="slide" role="group" aria-roledescription="slide" aria-label="13 of 16: Independent validity checks">
         <div class="frame">
           <div class="topline reveal"><span>Critique</span><span>Independent validity</span></div>
-          <div class="content cols-2 wide-left">
+          <div class="content cols-2 critique-layout">
             <div>
               <h2 class="headline reveal" data-edit>Generated images need a second opinion.</h2>
               <p class="lead reveal" style="margin-top:40px" data-edit>A model-side check is useful, but semantic evidence needs an evaluator outside the tested system.</p>
               <div class="stat reveal" style="margin-top:58px"><span class="stat-value accent-blue" style="font-size:88px">42 / 42</span><span class="stat-label">audit samples completed · 0.738 judged valid</span></div>
             </div>
-            <svg class="diagram reveal" viewBox="0 0 760 520" role="img" aria-label="Generated samples pass through model-side and semantic validity gates before becoming evidence">
+            <svg class="diagram reveal" viewBox="0 0 840 610" role="img" aria-label="Generated samples pass through model-side and semantic validity gates before becoming evidence">
               <defs><marker id="arrow13" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#11110f"/></marker></defs>
-              <text class="d-micro" x="16" y="42">generated samples</text>
-              <circle class="d-orange flow-dot" cx="42" cy="110" r="6"/><circle class="d-orange flow-dot" cx="94" cy="92" r="6"/><circle class="d-orange flow-dot" cx="118" cy="137" r="6"/><circle class="d-orange flow-dot" cx="62" cy="158" r="6"/><circle class="d-orange flow-dot" cx="138" cy="72" r="6"/>
-              <path class="d-line flow-path" d="M158 116 H244" marker-end="url(#arrow13)"/>
-              <circle class="d-paper" cx="316" cy="116" r="70"/>
-              <text class="d-micro" x="278" y="105">gate 01</text><text class="d-label" x="268" y="136">classifier</text>
-              <path class="d-line flow-path" d="M386 116 H468" marker-end="url(#arrow13)"/>
-              <path class="d-paper" d="M552 39 L629 116 L552 193 L475 116 Z"/>
-              <text class="d-micro" x="521" y="105">gate 02</text><text class="d-label" x="507" y="136">semantic</text>
-              <path class="d-line flow-path" d="M629 116 H714" marker-end="url(#arrow13)"/>
-              <circle class="d-blue flow-dot" cx="738" cy="116" r="9"/>
-              <text class="d-micro" x="696" y="85">evidence</text>
-              <path class="d-line-soft" d="M316 186 V315 H552 V193"/>
-              <text class="d-label" x="294" y="361">Independent agreement closes the loop.</text>
-              <text class="d-micro" x="294" y="392">classifier signal + external judgment + human labels</text>
-              <path class="d-line d-dash" d="M552 417 C440 487 230 480 92 410" marker-end="url(#arrow13)"/>
-              <text class="d-micro" x="232" y="484">revise glossary and label rules</text>
+              <text class="d-micro" x="22" y="55">generated samples</text>
+              <circle class="d-orange flow-dot" cx="48" cy="137" r="7"/><circle class="d-orange flow-dot" cx="96" cy="108" r="7"/><circle class="d-orange flow-dot" cx="126" cy="158" r="7"/><circle class="d-orange flow-dot" cx="70" cy="182" r="7"/><circle class="d-orange flow-dot" cx="145" cy="82" r="7"/>
+              <path class="d-line flow-path" d="M170 145 H246" marker-end="url(#arrow13)"/>
+              <circle class="d-paper" cx="326" cy="145" r="78"/>
+              <text class="d-micro" x="326" y="132" text-anchor="middle">gate 01</text><text class="d-label" x="326" y="164" text-anchor="middle">classifier</text>
+              <path class="d-line flow-path" d="M404 145 H486" marker-end="url(#arrow13)"/>
+              <path class="d-paper" d="M574 57 L662 145 L574 233 L486 145 Z"/>
+              <text class="d-micro" x="574" y="132" text-anchor="middle">gate 02</text><text class="d-label" x="574" y="164" text-anchor="middle">semantic</text>
+              <path class="d-line flow-path" d="M662 145 H754" marker-end="url(#arrow13)"/>
+              <circle class="d-blue flow-dot" cx="786" cy="145" r="10"/>
+              <text class="d-micro" x="786" y="108" text-anchor="middle">accepted evidence</text>
+              <path class="d-line-soft" d="M326 223 V322 H574 V233"/>
+              <line class="d-line-soft" x1="245" y1="370" x2="655" y2="370"/>
+              <text class="d-label" x="450" y="412" text-anchor="middle">Independent agreement closes the loop</text>
+              <text class="d-micro" x="450" y="446" text-anchor="middle">classifier signal · external judgment · human labels</text>
+              <path class="d-line d-dash" d="M650 490 C515 568 244 558 74 474" marker-end="url(#arrow13)"/>
+              <text class="d-micro" x="360" y="565" text-anchor="middle">feedback revises glossary and label rules</text>
             </svg>
           </div>
           <div class="footer"><span>Small external LLM audit; not ground truth</span><span>13 / 16</span></div>
@@ -655,20 +692,20 @@
       <section class="slide" role="group" aria-roledescription="slide" aria-label="14 of 16: Human semantic work">
         <div class="frame">
           <div class="topline reveal"><span>Critique</span><span>Semantic labor</span></div>
-          <div class="content cols-2 wide-left">
-            <h2 class="statement reveal" data-edit>The hard part is still <span class="accent-orange">human.</span></h2>
-            <svg class="diagram reveal" viewBox="0 0 700 520" role="img" aria-label="A cycle connecting requirements, glossaries, label rules, and agreement">
+          <div class="content cols-2 semantic-layout">
+            <div><h2 class="statement reveal" data-edit>The hard part is still <span class="accent-orange">human.</span></h2><p class="lead reveal" style="margin-top:44px" data-edit>Validity depends on four linked decisions: what the requirement means, how visual terms are defined, how labels are assigned, and whether evaluators agree.</p></div>
+            <svg class="diagram reveal" viewBox="0 0 780 620" role="img" aria-label="A cycle connecting requirements, glossaries, label rules, and agreement">
               <defs><marker id="arrow14" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#11110f"/></marker></defs>
-              <circle class="d-line-soft d-dash" cx="350" cy="260" r="180"/>
-              <path class="d-line flow-path" d="M350 80 A180 180 0 0 1 530 260" marker-end="url(#arrow14)"/>
-              <path class="d-line flow-path" d="M530 260 A180 180 0 0 1 350 440" marker-end="url(#arrow14)"/>
-              <path class="d-line flow-path" d="M350 440 A180 180 0 0 1 170 260" marker-end="url(#arrow14)"/>
-              <path class="d-line flow-path" d="M170 260 A180 180 0 0 1 350 80" marker-end="url(#arrow14)"/>
-              <circle class="d-paper" cx="350" cy="80" r="62"/><text class="d-micro" x="327" y="72">01</text><text class="d-label" x="281" y="104">requirements</text>
-              <circle class="d-paper" cx="530" cy="260" r="62"/><text class="d-micro" x="507" y="252">02</text><text class="d-label" x="478" y="284">glossary</text>
-              <circle class="d-paper" cx="350" cy="440" r="62"/><text class="d-micro" x="327" y="432">03</text><text class="d-label" x="296" y="464">label rules</text>
-              <circle class="d-paper" cx="170" cy="260" r="62"/><text class="d-micro" x="147" y="252">04</text><text class="d-label" x="112" y="284">agreement</text>
-              <text class="d-micro" x="300" y="247">semantic</text><text class="d-value accent-orange" x="284" y="294">validity</text>
+              <circle class="d-line-soft d-dash" cx="390" cy="310" r="200"/>
+              <path class="d-line flow-path" d="M390 110 A200 200 0 0 1 590 310" marker-end="url(#arrow14)"/>
+              <path class="d-line flow-path" d="M590 310 A200 200 0 0 1 390 510" marker-end="url(#arrow14)"/>
+              <path class="d-line flow-path" d="M390 510 A200 200 0 0 1 190 310" marker-end="url(#arrow14)"/>
+              <path class="d-line flow-path" d="M190 310 A200 200 0 0 1 390 110" marker-end="url(#arrow14)"/>
+              <circle class="d-paper" cx="390" cy="110" r="76"/><text class="d-micro" x="390" y="94" text-anchor="middle">01 · scope</text><text class="d-label" x="390" y="130" text-anchor="middle" style="font-size:23px">requirements</text>
+              <circle class="d-paper" cx="590" cy="310" r="76"/><text class="d-micro" x="590" y="294" text-anchor="middle">02 · terms</text><text class="d-label" x="590" y="330" text-anchor="middle">glossary</text>
+              <circle class="d-paper" cx="390" cy="510" r="76"/><text class="d-micro" x="390" y="494" text-anchor="middle">03 · coding</text><text class="d-label" x="390" y="530" text-anchor="middle">label rules</text>
+              <circle class="d-paper" cx="190" cy="310" r="76"/><text class="d-micro" x="190" y="294" text-anchor="middle">04 · review</text><text class="d-label" x="190" y="330" text-anchor="middle">agreement</text>
+              <text class="d-micro" x="390" y="288" text-anchor="middle">semantic</text><text class="d-value accent-orange" x="390" y="340" text-anchor="middle">validity</text>
             </svg>
           </div>
           <div class="footer"><span>Semantic rigor sets the ceiling</span><span>14 / 16</span></div>
