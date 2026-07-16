@@ -13,7 +13,7 @@ from urllib.parse import unquote, urlparse
 ROOT = Path(__file__).resolve().parents[1]
 REPO_URL = "https://github.com/casparbreloh/rbt4dnn-seminar.git"
 PAGES_URL = "https://casparbreloh.github.io/rbt4dnn-seminar/"
-EXPECTED_SLIDE_COUNT = 25
+EXPECTED_SLIDE_COUNT = 24
 CORPUS_NOTEBOOKS = {
     "experiments/mnist-shared-generator/notebook.ipynb": {"mnist"},
     "experiments/celeba-shared-generator/notebook.ipynb": {"celeba-hq"},

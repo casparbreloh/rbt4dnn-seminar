@@ -423,21 +423,11 @@
     .metric-cell p { margin-top: 10px; font-size: 19px; line-height: 1.35; color: var(--muted); }
 
     /* === REBUILD PRIMITIVES: denser academic explanations === */
-    .agenda { display: grid; grid-template-columns: repeat(6, 1fr); margin-top: 64px; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
-    .agenda-item { min-height: 360px; padding: 28px 26px 26px 0; position: relative; }
-    .agenda-item + .agenda-item { padding-left: 26px; border-left: 1px solid var(--ink); }
-    .agenda-item .index, .legend-label, .dataset-card .meta, .scope-label { font-family: var(--font-mono); font-size: 14px; line-height: 1.35; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
-    .agenda-item h3 { position: absolute; left: 0; bottom: 74px; max-width: 210px; font-size: 29px; line-height: 1.06; letter-spacing: -.035em; font-weight: 540; }
-    .agenda-item + .agenda-item h3 { left: 26px; }
-    .agenda-item p { position: absolute; left: 0; bottom: 26px; font-size: 16px; color: var(--muted); }
-    .agenda-item + .agenda-item p { left: 26px; }
-    .act-band { display: grid; grid-template-columns: 2fr 2fr 2fr; margin-top: 18px; font-family: var(--font-mono); font-size: 13px; text-transform: uppercase; color: var(--muted); }
-    .act-band span { padding-top: 10px; border-top: 4px solid var(--blue); }
-    .act-band span:nth-child(2) { border-color: var(--ink); }
-    .act-band span:nth-child(3) { border-color: var(--orange); }
+    .legend-label, .dataset-card .meta, .scope-label { font-family: var(--font-mono); font-size: 14px; line-height: 1.35; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
     .question-map { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 64px; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
     .question-item { position: relative; min-height: 445px; padding: 28px 46px 34px 0; }
     .question-item + .question-item { padding-left: 46px; border-left: 1px solid var(--ink); }
+    .question-item .index { font-family: var(--font-mono); font-size: 14px; line-height: 1.35; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
     .question-item h3 { margin-top: 105px; max-width: 430px; font-size: 43px; line-height: 1.08; letter-spacing: -.045em; font-weight: 540; }
     .question-item p { position: absolute; left: 0; bottom: 34px; font-family: var(--font-mono); font-size: 14px; letter-spacing: .03em; color: var(--muted); }
     .question-item + .question-item p { left: 46px; }
@@ -633,12 +623,6 @@
     .comparison-lane:nth-child(-n + 2) { border-bottom: 1px solid var(--ink); }
     .comparison-lane h3 { margin-top: 68px; font-size: 32px; line-height: 1.04; letter-spacing: -.04em; font-weight: 540; }
     .comparison-lane p { margin-top: 13px; font-size: 19px; line-height: 1.34; color: var(--muted); }
-    .protocol-flow { display: grid; grid-template-columns: repeat(5, 1fr); margin-top: 38px; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
-    .protocol-step { min-height: 410px; padding: 25px 30px 28px 0; }
-    .protocol-step + .protocol-step { padding-left: 30px; border-left: 1px solid var(--ink); }
-    .protocol-step h3 { margin-top: 108px; font-size: 31px; line-height: 1.03; letter-spacing: -.04em; font-weight: 540; }
-    .protocol-step p { margin-top: 15px; font-size: 18px; line-height: 1.34; color: var(--muted); }
-    .protocol-step b { display: block; margin-top: 24px; font-family: var(--font-mono); font-size: 13px; line-height: 1.35; font-weight: 500; color: var(--blue); }
     .cost-hero { display: grid; grid-template-columns: .8fr 1.2fr; gap: 80px; align-items: end; margin-top: 44px; }
     .cost-number { padding-top: 24px; border-top: 1px solid var(--ink); }
     .cost-number strong { display: block; font-size: 130px; line-height: .82; letter-spacing: -.07em; font-weight: 550; color: var(--blue); }
@@ -727,7 +711,7 @@
   <div class="deck-viewport">
     <main class="deck-stage" id="deckStage" aria-label="RBT4DNN seminar presentation">
 
-      <!-- === MAIN TALK · 20 MINUTES / 24 SPOKEN SLIDES + REFERENCES === -->
+      <!-- === MAIN TALK · 20 MINUTES / 23 SPOKEN SLIDES + REFERENCES === -->
 
       <!-- === 01 / TITLE === -->
       <section class="slide title-slide active" role="group" aria-roledescription="slide" aria-label="RBT4DNN">
@@ -739,7 +723,7 @@
           </div>
           <div class="title-mark">CASPAR BRELOH · 17 JULY 2026 / SUPERVISION: VIVEK V. VEKARIYA · SIMON SPETH</div>
           <div class="spacer"></div>
-          <div class="footer"><span>Mozumder, Toledo, Dola &amp; Dwyer · arXiv:2504.02737v3 · 2025</span><span>01 / 25</span></div>
+          <div class="footer"><span>Mozumder, Toledo, Dola &amp; Dwyer · arXiv:2504.02737v3 · 2025</span><span>01 / 24</span></div>
         </div>
       </section>
 
@@ -755,7 +739,7 @@
               <div class="question-item"><span class="index">03 · EVIDENCE</span><h3>How convincing—and scalable—is the resulting evidence?</h3><p>CRITIQUE + ADDITIONAL ANALYSES</p></div>
             </div>
           </div>
-          <div class="footer"><span>These questions follow the seminar brief while keeping one continuous evidence argument.</span><span>02 / 25</span></div>
+          <div class="footer"><span>These questions follow the seminar brief while keeping one continuous evidence argument.</span><span>02 / 24</span></div>
         </div>
       </section>
 
@@ -776,7 +760,7 @@
               <div class="ladder-step"><span class="scope-label">Requirement verdict</span><strong>Does the model satisfy this specific contract?</strong></div>
             </div>
           </div>
-          <div class="footer"><span>[1] §1–§2.5 · “model under test” means the evaluated neural network</span><span>03 / 25</span></div>
+          <div class="footer"><span>[1] §1–§2.5 · “model under test” means the evaluated neural network</span><span>03 / 24</span></div>
         </div>
       </section>
 
@@ -795,7 +779,7 @@
               <div class="rail-row"><span class="index">OUTPUT</span><h3>Targeted tests</h3><p>Run the learned component and evaluate the requirement-specific oracle.</p></div>
             </div>
           </div>
-          <div class="footer"><span>[1] §1, §2.5 and §3 · authors claim the first requirement-driven DNN test-input generator</span><span>04 / 25</span></div>
+          <div class="footer"><span>[1] §1, §2.5 and §3 · authors claim the first requirement-driven DNN test-input generator</span><span>04 / 24</span></div>
         </div>
       </section>
 
@@ -804,7 +788,7 @@
         <div class="frame">
           <div class="topline reveal"><span>Evaluation orientation</span><span>25 requirements · four domains</span></div>
           <div class="content">
-            <h2 class="headline reveal" style="font-size:74px">The study spans four domains, four output regimes, and 25 requirements.</h2>
+            <h2 class="headline reveal" style="font-size:72px">Four domains test whether one workflow survives increasingly ambiguous semantics.</h2>
             <div class="dataset-grid reveal">
               <div class="dataset-card"><span class="meta">MNIST · 7 requirements</span><figure><div class="remote-grid mnist" data-upstream-path="M3" data-files="0.png,1.png,10.png,11.png" data-label="Generated MNIST digit"></div></figure><h3>Digits</h3><p>Measured height, thickness, and lean. A controlled starting point.</p><div class="req"><strong>Output:</strong> digit class</div></div>
               <div class="dataset-card"><span class="meta">CelebA-HQ · 7 requirements</span><figure><div class="remote-grid" data-upstream-path="C1" data-files="0.png,1.png,10.png,11.png" data-label="Generated CelebA-HQ face"></div></figure><h3>Faces</h3><p>Ambiguous attributes labeled by visual question answering or humans.</p><div class="req"><strong>Output:</strong> eyeglasses decision</div></div>
@@ -812,7 +796,7 @@
               <div class="dataset-card"><span class="meta">ImageNet · 4 requirements</span><figure><div class="remote-grid" data-upstream-path="I1" data-files="0.png,1.png,10.png,11.png" data-label="Generated bird image"></div></figure><h3>Animals</h3><p>Morphology linked to allowed classes in the WordNet taxonomy.</p><div class="req"><strong>Output:</strong> class set</div></div>
             </div>
           </div>
-          <div class="footer"><span>[1] Table 2 and §4.1.1–§4.1.3 · samples linked from the pinned public artifact</span><span>05 / 25</span></div>
+          <div class="footer"><span>[1] Table 2 and §4.1.1–§4.1.3 · samples linked from the pinned public artifact</span><span>05 / 24</span></div>
         </div>
       </section>
 
@@ -833,7 +817,7 @@
               </div>
             </div>
           </div>
-          <div class="footer"><span>[1] Table 2, M3 · a finite passing suite cannot prove the universal requirement</span><span>06 / 25</span></div>
+          <div class="footer"><span>[1] Table 2, M3 · a finite passing suite cannot prove the universal requirement</span><span>06 / 24</span></div>
         </div>
       </section>
 
@@ -842,7 +826,7 @@
         <div class="frame">
           <div class="topline reveal"><span>02 · Current approach</span><span>Requirement → targeted test suite</span></div>
           <div class="content">
-            <h2 class="headline reveal">RBT4DNN is a four-stage semantic pipeline.</h2>
+            <h2 class="headline reveal">RBT4DNN turns one requirement into a targeted test campaign.</h2>
             <div class="annotated-flow reveal">
               <div class="flow-step"><span class="scope-label">01 · Label</span><h3>Pixels → terms</h3><p>Attach domain facts such as very thick, eyeglasses, or same lane.</p></div><div class="flow-arrow">→</div>
               <div class="flow-step"><span class="scope-label">02 · Filter</span><h3>Terms → subset</h3><p>Keep original images satisfying one requirement precondition.</p></div><div class="flow-arrow">→</div>
@@ -856,7 +840,7 @@
               <div class="trace-cell"><span class="scope-label">Evidence</span><strong>precondition match + output pass or fail</strong></div>
             </div>
           </div>
-          <div class="footer"><span>[1] Fig. 2 and §3 · symbols are translated into an explicit input/output contract</span><span>07 / 25</span></div>
+          <div class="footer"><span>[1] Fig. 2 and §3 · symbols are translated into an explicit input/output contract</span><span>07 / 24</span></div>
         </div>
       </section>
 
@@ -876,7 +860,7 @@
             </div>
             <p class="scope-note reveal"><strong>Boundary:</strong> separate training labels and evaluation classifiers reduce direct reuse, but neither constitutes independent semantic ground truth.</p>
           </div>
-          <div class="footer"><span>[1] §3.2 and §4.1.6 · mean glossary-classifier accuracy 94.5%; C4 is 70.8%</span><span>08 / 25</span></div>
+          <div class="footer"><span>[1] §3.2 and §4.1.6 · mean glossary-classifier accuracy 94.5%; C4 is 70.8%</span><span>08 / 24</span></div>
         </div>
       </section>
 
@@ -901,7 +885,7 @@
               </div>
             </div>
           </div>
-          <div class="footer"><span>[1] §3.3 and §4.1.4 · LoRA equation simplified; latent-space coverage remains future work</span><span>09 / 25</span></div>
+          <div class="footer"><span>[1] §3.3 and §4.1.4 · LoRA equation simplified; latent-space coverage remains future work</span><span>09 / 24</span></div>
         </div>
       </section>
 
@@ -910,7 +894,7 @@
         <div class="frame">
           <div class="topline reveal"><span>Experimental setup</span><span>Each comparison answers a different question</span></div>
           <div class="content">
-            <h2 class="headline reveal" style="font-size:76px">The baselines are not interchangeable.</h2>
+            <h2 class="headline reveal" style="font-size:72px">Each baseline answers a different question—compare only within its role.</h2>
             <div class="comparison-lanes reveal">
               <div class="comparison-lane"><span class="scope-label">PRIMARY METHOD</span><h3>Requirement-specific LoRA</h3><p>Filtered precondition subset. The central RBT4DNN configuration.</p></div>
               <div class="comparison-lane"><span class="scope-label">MNIST CONSISTENCY ABLATION</span><h3>All-data LoRA</h3><p>Same domain and prompting, but the adapter sees the complete dataset.</p></div>
@@ -919,30 +903,11 @@
             </div>
             <p class="finding reveal"><strong>Reading rule:</strong> compare a method only where it is actually used; the baselines do not answer the same research question.</p>
           </div>
-          <div class="footer"><span>[1] §4.1.4–§4.1.6 · no truly comparable requirement-targeted baseline existed</span><span>10 / 25</span></div>
+          <div class="footer"><span>[1] §4.1.4–§4.1.6 · no truly comparable requirement-targeted baseline existed</span><span>10 / 24</span></div>
         </div>
       </section>
 
-      <!-- === 11 / EXPERIMENTAL PROTOCOL === -->
-      <section class="slide" role="group" aria-roledescription="slide" aria-label="End-to-end experimental protocol">
-        <div class="frame">
-          <div class="topline reveal"><span>Experimental protocol</span><span>What the authors actually ran</span></div>
-          <div class="content">
-            <h2 class="headline reveal" style="font-size:74px">Each requirement becomes one generation-and-test experiment.</h2>
-            <div class="protocol-flow reveal">
-              <div class="protocol-step"><span class="scope-label">01 · SPECIFY</span><h3>Requirement + glossary</h3><p>Authors provide the precondition and manually encode the expected output.</p><b>25 EVALUATION REQUIREMENTS</b></div>
-              <div class="protocol-step"><span class="scope-label">02 · FILTER</span><h3>Label original data</h3><p>Apply measurements, scene graphs, visual Q&amp;A, or human labels; retain precondition matches.</p><b>ONE MATCHING SUBSET</b></div>
-              <div class="protocol-step"><span class="scope-label">03 · ADAPT</span><h3>Train + prompt LoRA</h3><p>Pair images with a trigger phrase and precondition text, then sample candidate tests.</p><b>ONE LORA PER PRECONDITION</b></div>
-              <div class="protocol-step"><span class="scope-label">04 · VALIDATE INPUT</span><h3>Consistency + distributions</h3><p>Glossary classifiers, KID, and Jensen–Shannon divergence evaluate generated inputs.</p><b>RQ1: 100 × 10 · RQ3: 1,000</b></div>
-              <div class="protocol-step"><span class="scope-label">05 · TEST + AUDIT</span><h3>Run model + oracle</h3><p>Check the postcondition; independently assess sampled failures for realism and precondition match.</p><b>RQ4–RQ6: 1,000 × 10 · AUDIT: 330</b></div>
-            </div>
-            <p class="finding reveal"><strong>Important:</strong> RBT4DNN assumes the requirement and glossary already exist; it does not discover them automatically.</p>
-          </div>
-          <div class="footer"><span>[1] §3 and §4.1 · RQ2’s generated sample count is not clearly restated in §4.2.2</span><span>11 / 25</span></div>
-        </div>
-      </section>
-
-      <!-- === 12 / OPERATIONAL COST === -->
+      <!-- === 11 / OPERATIONAL COST === -->
       <section class="slide" role="group" aria-roledescription="slide" aria-label="Measured adapter time and unmeasured workflow cost">
         <div class="frame">
           <div class="topline reveal"><span>Operational feasibility</span><span>Measured compute versus unknown total cost</span></div>
@@ -959,16 +924,16 @@
             </div>
             <div class="assurance-boundary reveal"><span>Defensible conclusion</span><p>Per-precondition LoRA adds roughly linear adapter overhead; the paper cannot tell us whether compute, labeling, engineering, or human validation dominates total cost.</p></div>
           </div>
-          <div class="footer"><span>[1] §4.1.4 · derived total excludes ImageNet, extra LoRAs, labeling, generation, evaluation, and engineering</span><span>12 / 25</span></div>
+          <div class="footer"><span>[1] §4.1.4 · derived total excludes ImageNet, extra LoRAs, labeling, generation, evaluation, and engineering</span><span>11 / 24</span></div>
         </div>
       </section>
 
-      <!-- === 13 / RESEARCH QUESTIONS === -->
+      <!-- === 12 / RESEARCH QUESTIONS === -->
       <section class="slide" role="group" aria-roledescription="slide" aria-label="Research questions">
         <div class="frame">
           <div class="topline reveal"><span>04 · Current results</span><span>First validate the inputs; then evaluate the tests</span></div>
           <div class="content">
-            <h2 class="headline reveal">Six questions form a two-stage evidence argument.</h2>
+            <h2 class="headline reveal" style="font-size:80px">The six RQs validate generated inputs before interpreting model outcomes.</h2>
             <div class="evidence-stages reveal">
               <div class="evidence-stage">
                 <div class="evidence-stage-head"><h3>Validate the generated inputs</h3><span>RQ1–RQ3</span></div>
@@ -984,11 +949,11 @@
               </div>
             </div>
           </div>
-          <div class="footer"><span>[1] §4.1 · one slide per RQ keeps the evidence and its boundary together</span><span>13 / 25</span></div>
+          <div class="footer"><span>[1] §4.1 · one slide per RQ keeps the evidence and its boundary together</span><span>12 / 24</span></div>
         </div>
       </section>
 
-      <!-- === 14 / RQ1 === -->
+      <!-- === 13 / RQ1 === -->
       <section class="slide rq-slide" role="group" aria-roledescription="slide" aria-label="RQ1: precondition consistency">
         <div class="frame">
           <div class="topline reveal"><span>RQ1 · Input consistency</span><span>Research question 1 of 6</span></div>
@@ -1007,11 +972,11 @@
               <p class="diagram-note">MNIST Fig. 3 also includes DeepHyperion and image transformations: neither targets the requirement, and both achieve low match.</p>
             </div>
           </div>
-          <div class="footer"><span>[1] §4.2.1 and Fig. 3 · glossary classifiers remain proxies, not ground truth</span><span>14 / 25</span></div>
+          <div class="footer"><span>[1] §4.2.1 and Fig. 3 · glossary classifiers remain proxies, not ground truth</span><span>13 / 24</span></div>
         </div>
       </section>
 
-      <!-- === 15 / RQ2 === -->
+      <!-- === 14 / RQ2 === -->
       <section class="slide rq-slide" role="group" aria-roledescription="slide" aria-label="RQ2: distributional plausibility">
         <div class="frame">
           <div class="topline reveal"><span>RQ2 · Distributional plausibility</span><span>Research question 2 of 6</span></div>
@@ -1031,11 +996,11 @@
             </div>
             <p class="scope-note reveal"><strong>Boundary:</strong> KID is a distribution-level proxy—not an image-level realism score—and several CelebA-HQ reference subsets contain fewer than 300 images.</p>
           </div>
-          <div class="footer"><span>[1] §4.2.2 and Table 3 · same prompts; targeted LoRA compared with prompt-only FLUX</span><span>15 / 25</span></div>
+          <div class="footer"><span>[1] §4.2.2 and Table 3 · same prompts; targeted LoRA compared with prompt-only FLUX</span><span>14 / 24</span></div>
         </div>
       </section>
 
-      <!-- === 16 / RQ3 === -->
+      <!-- === 15 / RQ3 === -->
       <section class="slide rq-slide" role="group" aria-roledescription="slide" aria-label="RQ3: glossary-level variation">
         <div class="frame">
           <div class="topline reveal"><span>RQ3 · Glossary-level variation</span><span>Research question 3 of 6</span></div>
@@ -1049,11 +1014,11 @@
             </div>
             <div class="scope-strip reveal" style="margin-top:28px"><div class="scope-item"><span class="index">RESULT</span><p>MNIST and SGSM targeted-LoRA distributions were more than three times closer on average than prompt-only FLUX; CelebA-HQ improved about 32%.</p></div><div class="scope-item"><span class="index">NOT MEASURED</span><p>Duplicates, memorization, pixel diversity, within-term mode collapse, and systematic latent-space coverage.</p></div></div>
           </div>
-          <div class="footer"><span>[1] §4.2.3 and Table 4 · schematic bars explain the metric; they are not reported measurements</span><span>16 / 25</span></div>
+          <div class="footer"><span>[1] §4.2.3 and Table 4 · schematic bars explain the metric; they are not reported measurements</span><span>15 / 24</span></div>
         </div>
       </section>
 
-      <!-- === 17 / RQ4 === -->
+      <!-- === 16 / RQ4 === -->
       <section class="slide rq-slide" role="group" aria-roledescription="slide" aria-label="RQ4: requirement-specific comparison">
         <div class="frame">
           <div class="topline reveal"><span>RQ4 · Requirement-specific comparison</span><span>Research question 4 of 6</span></div>
@@ -1067,11 +1032,11 @@
             </div>
             <p class="finding reveal"><strong>Narrow conclusion:</strong> requirement-aware generation is a better basis for these MNIST requirements than the two tested untargeted baselines—not universally superior DNN testing.</p>
           </div>
-          <div class="footer"><span>[1] §4.3.1, Fig. 7 and Table 5 · no truly comparable requirement-targeted baseline was available</span><span>17 / 25</span></div>
+          <div class="footer"><span>[1] §4.3.1, Fig. 7 and Table 5 · no truly comparable requirement-targeted baseline was available</span><span>16 / 24</span></div>
         </div>
       </section>
 
-      <!-- === 18 / RQ5 === -->
+      <!-- === 17 / RQ5 === -->
       <section class="slide rq-slide" role="group" aria-roledescription="slide" aria-label="RQ5: postcondition violations">
         <div class="frame">
           <div class="topline reveal"><span>RQ5 · Credible requirement violations</span><span>Research question 5 of 6</span></div>
@@ -1092,11 +1057,11 @@
               </div>
             </div>
           </div>
-          <div class="footer"><span>[1] §4.3.2 and Fig. 7 · postcondition violations are observed; internal model faults are not localized</span><span>18 / 25</span></div>
+          <div class="footer"><span>[1] §4.3.2 and Fig. 7 · postcondition violations are observed; internal model faults are not localized</span><span>17 / 24</span></div>
         </div>
       </section>
 
-      <!-- === 19 / RQ6 === -->
+      <!-- === 18 / RQ6 === -->
       <section class="slide rq-slide" role="group" aria-roledescription="slide" aria-label="RQ6: exploratory ImageNet behavior">
         <div class="frame">
           <div class="topline reveal"><span>RQ6 · Exploratory decision behavior</span><span>Research question 6 of 6</span></div>
@@ -1115,11 +1080,11 @@
               <div class="rail-row"><span class="index">BOUNDARY</span><h3>Exploration, not causality</h3><p>The patterns motivate hypotheses about ImageNet’s single-label supervision; they do not prove causal mechanisms.</p></div>
             </div>
           </div>
-          <div class="footer"><span>[1] §4.3.3, Fig. 8 and Tables 6–7 · pass rates span approximately 93.5%–99.5%</span><span>19 / 25</span></div>
+          <div class="footer"><span>[1] §4.3.3, Fig. 8 and Tables 6–7 · pass rates span approximately 93.5%–99.5%</span><span>18 / 24</span></div>
         </div>
       </section>
 
-      <!-- === 20 / AUTHORS FUTURE === -->
+      <!-- === 19 / AUTHORS FUTURE === -->
       <section class="slide" role="group" aria-roledescription="slide" aria-label="Authors’ limitations and future work">
         <div class="frame">
           <div class="topline reveal"><span>Authors’ assessment</span><span>Limitations and stated future scope</span></div>
@@ -1132,11 +1097,11 @@
             </div>
             <div class="assurance-boundary reveal"><span>Assurance boundary</span><p>Automated labels, selected datasets, narrow baselines, and small KID subsets limit how far the evidence generalizes.</p></div>
           </div>
-          <div class="footer"><span>[1] §4.4 and §5 · author-stated scope kept separate from this seminar’s critique</span><span>20 / 25</span></div>
+          <div class="footer"><span>[1] §4.4 and §5 · author-stated scope kept separate from this seminar’s critique</span><span>19 / 24</span></div>
         </div>
       </section>
 
-      <!-- === 21 / CENTRAL CRITIQUE === -->
+      <!-- === 20 / CENTRAL CRITIQUE === -->
       <section class="slide" role="group" aria-roledescription="slide" aria-label="Central critique: the validity chain">
         <div class="frame">
           <div class="topline reveal"><span>05 · Critical review</span><span>Central thesis</span></div>
@@ -1151,11 +1116,11 @@
             <div class="assurance-boundary reveal"><span>Sampled joint audit</span><p>30 failures × 11 low-pass requirements = 330 independently assessed samples.</p></div>
             <p class="scope-note reveal"><strong>Fair critique:</strong> the paper did perform joint validation. Its generalization remains limited by author assessment, fixed samples, no reported confidence intervals, and no external or blinded annotators.</p>
           </div>
-          <div class="footer"><span>Independent critical synthesis based on [1] §4.1.6, §4.3.2 and §4.4</span><span>21 / 25</span></div>
+          <div class="footer"><span>Independent critical synthesis based on [1] §4.1.6, §4.3.2 and §4.4</span><span>20 / 24</span></div>
         </div>
       </section>
 
-      <!-- === 22 / VALIDITY EXTENSIONS === -->
+      <!-- === 21 / VALIDITY EXTENSIONS === -->
       <section class="slide" role="group" aria-roledescription="slide" aria-label="Precondition-validity and LLM-audit extensions">
         <div class="frame">
           <div class="topline reveal"><span>Additional analysis 1</span><span>From raw failures toward evidence quality</span></div>
@@ -1182,11 +1147,11 @@
               <p class="audit-method">The product assumes independence. The paper’s conditional human audit among failures is methodologically stronger; this LLM check is only a second opinion.</p>
             </div>
           </div>
-          <div class="footer"><span>Seminar experiments · precondition-validity and llm-validity-audit</span><span>22 / 25</span></div>
+          <div class="footer"><span>Seminar experiments · precondition-validity and llm-validity-audit</span><span>21 / 24</span></div>
         </div>
       </section>
 
-      <!-- === 23 / SHARED GENERATOR === -->
+      <!-- === 22 / SHARED GENERATOR === -->
       <section class="slide" role="group" aria-roledescription="slide" aria-label="Shared-generator and scalability experiments">
         <div class="frame">
           <div class="topline reveal"><span>Additional analysis 2</span><span>Is one adapter per requirement necessary?</span></div>
@@ -1208,11 +1173,11 @@
               <p class="scope-note reveal"><strong>Conclusion:</strong> the similar classifier pass rate is a promising pilot in a simple domain. Evaluation pipelines differ, and it says nothing yet about precondition validity, realism, diversity, FLUX + LoRA, or natural images.</p>
             </div>
           </div>
-          <div class="footer"><span>Seminar experiments · mnist-shared-generator and celeba-shared-generator</span><span>23 / 25</span></div>
+          <div class="footer"><span>Seminar experiments · mnist-shared-generator and celeba-shared-generator</span><span>22 / 24</span></div>
         </div>
       </section>
 
-      <!-- === 24 / CONCLUSION === -->
+      <!-- === 23 / CONCLUSION === -->
       <section class="slide statement-slide" role="group" aria-roledescription="slide" aria-label="Assessment and conclusion">
         <div class="frame">
           <div class="topline reveal"><span>06 · Assessment and future scope</span><span>Independent conclusion</span></div>
@@ -1222,11 +1187,11 @@
             <div class="scope-item"><span class="index">What remains open</span><p>Broader independent joint audits, shared generators, alternative adaptation methods, and end-to-end replication at larger scale.</p></div>
           </div>
           <div class="spacer"></div>
-          <div class="footer"><span>End of 20-minute talk · questions</span><span>24 / 25</span></div>
+          <div class="footer"><span>End of 20-minute talk · questions</span><span>23 / 24</span></div>
         </div>
       </section>
 
-      <!-- === 25 / REFERENCES === -->
+      <!-- === 24 / REFERENCES === -->
       <section class="slide" role="group" aria-roledescription="slide" aria-label="References">
         <div class="frame">
           <div class="topline reveal"><span>References</span><span>Primary sources and provenance</span></div>
@@ -1240,7 +1205,7 @@
             </div>
             <div class="source-links reveal"><a href="https://arxiv.org/abs/2504.02737">Original paper ↗</a><a href="https://github.com/less-lab-uva/RBT4DNN">Original artifact ↗</a></div>
           </div>
-          <div class="footer"><span>Independent seminar project · 2026</span><span>25 / 25</span></div>
+          <div class="footer"><span>Independent seminar project · 2026</span><span>24 / 24</span></div>
         </div>
       </section>
     </main>
@@ -1249,7 +1214,7 @@
   <!-- === PRESENTATION CONTROLS: one HTML file, hash fragments only === -->
   <nav class="deck-controls" aria-label="Presentation controls">
     <button id="previousSlide" type="button" aria-label="Previous slide">←</button>
-    <span class="counter" id="slideCounter">1 / 25</span>
+    <span class="counter" id="slideCounter">1 / 24</span>
     <button id="nextSlide" type="button" aria-label="Next slide">→</button>
   </nav>
   <div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
