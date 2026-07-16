@@ -3,6 +3,7 @@ from __future__ import annotations
 import hashlib
 import json
 import re
+import subprocess
 from collections import Counter
 from html.parser import HTMLParser
 from pathlib import Path, PurePosixPath
@@ -12,7 +13,7 @@ from urllib.parse import unquote, urlparse
 ROOT = Path(__file__).resolve().parents[1]
 REPO_URL = "https://github.com/casparbreloh/rbt4dnn-seminar.git"
 PAGES_URL = "https://casparbreloh.github.io/rbt4dnn-seminar/"
-EXPECTED_SLIDE_COUNT = 28
+EXPECTED_SLIDE_COUNT = 29
 CORPUS_NOTEBOOKS = {
     "experiments/mnist-shared-generator/notebook.ipynb": {"mnist"},
     "experiments/celeba-shared-generator/notebook.ipynb": {"celeba-hq"},
@@ -130,11 +131,34 @@ def check_slides() -> None:
             assert digest in (site / "ASSET_PROVENANCE.md").read_text()
 
 
+def check_public_pdf() -> None:
+    pdf = ROOT / "slides/rbt4dnn-presentation.pdf"
+    data = pdf.read_bytes()
+    assert data.startswith(b"%PDF-"), "public presentation PDF is missing or malformed"
+    assert len(re.findall(rb"/Type\s*/Page\b", data)) == EXPECTED_SLIDE_COUNT
+    assert len(data) > 100_000, "public presentation PDF is unexpectedly small"
+    for marker in [b"/Users/", b"presentation-script", b"question-defense", b"study-guide"]:
+        assert marker not in data, f"private marker embedded in public PDF: {marker!r}"
+
+
+def check_tracked_privacy() -> None:
+    tracked = subprocess.run(
+        ["git", "ls-files"], cwd=ROOT, check=True, capture_output=True, text=True
+    ).stdout.splitlines()
+    private_prefixes = ("outputs/", "notizen/", ".context/", ".frontend-slides/")
+    private_names = {"presentation-script.md", "question-defense.md", "study-guide.md"}
+    for path in tracked:
+        assert not path.startswith(private_prefixes), f"private path is tracked: {path}"
+        assert Path(path).name not in private_names, f"private preparation file is tracked: {path}"
+
+
 def main() -> None:
     check_manifest()
     check_readme_links()
     check_notebooks()
     check_slides()
+    check_public_pdf()
+    check_tracked_privacy()
     print(
         "Publication checks passed: manifest, links, notebooks, "
         f"and {EXPECTED_SLIDE_COUNT}-slide static site."

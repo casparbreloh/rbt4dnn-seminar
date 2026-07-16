@@ -8,6 +8,7 @@ Nusrat Jahan Mozumder, Felipe Toledo, Swaroopa Dola, and Matthew B. Dwyer.
 - [Original RBT4DNN artifact](https://github.com/less-lab-uva/RBT4DNN)
 - [Seminar project source](https://github.com/casparbreloh/rbt4dnn-seminar)
 - [HTML presentation](https://casparbreloh.github.io/rbt4dnn-seminar/)
+- [Publication-safe presentation PDF](https://casparbreloh.github.io/rbt4dnn-seminar/rbt4dnn-presentation.pdf)
 
 This is not an official RBT4DNN repository and is not affiliated with or endorsed by the
 original authors. Their paper and artifact remain the authoritative sources for RBT4DNN.
@@ -44,13 +45,17 @@ individual summaries before interpreting these figures.
 - [`data/`](data/) — the authored aggregate table plus provenance and checksum manifests; the
   upstream image corpus is restored locally and remains ignored.
 - [`references/`](references/) — stable citations and provenance notes instead of copied papers.
-- [`slides/`](slides/) — the single-file HTML presentation, its reusable
+- [`slides/`](slides/) — the single-file HTML presentation, a publication-safe PDF, its reusable
   [design-system primitives](slides/DESIGN_SYSTEM.md), and independently generated assets; the
   live deck is <https://casparbreloh.github.io/rbt4dnn-seminar/>.
 - `paper/` — reviewed manuscript source once published.
 
 Private working notes, local reference PDFs, downloaded images, environments, caches, and
 generated previews are intentionally not part of the public repository.
+
+The public PDF intentionally replaces hot-linked upstream artifact samples with cited
+placeholders because the upstream artifact does not declare redistribution rights. Regenerate it
+with `scripts/export_presentation_pdf.sh`.
 
 ## Reproduce the lightweight analyses
 
