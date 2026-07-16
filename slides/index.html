@@ -608,6 +608,16 @@
     .label-evaluation .label-arrow { text-align: center; font-size: 28px; color: var(--blue); }
     .label-evaluation strong { font-size: 22px; line-height: 1.2; font-weight: 540; }
     .label-evaluation p { font-size: 17px; line-height: 1.3; color: var(--muted); }
+    .glossary-definition { display: grid; grid-template-columns: 330px 1fr; gap: 36px; align-items: baseline; margin-top: 34px; padding: 22px 0; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
+    .glossary-definition span { font-family: var(--font-mono); font-size: 14px; letter-spacing: .04em; color: var(--blue); }
+    .glossary-definition p { font-size: 30px; line-height: 1.22; }
+    .glossary-definition p strong { font-weight: 570; }
+    .glossary-flow { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 34px; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
+    .glossary-step { min-height: 285px; padding: 24px 34px 28px 0; }
+    .glossary-step + .glossary-step { padding-left: 34px; border-left: 1px solid var(--ink); }
+    .glossary-step h3 { margin-top: 54px; font-size: 31px; line-height: 1.05; letter-spacing: -.04em; font-weight: 550; }
+    .glossary-step p { margin-top: 15px; font-size: 19px; line-height: 1.34; color: var(--muted); }
+    .glossary-step .examples { display: block; margin-top: 20px; font-family: var(--font-mono); font-size: 13px; line-height: 1.45; color: var(--blue); }
     .comparison-lanes { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-top: 40px; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
     .comparison-lane { min-height: 220px; padding: 24px 28px 24px 0; border-right: 1px solid var(--ink); }
     .comparison-lane:nth-child(2n) { padding-left: 28px; border-right: 0; }
@@ -709,7 +719,7 @@
           <div class="topline reveal"><span>AI Testing Landscape · SS 2026</span><span>Chair of Software and Systems Engineering · TUM</span></div>
           <div class="title-copy">
 <h1 class="display reveal">Requirements-based<br>testing of neural networks.</h1>
-            <p class="lead reveal">A critical review of RBT4DNN, its empirical evidence, and three exploratory additional analyses.</p>
+            <p class="lead reveal">A critical review of RBT4DNN, its empirical evidence, and two focused additional analyses.</p>
           </div>
           <div class="title-mark">CASPAR BRELOH · 17 JULY 2026 / SUPERVISION: VIVEK V. VEKARIYA · SIMON SPETH</div>
           <div class="spacer"></div>
@@ -839,22 +849,22 @@
       </section>
 
       <!-- === 08 / LABEL GENERATION === -->
-      <section class="slide" role="group" aria-roledescription="slide" aria-label="Training labels and evaluation classifiers">
+      <section class="slide" role="group" aria-roledescription="slide" aria-label="Glossary terms and image labels">
         <div class="frame">
-          <div class="topline reveal"><span>03 · Methodology</span><span>Do not confuse annotation with evaluation</span></div>
+          <div class="topline reveal"><span>03 · Methodology</span><span>From requirement language to testable image facts</span></div>
           <div class="content">
-            <h2 class="headline reveal" style="font-size:72px">Training labels and evaluation classifiers are separate—but neither is ground truth.</h2>
-            <div class="label-table reveal">
-              <div class="label-row header"><span>DOMAIN</span><span>LABEL SOURCE</span><span>TRANSFORMATION</span><span>EXAMPLE FACT</span></div>
-              <div class="label-row"><span>MNIST</span><strong>Measurements</strong><p>Thickness, height, and lean are partitioned into named ranges.</p><strong>“very thick”</strong></div>
-              <div class="label-row"><span>SGSM</span><strong>Scene graphs</strong><p>Entities and relations are traversed relative to the ego vehicle.</p><strong>“same lane”</strong></div>
-              <div class="label-row"><span>CELEBA + IMAGENET</span><strong>MiniCPM visual Q&amp;A</strong><p>Yes/no prompts label visual attributes; CelebA also has human labels.</p><strong>“eyeglasses”</strong></div>
+            <h2 class="headline reveal" style="font-size:76px">Glossary terms make visual requirements operational.</h2>
+            <div class="glossary-definition reveal">
+              <span>GLOSSARY TERM</span><p>A <strong>named visual property</strong> that can be assigned to an image: “very thick,” “same lane,” or “eyeglasses.”</p>
             </div>
-            <div class="label-evaluation reveal">
-              <span class="scope-label">EVALUATION-TIME CHECK</span><strong>Generated image</strong><div class="label-arrow">→</div><div><strong>ResNet-101 glossary classifiers</strong><p>One binary classifier per term; mean accuracy 94.5%.</p></div><div class="label-arrow">→</div><div><strong>All required terms true?</strong><p>Precondition match for RQ1; term distributions for RQ3.</p></div>
+            <div class="glossary-flow reveal">
+              <div class="glossary-step"><span class="scope-label">01 · DEFINE</span><h3>Authors specify the glossary</h3><p>Requirement concepts are manually turned into a finite vocabulary of visual properties.</p><span class="examples">TERM CREATION IS NOT AUTOMATIC</span></div>
+              <div class="glossary-step"><span class="scope-label">02 · LABEL ORIGINAL DATA</span><h3>Labels come from domain-specific signals</h3><p>MNIST measurements · SGSM scene graphs · MiniCPM visual Q&amp;A for CelebA-HQ and ImageNet.</p><span class="examples">CELEBA ALSO HAS HUMAN LABELS</span></div>
+              <div class="glossary-step"><span class="scope-label">03 · USE THE LABELS</span><h3>Filter first; check later</h3><p>Labels select the LoRA training subset. Separate binary classifiers then check glossary terms on generated images.</p><span class="examples">PRECONDITION MATCH · RQ1 / RQ3</span></div>
             </div>
+            <p class="scope-note reveal"><strong>Boundary:</strong> separate training labels and evaluation classifiers reduce direct reuse, but neither constitutes independent semantic ground truth.</p>
           </div>
-          <div class="footer"><span>[1] §3.2 and §4.1.6 · separate roles, but not independent semantic ground truth; C4 classifier accuracy 70.8%</span><span>08 / 25</span></div>
+          <div class="footer"><span>[1] §3.2 and §4.1.6 · mean glossary-classifier accuracy 94.5%; C4 is 70.8%</span><span>08 / 25</span></div>
         </div>
       </section>
 
@@ -1130,7 +1140,7 @@
       <!-- === 22 / VALIDITY EXTENSIONS === -->
       <section class="slide" role="group" aria-roledescription="slide" aria-label="Precondition-validity and LLM-audit extensions">
         <div class="frame">
-          <div class="topline reveal"><span>Additional analysis 2</span><span>From raw failures toward evidence quality</span></div>
+          <div class="topline reveal"><span>Additional analysis 1</span><span>From raw failures toward evidence quality</span></div>
           <div class="content cols-2">
             <div>
               <h2 class="headline reveal" style="font-size:66px">The proxy and 42-image LLM check identify audit targets; neither estimates population validity.</h2>
@@ -1161,7 +1171,7 @@
       <!-- === 23 / SHARED GENERATOR === -->
       <section class="slide" role="group" aria-roledescription="slide" aria-label="Shared-generator and scalability experiments">
         <div class="frame">
-          <div class="topline reveal"><span>Additional analysis 3</span><span>Is one adapter per requirement necessary?</span></div>
+          <div class="topline reveal"><span>Additional analysis 2</span><span>Is one adapter per requirement necessary?</span></div>
           <div class="content cols-2">
             <div>
               <figure class="figure contain reveal" style="height:350px"><img src="assets/mnist-shared-generator-samples.png" alt="MNIST samples from the shared conditional VAE"><figcaption class="figure-label">MNIST · shared conditional VAE · 3 seeds</figcaption></figure>
