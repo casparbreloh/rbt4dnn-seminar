@@ -663,6 +663,13 @@
     .kid-operator { text-align: center; }
     .kid-operator strong { display: block; font-size: 40px; color: var(--blue); }
     .kid-operator span { font-family: var(--font-mono); font-size: 12px; color: var(--muted); }
+    .rq-brief { display: grid; grid-template-columns: .9fr 1.1fr; margin-top: 18px; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
+    .rq-brief > div { display: grid; grid-template-columns: 112px 1fr; gap: 20px; align-items: baseline; min-height: 82px; padding: 15px 28px 14px 0; }
+    .rq-brief > div + div { padding-left: 28px; border-left: 1px solid var(--ink); }
+    .rq-brief span { font-family: var(--font-mono); font-size: 13px; letter-spacing: .04em; color: var(--blue); }
+    .rq-brief p { font-size: 18px; line-height: 1.3; }
+    .rq-slide .content { padding-top: 20px; }
+    .rq-slide .metric-pair { margin-top: 34px; }
     .metric-clouds { display: grid; grid-template-columns: 1fr 150px 1fr; align-items: center; margin-top: 48px; }
     .metric-cloud { position: relative; height: 300px; border: 1px solid var(--line); background: var(--paper); }
     .metric-cloud::before { content: ""; position: absolute; inset: 48px 70px; background: radial-gradient(circle at 20% 30%, var(--blue) 0 8px, transparent 9px), radial-gradient(circle at 55% 18%, var(--blue) 0 7px, transparent 8px), radial-gradient(circle at 70% 55%, var(--blue) 0 9px, transparent 10px), radial-gradient(circle at 32% 68%, var(--blue) 0 8px, transparent 9px), radial-gradient(circle at 58% 80%, var(--blue) 0 7px, transparent 8px); }
@@ -982,9 +989,10 @@
       </section>
 
       <!-- === 14 / RQ1 === -->
-      <section class="slide" role="group" aria-roledescription="slide" aria-label="RQ1: precondition consistency">
+      <section class="slide rq-slide" role="group" aria-roledescription="slide" aria-label="RQ1: precondition consistency">
         <div class="frame">
-          <div class="topline reveal"><span>RQ1 · Do generated images match the precondition?</span><span>Measured separately with glossary classifiers</span></div>
+          <div class="topline reveal"><span>RQ1 · Input consistency</span><span>Research question 1 of 6</span></div>
+          <div class="rq-brief reveal"><div><span>QUESTION</span><p>Do generated images actually satisfy the requirement precondition?</p></div><div><span>HOW ANALYZED</span><p>All required terms must pass separate binary glossary classifiers · 100 images × 10 repetitions.</p></div></div>
           <div class="content evidence-split">
             <div>
               <h2 class="headline reveal" style="font-size:68px">Across 21 requirements, targeted LoRAs match preconditions 92.1% on average.</h2>
@@ -1004,9 +1012,10 @@
       </section>
 
       <!-- === 15 / RQ2 === -->
-      <section class="slide" role="group" aria-roledescription="slide" aria-label="RQ2: distributional plausibility">
+      <section class="slide rq-slide" role="group" aria-roledescription="slide" aria-label="RQ2: distributional plausibility">
         <div class="frame">
-          <div class="topline reveal"><span>RQ2 · Are generated images realistic?</span><span>Kernel Inception Distance · lower is closer</span></div>
+          <div class="topline reveal"><span>RQ2 · Distributional plausibility</span><span>Research question 2 of 6</span></div>
+          <div class="rq-brief reveal"><div><span>QUESTION</span><p>Are generated tests close to real images that satisfy the same precondition?</p></div><div><span>HOW ANALYZED</span><p>KID between generated images and the matching filtered subset; targeted LoRA versus prompt-only FLUX · lower is closer.</p></div></div>
           <div class="content">
             <h2 class="headline reveal" style="font-size:64px">Targeted LoRA cuts KID by 77.09% for MNIST and SGSM; CelebA-HQ is mixed.</h2>
             <div class="rq2-result reveal">
@@ -1027,9 +1036,10 @@
       </section>
 
       <!-- === 16 / RQ3 === -->
-      <section class="slide" role="group" aria-roledescription="slide" aria-label="RQ3: glossary-level variation">
+      <section class="slide rq-slide" role="group" aria-roledescription="slide" aria-label="RQ3: glossary-level variation">
         <div class="frame">
-          <div class="topline reveal"><span>RQ3 · Are generated images diverse?</span><span>Jensen–Shannon divergence · lower is closer</span></div>
+          <div class="topline reveal"><span>RQ3 · Glossary-level variation</span><span>Research question 3 of 6</span></div>
+          <div class="rq-brief reveal"><div><span>QUESTION</span><p>Do generated tests preserve variation in glossary features beyond the targeted term?</p></div><div><span>HOW ANALYZED</span><p>Jensen–Shannon divergence between glossary-term frequency distributions in generated and filtered images · lower is closer.</p></div></div>
           <div class="content">
             <h2 class="headline reveal" style="font-size:70px">RQ3 preserves measured feature frequencies—not unrestricted image diversity.</h2>
             <div class="diversity-route reveal" role="img" aria-label="Glossary-feature distributions in the filtered training subset and generated tests">
@@ -1044,9 +1054,10 @@
       </section>
 
       <!-- === 17 / RQ4 === -->
-      <section class="slide" role="group" aria-roledescription="slide" aria-label="RQ4: requirement-specific comparison">
+      <section class="slide rq-slide" role="group" aria-roledescription="slide" aria-label="RQ4: requirement-specific comparison">
         <div class="frame">
-          <div class="topline reveal"><span>RQ4 · Do targeted tests provide a better basis for confidence?</span><span>MNIST requirement M2 · very thick 3</span></div>
+          <div class="topline reveal"><span>RQ4 · Requirement-specific comparison</span><span>Research question 4 of 6</span></div>
+          <div class="rq-brief reveal"><div><span>QUESTION</span><p>Do targeted tests provide more requirement-relevant evidence than existing MNIST baselines?</p></div><div><span>HOW ANALYZED</span><p>For M2 (“very thick 3”), compare precondition match and model outcomes with DeepHyperion and image transformations.</p></div></div>
           <div class="content">
             <h2 class="headline reveal" style="font-size:66px">For M2, RBT4DNN reaches the precondition; both untargeted baselines largely do not.</h2>
             <div class="relevance-gate reveal">
@@ -1061,9 +1072,10 @@
       </section>
 
       <!-- === 18 / RQ5 === -->
-      <section class="slide" role="group" aria-roledescription="slide" aria-label="RQ5: postcondition violations">
+      <section class="slide rq-slide" role="group" aria-roledescription="slide" aria-label="RQ5: postcondition violations">
         <div class="frame">
-          <div class="topline reveal"><span>RQ5 · Do generated tests reveal requirement violations?</span><span>Outcome results + conditional human audit</span></div>
+          <div class="topline reveal"><span>RQ5 · Credible requirement violations</span><span>Research question 5 of 6</span></div>
+          <div class="rq-brief reveal"><div><span>QUESTION</span><p>Do generated tests expose credible violations of the requirement postcondition?</p></div><div><span>HOW ANALYZED</span><p>Run the model and oracle; then jointly audit 30 failures for each of 11 requirements below 90% pass rate · 330 images.</p></div></div>
           <div class="content cols-2 wide-left">
             <div>
               <h2 class="headline reveal" style="font-size:66px">RBT4DNN found failures for 19 of 21 requirements; reviewed false positives averaged 3.3%.</h2>
@@ -1085,9 +1097,10 @@
       </section>
 
       <!-- === 19 / RQ6 === -->
-      <section class="slide" role="group" aria-roledescription="slide" aria-label="RQ6: exploratory ImageNet behavior">
+      <section class="slide rq-slide" role="group" aria-roledescription="slide" aria-label="RQ6: exploratory ImageNet behavior">
         <div class="frame">
-          <div class="topline reveal"><span>RQ6 · Can generated tests reveal decision behavior?</span><span>Four ImageNet requirements · three classifiers</span></div>
+          <div class="topline reveal"><span>RQ6 · Exploratory decision behavior</span><span>Research question 6 of 6</span></div>
+          <div class="rq-brief reveal"><div><span>QUESTION</span><p>Can generated failures reveal repeatable patterns in model decisions?</p></div><div><span>HOW ANALYZED</span><p>Inspect prediction frequencies and image patterns across 1,486 ImageNet failures · four requirements · three classifiers.</p></div></div>
           <div class="content cols-2 wide-left">
             <div>
               <h2 class="headline reveal" style="font-size:70px">Failures reveal repeatable patterns—but not their causes.</h2>
