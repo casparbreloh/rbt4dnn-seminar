@@ -684,7 +684,7 @@
     .reveal:nth-child(4) { transition-delay: 210ms; }
     .reveal:nth-child(5) { transition-delay: 280ms; }
 
-    /* === VIEWPORT CHROME + INLINE EDITOR === */
+    /* === VIEWPORT CHROME === */
     .deck-controls { display: flex; align-items: center; gap: 10px; padding: 7px 11px; border: 1px solid rgba(17,17,15,.16); border-radius: 99px; background: rgba(251,250,246,.9); backdrop-filter: blur(12px); color: var(--ink); opacity: 0; transition: opacity 180ms ease; }
     .deck-controls:hover, .deck-controls:focus-within { opacity: 1; }
     .deck-controls button { border: 0; width: 30px; height: 30px; border-radius: 50%; background: transparent; cursor: pointer; color: var(--ink); }
@@ -692,13 +692,6 @@
     .counter { min-width: 56px; text-align: center; font-family: var(--font-mono); font-size: 12px; }
     .progress { position: fixed; left: 0; bottom: 0; z-index: 1001; height: 2px; width: 100%; background: rgba(17,17,15,.08); }
     .progress span { display: block; height: 100%; width: 0; background: var(--orange); transition: width 280ms var(--ease); }
-    .edit-hotzone { position: fixed; top: 0; left: 0; width: 80px; height: 80px; z-index: 10000; cursor: pointer; }
-    .edit-toggle, .export-toggle { position: fixed; top: 18px; z-index: 10001; opacity: 0; pointer-events: none; transition: opacity .3s ease; border: 1px solid rgba(17,17,15,.16); border-radius: 99px; background: var(--paper); color: var(--ink); padding: 10px 15px; cursor: pointer; }
-    .edit-toggle { left: 18px; }
-    .export-toggle { left: 132px; }
-    .edit-toggle.show, .edit-toggle.active, .editing .export-toggle { opacity: 1; pointer-events: auto; }
-    .editing [contenteditable="true"] { outline: 2px dashed rgba(49,87,213,.55); outline-offset: 7px; }
-    .editing .deck-controls { opacity: .35; }
     .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
     @media (hover: none) { .deck-controls { opacity: 1; } }
   </style>
@@ -715,8 +708,8 @@
         <div class="frame">
           <div class="topline reveal"><span>AI Testing Landscape · SS 2026</span><span>Chair of Software and Systems Engineering · TUM</span></div>
           <div class="title-copy">
-            <h1 class="display reveal" data-edit>Requirements-based<br>testing of neural networks.</h1>
-            <p class="lead reveal" data-edit>A critical review of RBT4DNN, its empirical evidence, and three exploratory additional analyses.</p>
+<h1 class="display reveal">Requirements-based<br>testing of neural networks.</h1>
+            <p class="lead reveal">A critical review of RBT4DNN, its empirical evidence, and three exploratory additional analyses.</p>
           </div>
           <div class="title-mark">CASPAR BRELOH · 17 JULY 2026 / SUPERVISION: VIVEK V. VEKARIYA · SIMON SPETH</div>
           <div class="spacer"></div>
@@ -729,7 +722,7 @@
         <div class="frame">
           <div class="topline reveal"><span>Roadmap</span><span>20 minutes · paper 15 / critique 5</span></div>
           <div class="content">
-            <h2 class="headline reveal" data-edit>From a requirement to credible evidence.</h2>
+            <h2 class="headline reveal">From a requirement to credible evidence.</h2>
             <div class="agenda reveal">
               <div class="agenda-item"><span class="index">01</span><h3>Problem statement</h3><p>Why test by requirement?</p></div>
               <div class="agenda-item"><span class="index">02</span><h3>Background</h3><p>Terms and assumptions</p></div>
@@ -749,7 +742,7 @@
         <div class="frame">
           <div class="topline reveal"><span>01 · Problem and background</span><span>Learned component ≠ conventional program</span></div>
           <div class="content">
-            <h2 class="headline reveal" data-edit>High average accuracy does not answer a specific requirement.</h2>
+            <h2 class="headline reveal">High average accuracy does not answer a specific requirement.</h2>
             <div class="concept-grid reveal">
               <div class="concept"><span class="scope-label">Conventional testing</span><h3>Known behavior</h3><p>A specification maps an input condition to an expected output. Test oracles can check the result directly.</p></div>
               <div class="concept"><span class="scope-label">DNN testing</span><h3>Learned behavior</h3><p>The model is inferred from examples. Global accuracy summarizes a distribution, not every meaningful scenario.</p></div>
@@ -771,7 +764,7 @@
           <div class="topline reveal"><span>Problem statement</span><span>From coverage proxies to application semantics</span></div>
           <div class="content cols-2 wide-left">
             <div>
-              <h2 class="headline reveal" data-edit>Existing generators rarely start from the requirement itself.</h2>
+              <h2 class="headline reveal">Existing generators rarely start from the requirement itself.</h2>
               <p class="lead reveal" style="margin-top:38px">Neuron coverage, image transformations, and search-based generators can produce many tests—without proving that those tests represent the scenario a stakeholder cares about.</p>
             </div>
             <div class="rail reveal">
@@ -789,7 +782,7 @@
         <div class="frame">
           <div class="topline reveal"><span>Evaluation orientation</span><span>25 requirements · four domains</span></div>
           <div class="content">
-            <h2 class="headline reveal" style="font-size:74px" data-edit>The study spans four domains, four output regimes, and 25 requirements.</h2>
+            <h2 class="headline reveal" style="font-size:74px">The study spans four domains, four output regimes, and 25 requirements.</h2>
             <div class="dataset-grid reveal">
               <div class="dataset-card"><span class="meta">MNIST · 7 requirements</span><figure><div class="remote-grid mnist" data-upstream-path="M3" data-files="0.png,1.png,10.png,11.png" data-label="Generated MNIST digit"></div></figure><h3>Digits</h3><p>Measured height, thickness, and lean. A controlled starting point.</p><div class="req"><strong>Output:</strong> digit class</div></div>
               <div class="dataset-card"><span class="meta">CelebA-HQ · 7 requirements</span><figure><div class="remote-grid" data-upstream-path="C1" data-files="0.png,1.png,10.png,11.png" data-label="Generated CelebA-HQ face"></div></figure><h3>Faces</h3><p>Ambiguous attributes labeled by visual question answering or humans.</p><div class="req"><strong>Output:</strong> eyeglasses decision</div></div>
@@ -810,7 +803,7 @@
               <figure class="figure reveal" style="height:520px;background:#111"><div class="remote-grid mnist" data-upstream-path="M3" data-files="0.png,1.png,10.png,11.png,12.png,13.png,14.png,15.png" data-label="Generated M3 MNIST sample"></div><figcaption class="figure-label">Illustrative M3 outputs · pinned artifact samples</figcaption></figure>
             </div>
             <div>
-              <h2 class="headline reveal" style="font-size:74px" data-edit>A requirement defines both relevance and correctness.</h2>
+              <h2 class="headline reveal" style="font-size:74px">A requirement defines both relevance and correctness.</h2>
               <p class="requirement reveal" style="font-size:40px"><strong>If</strong> the digit is a 7 and is very thick, <strong>then</strong> the model shall label it as 7.</p>
               <div class="scope-strip reveal">
                 <div class="scope-item"><span class="index">Precondition</span><p>Which images count as relevant tests?</p></div>
@@ -827,7 +820,7 @@
         <div class="frame">
           <div class="topline reveal"><span>02 · Current approach</span><span>Requirement → targeted test suite</span></div>
           <div class="content">
-            <h2 class="headline reveal" data-edit>RBT4DNN is a four-stage semantic pipeline.</h2>
+            <h2 class="headline reveal">RBT4DNN is a four-stage semantic pipeline.</h2>
             <div class="annotated-flow reveal">
               <div class="flow-step"><span class="scope-label">01 · Label</span><h3>Pixels → terms</h3><p>Attach domain facts such as very thick, eyeglasses, or same lane.</p></div><div class="flow-arrow">→</div>
               <div class="flow-step"><span class="scope-label">02 · Filter</span><h3>Terms → subset</h3><p>Keep original images satisfying one requirement precondition.</p></div><div class="flow-arrow">→</div>
@@ -850,7 +843,7 @@
         <div class="frame">
           <div class="topline reveal"><span>03 · Methodology</span><span>Do not confuse annotation with evaluation</span></div>
           <div class="content">
-            <h2 class="headline reveal" style="font-size:72px" data-edit>Training labels and evaluation classifiers are separate—but neither is ground truth.</h2>
+            <h2 class="headline reveal" style="font-size:72px">Training labels and evaluation classifiers are separate—but neither is ground truth.</h2>
             <div class="label-table reveal">
               <div class="label-row header"><span>DOMAIN</span><span>LABEL SOURCE</span><span>TRANSFORMATION</span><span>EXAMPLE FACT</span></div>
               <div class="label-row"><span>MNIST</span><strong>Measurements</strong><p>Thickness, height, and lean are partitioned into named ranges.</p><strong>“very thick”</strong></div>
@@ -871,7 +864,7 @@
           <div class="topline reveal"><span>Training strategy</span><span>Low-rank adaptation (LoRA)</span></div>
           <div class="content cols-2 wide-left">
             <div>
-              <h2 class="headline reveal" style="font-size:70px" data-edit>One filtered precondition subset trains one targeted LoRA.</h2>
+              <h2 class="headline reveal" style="font-size:70px">One filtered precondition subset trains one targeted LoRA.</h2>
               <div class="lora-stack reveal">
                 <div class="weight-block"><span class="scope-label">Frozen backbone</span><h3>W</h3><p>FLUX.1-dev: a pretrained 12-billion-parameter image generator.</p></div>
                 <div class="weight-plus">+</div>
@@ -895,7 +888,7 @@
         <div class="frame">
           <div class="topline reveal"><span>Experimental setup</span><span>Each comparison answers a different question</span></div>
           <div class="content">
-            <h2 class="headline reveal" style="font-size:76px" data-edit>The baselines are not interchangeable.</h2>
+            <h2 class="headline reveal" style="font-size:76px">The baselines are not interchangeable.</h2>
             <div class="comparison-lanes reveal">
               <div class="comparison-lane"><span class="scope-label">PRIMARY METHOD</span><h3>Requirement-specific LoRA</h3><p>Filtered precondition subset. The central RBT4DNN configuration.</p></div>
               <div class="comparison-lane"><span class="scope-label">MNIST CONSISTENCY ABLATION</span><h3>All-data LoRA</h3><p>Same domain and prompting, but the adapter sees the complete dataset.</p></div>
@@ -913,7 +906,7 @@
         <div class="frame">
           <div class="topline reveal"><span>Experimental protocol</span><span>What the authors actually ran</span></div>
           <div class="content">
-            <h2 class="headline reveal" style="font-size:74px" data-edit>Each requirement becomes one generation-and-test experiment.</h2>
+            <h2 class="headline reveal" style="font-size:74px">Each requirement becomes one generation-and-test experiment.</h2>
             <div class="protocol-flow reveal">
               <div class="protocol-step"><span class="scope-label">01 · SPECIFY</span><h3>Requirement + glossary</h3><p>Authors provide the precondition and manually encode the expected output.</p><b>25 EVALUATION REQUIREMENTS</b></div>
               <div class="protocol-step"><span class="scope-label">02 · FILTER</span><h3>Label original data</h3><p>Apply measurements, scene graphs, visual Q&amp;A, or human labels; retain precondition matches.</p><b>ONE MATCHING SUBSET</b></div>
@@ -932,7 +925,7 @@
         <div class="frame">
           <div class="topline reveal"><span>Operational feasibility</span><span>Measured compute versus unknown total cost</span></div>
           <div class="content">
-            <h2 class="headline reveal" style="font-size:72px" data-edit>LoRA compute is measured; total workflow cost is not.</h2>
+            <h2 class="headline reveal" style="font-size:72px">LoRA compute is measured; total workflow cost is not.</h2>
             <div class="cost-hero reveal">
               <div class="cost-number"><strong>≈24.7</strong><p>A100-hours if the 21 primary MNIST, CelebA-HQ, and SGSM adapters run serially.</p></div>
               <div class="cost-scales">
@@ -953,7 +946,7 @@
         <div class="frame">
           <div class="topline reveal"><span>04 · Current results</span><span>First validate the inputs; then evaluate the tests</span></div>
           <div class="content">
-            <h2 class="headline reveal" data-edit>Six questions form a two-stage evidence argument.</h2>
+            <h2 class="headline reveal">Six questions form a two-stage evidence argument.</h2>
             <div class="evidence-stages reveal">
               <div class="evidence-stage">
                 <div class="evidence-stage-head"><h3>Validate the generated inputs</h3><span>RQ1–RQ3</span></div>
@@ -979,7 +972,7 @@
           <div class="topline reveal"><span>RQ1 · Do generated images match the precondition?</span><span>Measured separately with glossary classifiers</span></div>
           <div class="content evidence-split">
             <div>
-              <h2 class="headline reveal" style="font-size:68px" data-edit>Across 21 requirements, targeted LoRAs match preconditions 92.1% on average.</h2>
+              <h2 class="headline reveal" style="font-size:68px">Across 21 requirements, targeted LoRAs match preconditions 92.1% on average.</h2>
               <div class="answer-box reveal"><span class="scope-label">MEASUREMENT</span><p>One binary glossary classifier per term; mean classifier accuracy: 94.5%.</p></div>
               <p class="finding reveal"><strong>Domain means differ:</strong> CelebA-HQ automated visual-question labels 95.8%; human labels 96.1%; SGSM is weaker at 82.3%.</p>
             </div>
@@ -1000,7 +993,7 @@
         <div class="frame">
           <div class="topline reveal"><span>RQ2 · Are generated images realistic?</span><span>Kernel Inception Distance · lower is closer</span></div>
           <div class="content">
-            <h2 class="headline reveal" style="font-size:64px" data-edit>Targeted LoRA cuts KID by 77.09% for MNIST and SGSM; CelebA-HQ is mixed.</h2>
+            <h2 class="headline reveal" style="font-size:64px">Targeted LoRA cuts KID by 77.09% for MNIST and SGSM; CelebA-HQ is mixed.</h2>
             <div class="rq2-result reveal">
               <div class="rq2-primary"><strong>77.09%</strong><span>average KID reduction across MNIST M1–M6 and SGSM S1–S7</span></div>
               <div class="rq2-context">
@@ -1023,7 +1016,7 @@
         <div class="frame">
           <div class="topline reveal"><span>RQ3 · Are generated images diverse?</span><span>Jensen–Shannon divergence · lower is closer</span></div>
           <div class="content">
-            <h2 class="headline reveal" style="font-size:70px" data-edit>RQ3 preserves measured feature frequencies—not unrestricted image diversity.</h2>
+            <h2 class="headline reveal" style="font-size:70px">RQ3 preserves measured feature frequencies—not unrestricted image diversity.</h2>
             <div class="diversity-route reveal" role="img" aria-label="Glossary-feature distributions in the filtered training subset and generated tests">
               <div class="diversity-panel"><span class="scope-label">FILTERED TRAINING SUBSET</span><h3>Other glossary features</h3><div class="feature-bars"><div class="feature-row"><span>very thin</span><div class="feature-track"><div class="feature-fill" style="--value:34%"></div></div></div><div class="feature-row"><span>right leaning</span><div class="feature-track"><div class="feature-fill" style="--value:62%"></div></div></div><div class="feature-row"><span>very tall</span><div class="feature-track"><div class="feature-fill" style="--value:43%"></div></div></div></div></div>
               <div class="diversity-arrow">↔</div>
@@ -1040,7 +1033,7 @@
         <div class="frame">
           <div class="topline reveal"><span>RQ4 · Do targeted tests provide a better basis for confidence?</span><span>MNIST requirement M2 · very thick 3</span></div>
           <div class="content">
-            <h2 class="headline reveal" style="font-size:66px" data-edit>For M2, RBT4DNN reaches the precondition; both untargeted baselines largely do not.</h2>
+            <h2 class="headline reveal" style="font-size:66px">For M2, RBT4DNN reaches the precondition; both untargeted baselines largely do not.</h2>
             <div class="relevance-gate reveal">
               <div class="gate-node"><span class="scope-label">GATE 1 · INPUT</span><h3>Does this image actually show a very thick 3?</h3><p>DeepHyperion and transformations generate recognizable digits, but they are not conditioned on M2 and rarely reach its semantic precondition.</p></div>
               <div class="gate-arrow">→</div>
@@ -1058,7 +1051,7 @@
           <div class="topline reveal"><span>RQ5 · Do generated tests reveal requirement violations?</span><span>Outcome results + conditional human audit</span></div>
           <div class="content cols-2 wide-left">
             <div>
-              <h2 class="headline reveal" style="font-size:66px" data-edit>RBT4DNN found failures for 19 of 21 requirements; reviewed false positives averaged 3.3%.</h2>
+              <h2 class="headline reveal" style="font-size:66px">RBT4DNN found failures for 19 of 21 requirements; reviewed false positives averaged 3.3%.</h2>
               <div class="metric-pair reveal">
                 <div class="stat"><span class="stat-value accent-blue">330</span><span class="stat-label">failing images independently assessed by multiple authors and aggregated.</span></div>
                 <div class="stat"><span class="stat-value accent-orange">3.3%</span><span class="stat-label">mean estimated false-positive rate across the reviewed requirements.</span></div>
@@ -1082,7 +1075,7 @@
           <div class="topline reveal"><span>RQ6 · Can generated tests reveal decision behavior?</span><span>Four ImageNet requirements · three classifiers</span></div>
           <div class="content cols-2 wide-left">
             <div>
-              <h2 class="headline reveal" style="font-size:70px" data-edit>Failures reveal repeatable patterns—but not their causes.</h2>
+              <h2 class="headline reveal" style="font-size:70px">Failures reveal repeatable patterns—but not their causes.</h2>
               <div class="metric-pair reveal">
                 <div class="stat"><span class="stat-value accent-blue">1,486</span><span class="stat-label">ImageNet failures examined across the exploratory study.</span></div>
                 <div class="stat"><span class="stat-value">3</span><span class="stat-label">high-accuracy models showed concentrated, model-specific predictions.</span></div>
@@ -1103,7 +1096,7 @@
         <div class="frame">
           <div class="topline reveal"><span>Authors’ assessment</span><span>Limitations and stated future scope</span></div>
           <div class="content">
-            <h2 class="headline reveal" style="font-size:76px" data-edit>The paper demonstrates feasibility—not a complete assurance process.</h2>
+            <h2 class="headline reveal" style="font-size:76px">The paper demonstrates feasibility—not a complete assurance process.</h2>
             <div class="concept-grid reveal">
               <div class="concept"><span class="scope-label">Generative training</span><h3>Better tests</h3><p>Improve generator training and adaptation to reveal more observed failures and reduce false positives.</p></div>
               <div class="concept"><span class="scope-label">Coverage evidence</span><h3>Latent coverage</h3><p>Adapt systematic latent-space coverage when test generation does not reveal a failure.</p></div>
@@ -1120,7 +1113,7 @@
         <div class="frame">
           <div class="topline reveal"><span>05 · Critical review</span><span>Central thesis</span></div>
           <div class="content">
-            <h2 class="headline reveal" style="font-size:69px" data-edit>The paper jointly validates 330 sampled failures—but not the full failure population.</h2>
+            <h2 class="headline reveal" style="font-size:69px">The paper jointly validates 330 sampled failures—but not the full failure population.</h2>
             <div class="evidence-matrix reveal" role="img" aria-label="Two-by-two matrix of precondition validity and model outcome">
               <div class="evidence-cell"><span class="scope-label">PRECONDITION INVALID · MODEL PASSES</span><h3>Irrelevant pass</h3><p>The output says nothing about the stated requirement.</p></div>
               <div class="evidence-cell"><span class="scope-label">PRECONDITION INVALID · MODEL FAILS</span><h3>Off-target false positive</h3><p>A model error is not yet a requirement counterexample.</p></div>
@@ -1140,7 +1133,7 @@
           <div class="topline reveal"><span>Additional analysis 2</span><span>From raw failures toward evidence quality</span></div>
           <div class="content cols-2">
             <div>
-              <h2 class="headline reveal" style="font-size:66px" data-edit>The proxy and 42-image LLM check identify audit targets; neither estimates population validity.</h2>
+              <h2 class="headline reveal" style="font-size:66px">The proxy and 42-image LLM check identify audit targets; neither estimates population validity.</h2>
               <div class="proxy-chart reveal" role="img" aria-label="Independence-proxy ranking by requirement">
                 <h3>Independence-proxy ranking</h3>
                 <div class="proxy-bars">
@@ -1178,7 +1171,7 @@
               </div>
             </div>
             <div>
-              <h2 class="headline reveal" style="font-size:66px" data-edit>The shared VAE matches MNIST digit-pass rates, but precondition validity was not measured.</h2>
+              <h2 class="headline reveal" style="font-size:66px">The shared VAE matches MNIST digit-pass rates, but precondition validity was not measured.</h2>
               <div class="mini-table reveal">
                 <div class="mini-row"><span>Weak case</span><strong>M3 performance</strong><b>.743</b></div>
                 <div class="mini-row"><span>CelebA</span><strong>generated-image alignment</strong><b>.613</b></div>
@@ -1195,12 +1188,12 @@
       <section class="slide statement-slide" role="group" aria-roledescription="slide" aria-label="Assessment and conclusion">
         <div class="frame">
           <div class="topline reveal"><span>06 · Assessment and future scope</span><span>Independent conclusion</span></div>
-          <p class="statement reveal" style="font-size:101px" data-edit>Requirements make tests <span class="accent-blue">relevant.</span><br>Validity makes failures <span class="accent-orange">credible.</span></p>
+          <p class="statement reveal" style="font-size:101px">Requirements make tests <span class="accent-blue">relevant.</span><br>Validity makes failures <span class="accent-orange">credible.</span></p>
           <div class="scope-strip reveal" style="margin-top:52px">
             <div class="scope-item"><span class="index">What the paper establishes</span><p>Structured requirements can guide realistic, diverse, and scenario-specific neural-network test generation across four domains.</p></div>
             <div class="scope-item"><span class="index">What remains open</span><p>Broader independent joint audits, shared generators, alternative adaptation methods, and end-to-end replication at larger scale.</p></div>
           </div>
-          <p class="lead reveal" style="margin-top:36px" data-edit>Overall: a strong and original testing direction, with an incomplete assurance argument—and clear opportunities for the next study.</p>
+          <p class="lead reveal" style="margin-top:36px">Overall: a strong and original testing direction, with an incomplete assurance argument—and clear opportunities for the next study.</p>
           <div class="spacer"></div>
           <div class="footer"><span>End of 20-minute talk · questions</span><span>24 / 25</span></div>
         </div>
@@ -1233,11 +1226,6 @@
     <button id="nextSlide" type="button" aria-label="Next slide">→</button>
   </nav>
   <div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
-
-  <!-- === INLINE EDITING CONTROLS === -->
-  <div class="edit-hotzone" title="Edit mode (E)" aria-hidden="true"></div>
-  <button class="edit-toggle" id="editToggle" type="button" title="Edit mode (E)">Edit</button>
-  <button class="export-toggle" id="exportToggle" type="button" title="Export edited HTML">Export HTML</button>
 
   <script>
     const publicExport = new URLSearchParams(window.location.search).get('public') === '1';
@@ -1294,7 +1282,7 @@
         document.getElementById('previousSlide').addEventListener('click', () => this.previous());
         document.getElementById('nextSlide').addEventListener('click', () => this.next());
         document.addEventListener('keydown', event => {
-          if (document.body.classList.contains('editing') || event.target.isContentEditable) return;
+          if (event.target.isContentEditable) return;
           if (['ArrowRight', 'ArrowDown', ' ', 'PageDown'].includes(event.key)) { event.preventDefault(); this.next(); }
           if (['ArrowLeft', 'ArrowUp', 'PageUp'].includes(event.key)) { event.preventDefault(); this.previous(); }
           if (event.key === 'Home') { event.preventDefault(); this.showSlide(0); }
@@ -1302,7 +1290,7 @@
         });
         window.addEventListener('hashchange', () => this.showSlide(this.indexFromHash(), false));
         window.addEventListener('wheel', event => {
-          if (document.body.classList.contains('editing') || this.wheelLocked || Math.abs(event.deltaY) < 20) return;
+          if (this.wheelLocked || Math.abs(event.deltaY) < 20) return;
           this.wheelLocked = true;
           event.deltaY > 0 ? this.next() : this.previous();
           window.setTimeout(() => { this.wheelLocked = false; }, 520);
@@ -1312,7 +1300,6 @@
           this.touchStartY = event.changedTouches[0].clientY;
         }, { passive: true });
         window.addEventListener('touchend', event => {
-          if (document.body.classList.contains('editing')) return;
           const dx = event.changedTouches[0].clientX - this.touchStartX;
           const dy = event.changedTouches[0].clientY - this.touchStartY;
           if (Math.abs(dx) > 48 && Math.abs(dx) > Math.abs(dy)) dx < 0 ? this.next() : this.previous();
@@ -1338,51 +1325,6 @@
       }
     }
 
-    /* === LOCAL INLINE EDITOR === */
-    class InlineEditor {
-      constructor() {
-        this.isActive = false;
-        this.storageKey = 'rbt4dnn-seminar-slide-edits-v5-rebuild';
-        this.nodes = [...document.querySelectorAll('[data-edit]')];
-        this.nodes.forEach((node, index) => node.dataset.editId = `edit-${index + 1}`);
-        this.restore();
-      }
-
-      toggleEditMode() {
-        this.isActive = !this.isActive;
-        document.body.classList.toggle('editing', this.isActive);
-        document.getElementById('editToggle').classList.toggle('active', this.isActive);
-        document.getElementById('editToggle').textContent = this.isActive ? 'Done' : 'Edit';
-        this.nodes.forEach(node => node.setAttribute('contenteditable', String(this.isActive)));
-        if (!this.isActive) this.save();
-      }
-
-      save() {
-        const edits = Object.fromEntries(this.nodes.map(node => [node.dataset.editId, node.innerHTML]));
-        localStorage.setItem(this.storageKey, JSON.stringify(edits));
-      }
-
-      restore() {
-        try {
-          const edits = JSON.parse(localStorage.getItem(this.storageKey) || '{}');
-          this.nodes.forEach(node => { if (edits[node.dataset.editId] !== undefined) node.innerHTML = edits[node.dataset.editId]; });
-        } catch (error) { console.warn('Could not restore slide edits.', error); }
-      }
-
-      exportHtml() {
-        this.save();
-        const clone = document.documentElement.cloneNode(true);
-        clone.querySelectorAll('[contenteditable]').forEach(node => node.setAttribute('contenteditable', 'false'));
-        clone.querySelector('body').classList.remove('editing');
-        const blob = new Blob(['<!doctype html>\n' + clone.outerHTML], { type: 'text/html' });
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = 'rbt4dnn-edited.html';
-        link.click();
-        window.setTimeout(() => URL.revokeObjectURL(link.href), 1000);
-      }
-    }
-
     /* Public artifact samples are hot-linked from the authors' pinned repository revision.
        This keeps the Pages build reproducible without redistributing the unlicensed corpus. */
     const upstreamImageRoot = 'https://raw.githubusercontent.com/less-lab-uva/RBT4DNN/c3deff871ed41043d83a05289faab84c41706586/data/images_from_loras';
@@ -1400,25 +1342,7 @@
       });
     }
 
-    const presentation = new SlidePresentation();
-    const editor = new InlineEditor();
-
-    /* === EDITOR INTERACTIONS: hotzone, keyboard, autosave, export === */
-    const hotzone = document.querySelector('.edit-hotzone');
-    const editToggle = document.getElementById('editToggle');
-    let hideTimeout = null;
-    hotzone.addEventListener('mouseenter', () => { clearTimeout(hideTimeout); editToggle.classList.add('show'); });
-    hotzone.addEventListener('mouseleave', () => { hideTimeout = setTimeout(() => { if (!editor.isActive) editToggle.classList.remove('show'); }, 400); });
-    editToggle.addEventListener('mouseenter', () => clearTimeout(hideTimeout));
-    editToggle.addEventListener('mouseleave', () => { hideTimeout = setTimeout(() => { if (!editor.isActive) editToggle.classList.remove('show'); }, 400); });
-    editToggle.addEventListener('click', () => editor.toggleEditMode());
-    hotzone.addEventListener('click', () => editor.toggleEditMode());
-    document.getElementById('exportToggle').addEventListener('click', () => editor.exportHtml());
-    document.addEventListener('input', event => { if (event.target.matches('[data-edit]')) editor.save(); });
-    document.addEventListener('keydown', event => {
-      if ((event.key === 'e' || event.key === 'E') && !event.target.isContentEditable) editor.toggleEditMode();
-      if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 's' && editor.isActive) { event.preventDefault(); editor.save(); }
-    });
+    new SlidePresentation();
   </script>
 </body>
 </html>

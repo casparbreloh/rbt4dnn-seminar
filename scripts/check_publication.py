@@ -112,7 +112,9 @@ def check_slides() -> None:
     assert parser.slide_count == EXPECTED_SLIDE_COUNT
     assert '<meta name="viewport"' in html
     assert "keydown" in html and "touch" in html
-    assert "contenteditable" in html
+    assert "contenteditable" not in html
+    assert "localStorage" not in html
+    assert "InlineEditor" not in html
 
     targets = parser.local_targets
     targets += re.findall(r"url\(['\"]?([^)'\"]+)", html)
