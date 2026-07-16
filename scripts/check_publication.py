@@ -12,6 +12,7 @@ from urllib.parse import unquote, urlparse
 ROOT = Path(__file__).resolve().parents[1]
 REPO_URL = "https://github.com/casparbreloh/rbt4dnn-seminar.git"
 PAGES_URL = "https://casparbreloh.github.io/rbt4dnn-seminar/"
+EXPECTED_SLIDE_COUNT = 28
 CORPUS_NOTEBOOKS = {
     "experiments/mnist-shared-generator/notebook.ipynb": {"mnist"},
     "experiments/celeba-shared-generator/notebook.ipynb": {"celeba-hq"},
@@ -107,7 +108,7 @@ def check_slides() -> None:
     html = index.read_text()
     parser = SlideParser()
     parser.feed(html)
-    assert parser.slide_count == 34
+    assert parser.slide_count == EXPECTED_SLIDE_COUNT
     assert '<meta name="viewport"' in html
     assert "keydown" in html and "touch" in html
     assert "contenteditable" in html
@@ -134,7 +135,10 @@ def main() -> None:
     check_readme_links()
     check_notebooks()
     check_slides()
-    print("Publication checks passed: manifest, links, notebooks, and 34-slide static site.")
+    print(
+        "Publication checks passed: manifest, links, notebooks, "
+        f"and {EXPECTED_SLIDE_COUNT}-slide static site."
+    )
 
 
 if __name__ == "__main__":

@@ -21,11 +21,19 @@ Both files are exact copies of the committed experiment outputs. They are includ
 are independently generated results of this repository's extension experiments, not copied
 paper figures or copied dataset images.
 
+## Public artifact samples in the live deck
+
+The live presentation hot-links a small, cited sample directly from the authors' public
+artifact at the pinned commit recorded in `data/manifest.json`. The images are not copied
+into this repository or the GitHub Pages artifact because the upstream repository does not
+declare a redistribution license. Paper tables and diagrams are redrawn as native HTML for
+legibility rather than republished as crops.
+
 ## Deliberately excluded material
 
 - TUM marks and course-slide images: not republished.
-- Figures extracted from the RBT4DNN paper: cited, then independently redrawn as semantic
-  diagrams where needed.
+- Full paper pages and paper imagery: explanatory figures and evidence tables are redrawn as
+  native HTML where needed.
 - Images copied from the upstream RBT4DNN artifact: not republished; reviewers can restore the
   pinned corpus through `scripts/fetch_data.py`.
 - Dataset photographs and examples: not copied into the deck.
