@@ -28,8 +28,8 @@
       --pad-x: 80px;
       --pad-y: 48px;
       --pad-bottom: 48px;
-      --ease: cubic-bezier(.16, 1, .3, 1);
-      --duration: 520ms;
+      --ease: ease-out;
+      --duration: 160ms;
     }
 
     /* === RESET === */
@@ -88,6 +88,7 @@
         opacity: 0;
         pointer-events: none;
         background: var(--slide-bg, #fff);
+        transition: opacity 140ms linear;
     }
 
     .slide.active,
@@ -169,6 +170,10 @@
             display: none !important;
         }
 
+        .visual-modal {
+            display: none !important;
+        }
+
         .reveal {
             opacity: 1 !important;
             transform: none !important;
@@ -237,7 +242,7 @@
 
     /* === PRIMITIVE 2: OPEN GRID + SPLITS === */
     .content { flex: 1; padding-top: 28px; }
-    .cols-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 90px; align-items: center; }
+    .cols-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 70px; align-items: center; }
     .cols-2.wide-left { grid-template-columns: 1.18fr .82fr; }
     .cols-2.wide-right { grid-template-columns: .82fr 1.18fr; }
     .cols-2.critique-layout { grid-template-columns: .92fr 1.08fr; gap: 58px; }
@@ -289,7 +294,7 @@
     .bar-label, .bar-value { font-family: var(--font-mono); font-size: 17px; }
     .bar-value { text-align: right; }
     .bar-track { height: 5px; background: var(--line-soft); }
-    .bar-fill { height: 100%; width: var(--value); background: var(--blue); transform-origin: left; transform: scaleX(0); transition: transform 800ms var(--ease) 180ms; }
+    .bar-fill { height: 100%; width: var(--value); background: var(--blue); transform-origin: left; transform: scaleX(0); transition: transform 220ms linear; }
     .bar-fill.orange { background: var(--orange); }
     .slide.visible .bar-fill { transform: scaleX(1); }
     .formula { font-size: 60px; line-height: 1.05; letter-spacing: -.045em; font-weight: 500; }
@@ -315,12 +320,10 @@
     .diagram .accent-blue { fill: var(--blue); }
     .diagram .accent-orange { fill: var(--orange); }
     .diagram .d-paper { fill: var(--cream); stroke: var(--ink); stroke-width: 1.5; }
-    .diagram .flow-path { stroke-dasharray: 700; stroke-dashoffset: 700; transition: stroke-dashoffset 1.15s var(--ease) 160ms; }
+    .diagram .flow-path { stroke-dasharray: 700; stroke-dashoffset: 700; transition: stroke-dashoffset 240ms linear; }
     .slide.visible .diagram .flow-path { stroke-dashoffset: 0; }
-    .diagram .flow-dot { opacity: 0; transform-box: fill-box; transform-origin: center; transform: scale(.4); transition: opacity 360ms ease, transform 520ms var(--ease); }
+    .diagram .flow-dot { opacity: 0; transform-box: fill-box; transform-origin: center; transform: scale(.9); transition: opacity 160ms linear, transform 160ms linear; }
     .slide.visible .diagram .flow-dot { opacity: 1; transform: scale(1); }
-    .diagram .flow-dot:nth-of-type(2n) { transition-delay: 120ms; }
-    .diagram .flow-dot:nth-of-type(3n) { transition-delay: 220ms; }
 
     /* Information strips add reading density without introducing card chrome. */
     .scenario-map { display: grid; grid-template-columns: 1fr 1fr; margin-top: 72px; border-top: 1px solid currentColor; border-bottom: 1px solid currentColor; }
@@ -447,7 +450,7 @@
     .legend-item { min-height: 112px; padding: 20px 26px 18px 0; }
     .legend-item + .legend-item { padding-left: 26px; border-left: 1px solid var(--line); }
     .legend-item strong { display: block; margin-top: 10px; font-size: 21px; font-weight: 540; }
-    .dataset-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; margin-top: 42px; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
+    .dataset-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; margin-top: 34px; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
     .dataset-card { min-width: 0; padding: 24px 24px 24px 0; }
     .dataset-card + .dataset-card { padding-left: 24px; border-left: 1px solid var(--ink); }
     .dataset-card figure { height: 180px; margin-top: 18px; background: #e7e3da; overflow: hidden; }
@@ -554,7 +557,7 @@
     .requirement-family { min-height: 225px; padding: 22px 24px; border-right: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
     .requirement-family h3 { margin-top: 38px; font-size: 31px; line-height: 1; font-weight: 540; }
     .requirement-family p { margin-top: 11px; font-size: 17px; line-height: 1.32; color: var(--muted); }
-    .evidence-stages { display: grid; grid-template-columns: 1fr 1fr; gap: 54px; margin-top: 42px; }
+    .evidence-stages { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin-top: 34px; }
     .evidence-stage { border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
     .evidence-stage-head { display: flex; justify-content: space-between; align-items: baseline; padding: 20px 0 18px; }
     .evidence-stage-head h3 { font-size: 34px; line-height: 1; font-weight: 540; }
@@ -617,13 +620,13 @@
     .glossary-step h3 { margin-top: 54px; font-size: 31px; line-height: 1.05; letter-spacing: -.04em; font-weight: 550; }
     .glossary-step p { margin-top: 15px; font-size: 19px; line-height: 1.34; color: var(--muted); }
     .glossary-step .examples { display: block; margin-top: 20px; font-family: var(--font-mono); font-size: 13px; line-height: 1.45; color: var(--blue); }
-    .comparison-lanes { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-top: 40px; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
+    .comparison-lanes { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-top: 34px; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
     .comparison-lane { min-height: 220px; padding: 24px 28px 24px 0; border-right: 1px solid var(--ink); }
     .comparison-lane:nth-child(2n) { padding-left: 28px; border-right: 0; }
     .comparison-lane:nth-child(-n + 2) { border-bottom: 1px solid var(--ink); }
     .comparison-lane h3 { margin-top: 68px; font-size: 32px; line-height: 1.04; letter-spacing: -.04em; font-weight: 540; }
     .comparison-lane p { margin-top: 13px; font-size: 19px; line-height: 1.34; color: var(--muted); }
-    .cost-hero { display: grid; grid-template-columns: .8fr 1.2fr; gap: 80px; align-items: end; margin-top: 44px; }
+    .cost-hero { display: grid; grid-template-columns: .8fr 1.2fr; gap: 70px; align-items: end; margin-top: 34px; }
     .cost-number { padding-top: 24px; border-top: 1px solid var(--ink); }
     .cost-number strong { display: block; font-size: 130px; line-height: .82; letter-spacing: -.07em; font-weight: 550; color: var(--blue); }
     .cost-number p { margin-top: 18px; font-size: 24px; line-height: 1.3; color: var(--muted); }
@@ -662,7 +665,7 @@
     .metric-distance { text-align: center; }
     .metric-distance strong { display: block; font-size: 68px; line-height: .9; color: var(--blue); }
     .metric-distance span { display: block; margin-top: 12px; font-family: var(--font-mono); font-size: 13px; color: var(--muted); }
-    .diversity-route { display: grid; grid-template-columns: 1fr 84px 1fr; align-items: stretch; margin-top: 48px; }
+    .diversity-route { display: grid; grid-template-columns: 1fr 84px 1fr; align-items: stretch; margin-top: 34px; }
     .diversity-panel { min-height: 390px; padding: 30px 34px; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
     .diversity-panel h3 { margin-top: 46px; font-size: 34px; font-weight: 540; }
     .feature-bars { display: grid; gap: 22px; margin-top: 42px; }
@@ -671,13 +674,13 @@
     .feature-fill { height: 100%; width: var(--value); background: var(--blue); }
     .diversity-panel.generated .feature-fill { background: var(--orange); }
     .diversity-arrow { align-self: center; text-align: center; font-size: 34px; color: var(--blue); }
-    .relevance-gate { display: grid; grid-template-columns: 1.1fr 90px 1fr; align-items: stretch; margin-top: 42px; }
+    .relevance-gate { display: grid; grid-template-columns: 1.1fr 90px 1fr; align-items: stretch; margin-top: 34px; }
     .gate-node { min-height: 370px; padding: 30px 34px; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
     .gate-node h3 { margin-top: 90px; font-size: 38px; line-height: 1.04; font-weight: 540; letter-spacing: -.04em; }
     .gate-node p { margin-top: 18px; font-size: 21px; line-height: 1.35; color: var(--muted); }
-    .gate-node.result { background: var(--paper); }
+    .gate-node.result { background: transparent; }
     .gate-arrow { align-self: center; text-align: center; font-size: 38px; color: var(--blue); }
-    .evidence-matrix { display: grid; grid-template-columns: 1fr 1fr; margin-top: 38px; border-top: 1px solid var(--ink); border-left: 1px solid var(--ink); }
+    .evidence-matrix { display: grid; grid-template-columns: 1fr 1fr; margin-top: 34px; border-top: 1px solid var(--ink); border-left: 1px solid var(--ink); }
     .evidence-cell { min-height: 175px; padding: 24px 28px; border-right: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
     .evidence-cell h3 { margin-top: 44px; font-size: 31px; line-height: 1.05; font-weight: 540; }
     .evidence-cell p { margin-top: 10px; font-size: 18px; line-height: 1.3; color: var(--muted); }
@@ -686,13 +689,22 @@
     /* Public PDF exports replace linked upstream images that this repository may not redistribute. */
     .public-placeholder { grid-column: 1 / -1; display: grid; place-items: center; width: 100%; height: 100%; padding: 20px; text-align: center; font-family: var(--font-mono); font-size: 13px; line-height: 1.45; color: var(--muted); background: #e7e3da; }
 
-    /* === MOTION: one restrained entrance system === */
-    .reveal { opacity: 0; transform: translateY(18px); transition: opacity var(--duration) var(--ease), transform var(--duration) var(--ease); }
-    .slide.visible .reveal { opacity: 1; transform: translateY(0); }
-    .reveal:nth-child(2) { transition-delay: 70ms; }
-    .reveal:nth-child(3) { transition-delay: 140ms; }
-    .reveal:nth-child(4) { transition-delay: 210ms; }
-    .reveal:nth-child(5) { transition-delay: 280ms; }
+    /* === MOTION: one quiet, simultaneous fade === */
+    .reveal { opacity: 0; transform: none; transition: opacity var(--duration) linear; }
+    .slide.visible .reveal { opacity: 1; transform: none; }
+
+    /* === EXPANDABLE VISUALS: diagrams stay compact until requested === */
+    .zoomable-visual { cursor: zoom-in; }
+    .zoomable-visual:hover { outline: 2px solid rgba(49,87,213,.35); outline-offset: 7px; }
+    .zoomable-visual:focus-visible { outline: 3px solid var(--blue); outline-offset: 7px; }
+    .visual-modal { position: fixed; inset: 0; z-index: 20000; display: grid; place-items: center; padding: 4vh 4vw; background: rgba(17,17,15,.88); opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 140ms linear; }
+    .visual-modal.open { opacity: 1; visibility: visible; pointer-events: auto; }
+    .visual-modal-shell { position: relative; overflow: hidden; background: var(--cream); box-shadow: 0 22px 70px rgba(0,0,0,.3); transition: width 140ms linear, height 140ms linear; }
+    .visual-modal-content { position: absolute; left: 50%; top: 50%; transform-origin: center; }
+    .visual-modal-content > * { pointer-events: none; }
+    .visual-modal-close { position: absolute; top: 16px; right: 16px; z-index: 2; min-width: 88px; height: 42px; border: 1px solid var(--ink); border-radius: 99px; background: var(--cream); color: var(--ink); cursor: pointer; }
+    .visual-modal-close:hover, .visual-modal-close:focus-visible { background: var(--ink); color: var(--cream); }
+    body.visual-open .deck-controls, body.visual-open .progress { opacity: 0; pointer-events: none; }
 
     /* === VIEWPORT CHROME === */
     .deck-controls { display: flex; align-items: center; gap: 10px; padding: 7px 11px; border: 1px solid rgba(17,17,15,.16); border-radius: 99px; background: rgba(251,250,246,.9); backdrop-filter: blur(12px); color: var(--ink); opacity: 0; transition: opacity 180ms ease; }
@@ -1219,6 +1231,14 @@
   </nav>
   <div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
 
+  <!-- === VISUAL VIEWER: enlarges diagrams without changing slide layout === -->
+  <div class="visual-modal" id="visualModal" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Expanded slide visual">
+    <div class="visual-modal-shell" id="visualModalShell">
+      <button class="visual-modal-close" id="visualModalClose" type="button" aria-label="Close expanded visual">Close ×</button>
+      <div class="visual-modal-content" id="visualModalContent"></div>
+    </div>
+  </div>
+
   <script>
     const publicExport = new URLSearchParams(window.location.search).get('public') === '1';
     if (publicExport) {
@@ -1274,7 +1294,7 @@
         document.getElementById('previousSlide').addEventListener('click', () => this.previous());
         document.getElementById('nextSlide').addEventListener('click', () => this.next());
         document.addEventListener('keydown', event => {
-          if (event.target.isContentEditable) return;
+          if (event.target.isContentEditable || document.body.classList.contains('visual-open') || event.target.closest?.('.zoomable-visual')) return;
           if (['ArrowRight', 'ArrowDown', ' ', 'PageDown'].includes(event.key)) { event.preventDefault(); this.next(); }
           if (['ArrowLeft', 'ArrowUp', 'PageUp'].includes(event.key)) { event.preventDefault(); this.previous(); }
           if (event.key === 'Home') { event.preventDefault(); this.showSlide(0); }
@@ -1282,7 +1302,7 @@
         });
         window.addEventListener('hashchange', () => this.showSlide(this.indexFromHash(), false));
         window.addEventListener('wheel', event => {
-          if (this.wheelLocked || Math.abs(event.deltaY) < 20) return;
+          if (document.body.classList.contains('visual-open') || this.wheelLocked || Math.abs(event.deltaY) < 20) return;
           this.wheelLocked = true;
           event.deltaY > 0 ? this.next() : this.previous();
           window.setTimeout(() => { this.wheelLocked = false; }, 520);
@@ -1292,6 +1312,7 @@
           this.touchStartY = event.changedTouches[0].clientY;
         }, { passive: true });
         window.addEventListener('touchend', event => {
+          if (document.body.classList.contains('visual-open')) return;
           const dx = event.changedTouches[0].clientX - this.touchStartX;
           const dy = event.changedTouches[0].clientY - this.touchStartY;
           if (Math.abs(dx) > 48 && Math.abs(dx) > Math.abs(dy)) dx < 0 ? this.next() : this.previous();
@@ -1317,6 +1338,112 @@
       }
     }
 
+    /* === ACCESSIBLE VISUAL VIEWER === */
+    class VisualViewer {
+      constructor() {
+        this.modal = document.getElementById('visualModal');
+        this.shell = document.getElementById('visualModalShell');
+        this.content = document.getElementById('visualModalContent');
+        this.closeButton = document.getElementById('visualModalClose');
+        this.lastTrigger = null;
+        this.sourceSize = null;
+        this.visuals = [...document.querySelectorAll([
+          '.dataset-grid',
+          '.figure',
+          '.annotated-flow',
+          '.glossary-flow',
+          '.lora-stack',
+          '.comparison-lanes',
+          '.cost-hero',
+          '.evidence-stages',
+          '.compare-board',
+          '.diversity-route',
+          '.relevance-gate',
+          '.evidence-matrix',
+          '.proxy-chart',
+          '.mini-table'
+        ].join(','))];
+        this.prepareVisuals();
+        this.bind();
+      }
+
+      prepareVisuals() {
+        this.visuals.forEach((visual, index) => {
+          visual.classList.add('zoomable-visual');
+          visual.tabIndex = 0;
+          visual.setAttribute('role', 'button');
+          const existing = visual.getAttribute('aria-label');
+          const caption = visual.querySelector('figcaption')?.textContent?.trim();
+          const slide = visual.closest('.slide')?.getAttribute('aria-label') || `slide visual ${index + 1}`;
+          visual.setAttribute('aria-label', `Enlarge ${existing || caption || slide}`);
+          visual.title = 'Click to enlarge';
+        });
+      }
+
+      bind() {
+        this.visuals.forEach(visual => {
+          visual.addEventListener('click', event => { event.stopPropagation(); this.open(visual); });
+          visual.addEventListener('keydown', event => {
+            if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); this.open(visual); }
+          });
+        });
+        this.closeButton.addEventListener('click', () => this.close());
+        this.modal.addEventListener('click', event => { if (event.target === this.modal) this.close(); });
+        document.addEventListener('keydown', event => {
+          if (event.key === 'Escape' && this.modal.classList.contains('open')) { event.preventDefault(); this.close(); }
+        });
+        window.addEventListener('resize', () => { if (this.modal.classList.contains('open')) this.fit(); });
+      }
+
+      open(source) {
+        this.lastTrigger = source;
+        this.sourceSize = { width: source.offsetWidth, height: source.offsetHeight };
+        const clone = source.cloneNode(true);
+        clone.classList.remove('zoomable-visual', 'reveal');
+        clone.removeAttribute('tabindex');
+        clone.removeAttribute('role');
+        clone.removeAttribute('title');
+        clone.querySelectorAll('.reveal, .zoomable-visual').forEach(node => node.classList.remove('reveal', 'zoomable-visual'));
+        clone.style.width = `${this.sourceSize.width}px`;
+        clone.style.height = `${this.sourceSize.height}px`;
+        clone.style.margin = '0';
+        clone.style.opacity = '1';
+        clone.style.transform = 'none';
+        this.content.replaceChildren(clone);
+        this.content.style.width = `${this.sourceSize.width}px`;
+        this.content.style.height = `${this.sourceSize.height}px`;
+        this.modal.classList.add('open');
+        this.modal.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('visual-open');
+        this.fit();
+        this.closeButton.focus();
+      }
+
+      fit() {
+        if (!this.sourceSize) return;
+        const maxWidth = Math.min(window.innerWidth * .92, 1720);
+        const maxHeight = Math.min(window.innerHeight * .88, 920);
+        const scale = Math.min(
+          (maxWidth - 96) / this.sourceSize.width,
+          (maxHeight - 96) / this.sourceSize.height,
+          2
+        );
+        this.shell.style.width = `${Math.round(this.sourceSize.width * scale + 96)}px`;
+        this.shell.style.height = `${Math.round(this.sourceSize.height * scale + 96)}px`;
+        this.content.style.transform = `translate(-50%, -50%) scale(${scale})`;
+      }
+
+      close() {
+        this.modal.classList.remove('open');
+        this.modal.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('visual-open');
+        this.content.replaceChildren();
+        this.lastTrigger?.focus();
+        this.lastTrigger = null;
+        this.sourceSize = null;
+      }
+    }
+
     /* Public artifact samples are hot-linked from the authors' pinned repository revision.
        This keeps the Pages build reproducible without redistributing the unlicensed corpus. */
     const upstreamImageRoot = 'https://raw.githubusercontent.com/less-lab-uva/RBT4DNN/c3deff871ed41043d83a05289faab84c41706586/data/images_from_loras';
@@ -1335,6 +1462,7 @@
     }
 
     new SlidePresentation();
+    new VisualViewer();
   </script>
 </body>
 </html>
