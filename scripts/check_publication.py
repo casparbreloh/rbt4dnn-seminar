@@ -115,8 +115,8 @@ def check_slides() -> None:
     assert "contenteditable" not in html
     assert "localStorage" not in html
     assert "InlineEditor" not in html
-    assert "VisualViewer" in html
-    assert 'class="visual-modal"' in html
+    assert "VisualViewer" not in html
+    assert "visual-modal" not in html
     assert "transition-delay" not in html
 
     targets = parser.local_targets
