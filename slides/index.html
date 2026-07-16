@@ -435,6 +435,15 @@
     .act-band span { padding-top: 10px; border-top: 4px solid var(--blue); }
     .act-band span:nth-child(2) { border-color: var(--ink); }
     .act-band span:nth-child(3) { border-color: var(--orange); }
+    .question-map { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 64px; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
+    .question-item { position: relative; min-height: 445px; padding: 28px 46px 34px 0; }
+    .question-item + .question-item { padding-left: 46px; border-left: 1px solid var(--ink); }
+    .question-item h3 { margin-top: 105px; max-width: 430px; font-size: 43px; line-height: 1.08; letter-spacing: -.045em; font-weight: 540; }
+    .question-item p { position: absolute; left: 0; bottom: 34px; font-family: var(--font-mono); font-size: 14px; letter-spacing: .03em; color: var(--muted); }
+    .question-item + .question-item p { left: 46px; }
+    .question-item::after { content: ""; position: absolute; left: 0; right: 46px; bottom: 0; height: 5px; background: var(--blue); }
+    .question-item:nth-child(2)::after { left: 46px; background: var(--ink); }
+    .question-item:nth-child(3)::after { left: 46px; right: 0; background: var(--orange); }
     .concept-grid { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 54px; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
     .concept { min-height: 330px; padding: 28px 38px 30px 0; }
     .concept + .concept { padding-left: 38px; border-left: 1px solid var(--ink); }
@@ -730,20 +739,16 @@
       <!-- === 02 / ROADMAP === -->
       <section class="slide" role="group" aria-roledescription="slide" aria-label="Roadmap">
         <div class="frame">
-          <div class="topline reveal"><span>Roadmap</span><span>20 minutes · paper 15 / critique 5</span></div>
+          <div class="topline reveal"><span>Argument map</span><span>20 minutes · paper 15 / critique 5</span></div>
           <div class="content">
-            <h2 class="headline reveal">From a requirement to credible evidence.</h2>
-            <div class="agenda reveal">
-              <div class="agenda-item"><span class="index">01</span><h3>Problem statement</h3><p>Why test by requirement?</p></div>
-              <div class="agenda-item"><span class="index">02</span><h3>Background</h3><p>Terms and assumptions</p></div>
-              <div class="agenda-item"><span class="index">03</span><h3>Current approach</h3><p>RBT4DNN overview</p></div>
-              <div class="agenda-item"><span class="index">04</span><h3>Methodology</h3><p>Data, labels, generator adaptation</p></div>
-              <div class="agenda-item"><span class="index">05</span><h3>Current results</h3><p>RQ1–RQ6</p></div>
-              <div class="agenda-item"><span class="index">06</span><h3>Critical review</h3><p>Additional analyses + future scope</p></div>
+            <h2 class="headline reveal">Three questions guide the argument.</h2>
+            <div class="question-map reveal">
+              <div class="question-item"><span class="index">01 · NEED</span><h3>Why do neural-network tests need requirements?</h3><p>PROBLEM + BACKGROUND</p></div>
+              <div class="question-item"><span class="index">02 · METHOD</span><h3>How does RBT4DNN generate and evaluate targeted tests?</h3><p>APPROACH + METHODOLOGY + RESULTS</p></div>
+              <div class="question-item"><span class="index">03 · EVIDENCE</span><h3>How convincing—and scalable—is the resulting evidence?</h3><p>CRITIQUE + ADDITIONAL ANALYSES</p></div>
             </div>
-            <div class="act-band reveal"><span>Why requirements?</span><span>How does RBT4DNN work?</span><span>How strong is the evidence?</span></div>
           </div>
-          <div class="footer"><span>Structure follows the seminar brief; references follow the conclusion.</span><span>02 / 25</span></div>
+          <div class="footer"><span>These questions follow the seminar brief while keeping one continuous evidence argument.</span><span>02 / 25</span></div>
         </div>
       </section>
 
