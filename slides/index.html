@@ -534,13 +534,13 @@
     .dumbbell-track::after { content: ""; position: absolute; left: var(--local-pos); top: -5px; width: 9px; height: 9px; border-radius: 50%; background: var(--blue); }
     .dumbbell.delta .dumbbell-track::after { background: var(--orange); }
     .dumbbell p { margin-top: 2px; font-size: 13px; color: var(--muted); }
-    .proxy-chart { height: 440px; margin-top: 34px; padding: 26px 30px; background: var(--paper); border: 1px solid var(--line-soft); }
+    .proxy-chart { height: 440px; margin-top: 34px; padding: 26px 0; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
     .proxy-chart h3 { font-size: 26px; font-weight: 560; }
     .proxy-bars { display: grid; gap: 17px; margin-top: 35px; }
     .proxy-row { display: grid; grid-template-columns: 130px 1fr 60px; gap: 16px; align-items: center; font-size: 16px; }
-    .proxy-track { height: 20px; background: #e6e9ed; }
+    .proxy-track { height: 20px; background: var(--line-soft); }
     .proxy-fill { height: 100%; width: var(--value); background: var(--blue); }
-    .proxy-row:nth-child(2) .proxy-fill, .proxy-row:nth-child(4) .proxy-fill { background: #ec7800; }
+    .proxy-row:first-child .proxy-fill { background: var(--orange); }
     .proxy-note { margin-top: 30px; padding-top: 16px; border-top: 1px solid var(--line-soft); font-family: var(--font-mono); font-size: 13px; line-height: 1.35; color: var(--muted); }
     .remote-grid { display: grid; grid-template-columns: repeat(4, 1fr); width: 100%; height: 100%; overflow: hidden; background: #111; }
     .remote-grid img { width: 100%; height: 100%; min-width: 0; min-height: 0; object-fit: cover; background: #171715; }
@@ -602,14 +602,48 @@
     .label-row span { font-family: var(--font-mono); font-size: 14px; color: var(--muted); }
     .label-row strong { font-size: 23px; line-height: 1.2; font-weight: 540; }
     .label-row p { font-size: 18px; line-height: 1.3; color: var(--muted); }
+    .label-row.header { min-height: 52px; }
+    .label-row.header span { color: var(--ink); }
     .label-evaluation { display: grid; grid-template-columns: 210px 1fr 64px 1fr 64px 1fr; align-items: center; gap: 24px; margin-top: 24px; padding: 22px 0; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
     .label-evaluation .label-arrow { text-align: center; font-size: 28px; color: var(--blue); }
     .label-evaluation strong { font-size: 22px; line-height: 1.2; font-weight: 540; }
     .label-evaluation p { font-size: 17px; line-height: 1.3; color: var(--muted); }
-    .comparison-lanes { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-top: 40px; border-top: 1px solid var(--ink); border-left: 1px solid var(--ink); }
-    .comparison-lane { min-height: 220px; padding: 24px 28px; border-right: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
+    .comparison-lanes { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-top: 40px; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
+    .comparison-lane { min-height: 220px; padding: 24px 28px 24px 0; border-right: 1px solid var(--ink); }
+    .comparison-lane:nth-child(2n) { padding-left: 28px; border-right: 0; }
+    .comparison-lane:nth-child(-n + 2) { border-bottom: 1px solid var(--ink); }
     .comparison-lane h3 { margin-top: 68px; font-size: 32px; line-height: 1.04; letter-spacing: -.04em; font-weight: 540; }
     .comparison-lane p { margin-top: 13px; font-size: 19px; line-height: 1.34; color: var(--muted); }
+    .protocol-flow { display: grid; grid-template-columns: repeat(5, 1fr); margin-top: 38px; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
+    .protocol-step { min-height: 410px; padding: 25px 30px 28px 0; }
+    .protocol-step + .protocol-step { padding-left: 30px; border-left: 1px solid var(--ink); }
+    .protocol-step h3 { margin-top: 108px; font-size: 31px; line-height: 1.03; letter-spacing: -.04em; font-weight: 540; }
+    .protocol-step p { margin-top: 15px; font-size: 18px; line-height: 1.34; color: var(--muted); }
+    .protocol-step b { display: block; margin-top: 24px; font-family: var(--font-mono); font-size: 13px; line-height: 1.35; font-weight: 500; color: var(--blue); }
+    .cost-hero { display: grid; grid-template-columns: .8fr 1.2fr; gap: 80px; align-items: end; margin-top: 44px; }
+    .cost-number { padding-top: 24px; border-top: 1px solid var(--ink); }
+    .cost-number strong { display: block; font-size: 130px; line-height: .82; letter-spacing: -.07em; font-weight: 550; color: var(--blue); }
+    .cost-number p { margin-top: 18px; font-size: 24px; line-height: 1.3; color: var(--muted); }
+    .cost-scales { border-top: 1px solid var(--ink); }
+    .cost-scale { display: grid; grid-template-columns: 250px 1fr 170px; gap: 26px; align-items: baseline; min-height: 102px; padding: 24px 0; border-bottom: 1px solid var(--ink); }
+    .cost-scale span { font-family: var(--font-mono); font-size: 14px; color: var(--muted); }
+    .cost-scale strong { font-size: 25px; font-weight: 540; }
+    .cost-scale b { text-align: right; font-size: 18px; font-weight: 540; }
+    .rq2-result { display: grid; grid-template-columns: 1.2fr .8fr; gap: 70px; align-items: end; margin-top: 42px; }
+    .rq2-primary { padding-top: 24px; border-top: 1px solid var(--ink); }
+    .rq2-primary strong { display: block; font-size: 146px; line-height: .8; letter-spacing: -.075em; font-weight: 550; color: var(--blue); }
+    .rq2-primary > span { display: block; margin-top: 16px; max-width: 680px; font-size: 22px; line-height: 1.28; }
+    .rq2-context { border-top: 1px solid var(--ink); }
+    .rq2-context > div { display: grid; grid-template-columns: 225px 1fr; gap: 24px; align-items: baseline; padding: 14px 0; border-bottom: 1px solid var(--line); }
+    .rq2-context span { font-family: var(--font-mono); font-size: 13px; letter-spacing: .03em; color: var(--muted); }
+    .rq2-context strong { font-size: 21px; line-height: 1.18; }
+    .kid-explainer { display: grid; grid-template-columns: 1fr 150px 1fr; align-items: center; margin-top: 30px; padding: 22px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .kid-cloud { position: relative; height: 68px; padding-left: 130px; display: flex; align-items: center; font-size: 19px; }
+    .kid-cloud::before { content: "•  • •   •  •"; position: absolute; left: 0; color: var(--blue); font-size: 31px; letter-spacing: 7px; }
+    .kid-cloud.generated::before { color: var(--orange); }
+    .kid-operator { text-align: center; }
+    .kid-operator strong { display: block; font-size: 40px; color: var(--blue); }
+    .kid-operator span { font-family: var(--font-mono); font-size: 12px; color: var(--muted); }
     .metric-clouds { display: grid; grid-template-columns: 1fr 150px 1fr; align-items: center; margin-top: 48px; }
     .metric-cloud { position: relative; height: 300px; border: 1px solid var(--line); background: var(--paper); }
     .metric-cloud::before { content: ""; position: absolute; inset: 48px 70px; background: radial-gradient(circle at 20% 30%, var(--blue) 0 8px, transparent 9px), radial-gradient(circle at 55% 18%, var(--blue) 0 7px, transparent 8px), radial-gradient(circle at 70% 55%, var(--blue) 0 9px, transparent 10px), radial-gradient(circle at 32% 68%, var(--blue) 0 8px, transparent 9px), radial-gradient(circle at 58% 80%, var(--blue) 0 7px, transparent 8px); }
@@ -674,7 +708,7 @@
   <div class="deck-viewport">
     <main class="deck-stage" id="deckStage" aria-label="RBT4DNN seminar presentation">
 
-      <!-- === MAIN TALK · 20 MINUTES / 23 SLIDES === -->
+      <!-- === MAIN TALK · 20 MINUTES / 24 SPOKEN SLIDES + REFERENCES === -->
 
       <!-- === 01 / TITLE === -->
       <section class="slide title-slide active" role="group" aria-roledescription="slide" aria-label="RBT4DNN">
@@ -686,7 +720,7 @@
           </div>
           <div class="title-mark">CASPAR BRELOH · 17 JULY 2026 / SUPERVISION: VIVEK V. VEKARIYA · SIMON SPETH</div>
           <div class="spacer"></div>
-          <div class="footer"><span>Mozumder, Toledo, Dola &amp; Dwyer · arXiv:2504.02737v3 · 2025</span><span>01 / 29</span></div>
+          <div class="footer"><span>Mozumder, Toledo, Dola &amp; Dwyer · arXiv:2504.02737v3 · 2025</span><span>01 / 25</span></div>
         </div>
       </section>
 
@@ -706,7 +740,7 @@
             </div>
             <div class="act-band reveal"><span>Why requirements?</span><span>How does RBT4DNN work?</span><span>How strong is the evidence?</span></div>
           </div>
-          <div class="footer"><span>Structure follows the seminar brief; appendix begins after the conclusion.</span><span>02 / 29</span></div>
+          <div class="footer"><span>Structure follows the seminar brief; references follow the conclusion.</span><span>02 / 25</span></div>
         </div>
       </section>
 
@@ -727,7 +761,7 @@
               <div class="ladder-step"><span class="scope-label">Requirement verdict</span><strong>Does the model satisfy this specific contract?</strong></div>
             </div>
           </div>
-          <div class="footer"><span>[1] §1–§2.5 · “model under test” means the evaluated neural network</span><span>03 / 29</span></div>
+          <div class="footer"><span>[1] §1–§2.5 · “model under test” means the evaluated neural network</span><span>03 / 25</span></div>
         </div>
       </section>
 
@@ -746,7 +780,7 @@
               <div class="rail-row"><span class="index">OUTPUT</span><h3>Targeted tests</h3><p>Run the learned component and evaluate the requirement-specific oracle.</p></div>
             </div>
           </div>
-          <div class="footer"><span>[1] §1, §2.5 and §3 · authors claim the first requirement-driven DNN test-input generator</span><span>04 / 29</span></div>
+          <div class="footer"><span>[1] §1, §2.5 and §3 · authors claim the first requirement-driven DNN test-input generator</span><span>04 / 25</span></div>
         </div>
       </section>
 
@@ -755,7 +789,7 @@
         <div class="frame">
           <div class="topline reveal"><span>Evaluation orientation</span><span>25 requirements · four domains</span></div>
           <div class="content">
-            <h2 class="headline reveal" style="font-size:74px" data-edit>Four domains test four different semantic challenges.</h2>
+            <h2 class="headline reveal" style="font-size:74px" data-edit>The study spans four domains, four output regimes, and 25 requirements.</h2>
             <div class="dataset-grid reveal">
               <div class="dataset-card"><span class="meta">MNIST · 7 requirements</span><figure><div class="remote-grid mnist" data-upstream-path="M3" data-files="0.png,1.png,10.png,11.png" data-label="Generated MNIST digit"></div></figure><h3>Digits</h3><p>Measured height, thickness, and lean. A controlled starting point.</p><div class="req"><strong>Output:</strong> digit class</div></div>
               <div class="dataset-card"><span class="meta">CelebA-HQ · 7 requirements</span><figure><div class="remote-grid" data-upstream-path="C1" data-files="0.png,1.png,10.png,11.png" data-label="Generated CelebA-HQ face"></div></figure><h3>Faces</h3><p>Ambiguous attributes labeled by visual question answering or humans.</p><div class="req"><strong>Output:</strong> eyeglasses decision</div></div>
@@ -763,7 +797,7 @@
               <div class="dataset-card"><span class="meta">ImageNet · 4 requirements</span><figure><div class="remote-grid" data-upstream-path="I1" data-files="0.png,1.png,10.png,11.png" data-label="Generated bird image"></div></figure><h3>Animals</h3><p>Morphology linked to allowed classes in the WordNet taxonomy.</p><div class="req"><strong>Output:</strong> class set</div></div>
             </div>
           </div>
-          <div class="footer"><span>[1] Table 2 and §4.1.1–§4.1.3 · samples linked from the pinned public artifact</span><span>05 / 29</span></div>
+          <div class="footer"><span>[1] Table 2 and §4.1.1–§4.1.3 · samples linked from the pinned public artifact</span><span>05 / 25</span></div>
         </div>
       </section>
 
@@ -784,7 +818,7 @@
               </div>
             </div>
           </div>
-          <div class="footer"><span>[1] Table 2, M3 · a finite passing suite cannot prove the universal requirement</span><span>06 / 29</span></div>
+          <div class="footer"><span>[1] Table 2, M3 · a finite passing suite cannot prove the universal requirement</span><span>06 / 25</span></div>
         </div>
       </section>
 
@@ -807,7 +841,7 @@
               <div class="trace-cell"><span class="scope-label">Evidence</span><strong>precondition match + output pass or fail</strong></div>
             </div>
           </div>
-          <div class="footer"><span>[1] Fig. 2 and §3 · detailed requirement notation moved to the appendix</span><span>07 / 29</span></div>
+          <div class="footer"><span>[1] Fig. 2 and §3 · symbols are translated into an explicit input/output contract</span><span>07 / 25</span></div>
         </div>
       </section>
 
@@ -816,17 +850,18 @@
         <div class="frame">
           <div class="topline reveal"><span>03 · Methodology</span><span>Do not confuse annotation with evaluation</span></div>
           <div class="content">
-            <h2 class="headline reveal" style="font-size:76px" data-edit>Glossary facts are created first—and checked later with different models.</h2>
+            <h2 class="headline reveal" style="font-size:72px" data-edit>Training labels and evaluation classifiers are separate—but neither is ground truth.</h2>
             <div class="label-table reveal">
-              <div class="label-row"><span>TRAINING-TIME SOURCE</span><strong>MNIST measurements</strong><p>Thickness, height, and lean are measured, then numeric ranges become terms.</p><strong>“very thick”</strong></div>
-              <div class="label-row"><span>TRAINING-TIME SOURCE</span><strong>SGSM scene graphs</strong><p>Entities and graph relations are traversed relative to the ego vehicle.</p><strong>“same lane”</strong></div>
-              <div class="label-row"><span>TRAINING-TIME SOURCE</span><strong>MiniCPM visual Q&amp;A</strong><p>Yes/no prompts label CelebA-HQ and ImageNet attributes; CelebA also has human labels.</p><strong>“eyeglasses”</strong></div>
+              <div class="label-row header"><span>DOMAIN</span><span>LABEL SOURCE</span><span>TRANSFORMATION</span><span>EXAMPLE FACT</span></div>
+              <div class="label-row"><span>MNIST</span><strong>Measurements</strong><p>Thickness, height, and lean are partitioned into named ranges.</p><strong>“very thick”</strong></div>
+              <div class="label-row"><span>SGSM</span><strong>Scene graphs</strong><p>Entities and relations are traversed relative to the ego vehicle.</p><strong>“same lane”</strong></div>
+              <div class="label-row"><span>CELEBA + IMAGENET</span><strong>MiniCPM visual Q&amp;A</strong><p>Yes/no prompts label visual attributes; CelebA also has human labels.</p><strong>“eyeglasses”</strong></div>
             </div>
             <div class="label-evaluation reveal">
               <span class="scope-label">EVALUATION-TIME CHECK</span><strong>Generated image</strong><div class="label-arrow">→</div><div><strong>ResNet-101 glossary classifiers</strong><p>One binary classifier per term; mean accuracy 94.5%.</p></div><div class="label-arrow">→</div><div><strong>All required terms true?</strong><p>Precondition match for RQ1; term distributions for RQ3.</p></div>
             </div>
           </div>
-          <div class="footer"><span>[1] §3.2 and §4.1.6 · separate roles, but not independent semantic ground truth; C4 classifier accuracy 70.8%</span><span>08 / 29</span></div>
+          <div class="footer"><span>[1] §3.2 and §4.1.6 · separate roles, but not independent semantic ground truth; C4 classifier accuracy 70.8%</span><span>08 / 25</span></div>
         </div>
       </section>
 
@@ -836,7 +871,7 @@
           <div class="topline reveal"><span>Training strategy</span><span>Low-rank adaptation (LoRA)</span></div>
           <div class="content cols-2 wide-left">
             <div>
-              <h2 class="headline reveal" style="font-size:70px" data-edit>Filtering concentrates generation on a rare semantic region.</h2>
+              <h2 class="headline reveal" style="font-size:70px" data-edit>One filtered precondition subset trains one targeted LoRA.</h2>
               <div class="lora-stack reveal">
                 <div class="weight-block"><span class="scope-label">Frozen backbone</span><h3>W</h3><p>FLUX.1-dev: a pretrained 12-billion-parameter image generator.</p></div>
                 <div class="weight-plus">+</div>
@@ -848,11 +883,10 @@
                 <div class="spec-row"><span>Benefit</span><strong>Generate many new candidates inside a rare requirement region</strong></div>
                 <div class="spec-row"><span>Evidence sought</span><strong>Relevance, distributional plausibility, and semantic variation</strong></div>
                 <div class="spec-row"><span>Not established</span><strong>Non-memorization or systematic coverage within that region</strong></div>
-                <div class="spec-row"><span>Scaling cost</span><strong>One adapter must be trained and maintained per requirement</strong></div>
               </div>
             </div>
           </div>
-          <div class="footer"><span>[1] §3.3 and §4.1.4 · LoRA equation simplified; latent-space coverage remains future work</span><span>09 / 29</span></div>
+          <div class="footer"><span>[1] §3.3 and §4.1.4 · LoRA equation simplified; latent-space coverage remains future work</span><span>09 / 25</span></div>
         </div>
       </section>
 
@@ -868,13 +902,53 @@
               <div class="comparison-lane"><span class="scope-label">DISTRIBUTIONAL QUALITY</span><h3>Prompt-only FLUX</h3><p>No domain adaptation. Used for distributional quality comparisons.</p></div>
               <div class="comparison-lane"><span class="scope-label">MNIST TESTING BASELINES</span><h3>DeepHyperion + transformations</h3><p>Established test generators that are not conditioned on the requirement.</p></div>
             </div>
-            <p class="finding reveal"><strong>Hardware, sampling counts, and adapter times are reproducibility details—not the experimental claim. They are in the appendix.</strong></p>
+            <p class="finding reveal"><strong>Reading rule:</strong> compare a method only where it is actually used; the baselines do not answer the same research question.</p>
           </div>
-          <div class="footer"><span>[1] §4.1.4–§4.1.6 · no truly comparable requirement-targeted baseline existed</span><span>10 / 29</span></div>
+          <div class="footer"><span>[1] §4.1.4–§4.1.6 · no truly comparable requirement-targeted baseline existed</span><span>10 / 25</span></div>
         </div>
       </section>
 
-      <!-- === 11 / RESEARCH QUESTIONS === -->
+      <!-- === 11 / EXPERIMENTAL PROTOCOL === -->
+      <section class="slide" role="group" aria-roledescription="slide" aria-label="End-to-end experimental protocol">
+        <div class="frame">
+          <div class="topline reveal"><span>Experimental protocol</span><span>What the authors actually ran</span></div>
+          <div class="content">
+            <h2 class="headline reveal" style="font-size:74px" data-edit>Each requirement becomes one generation-and-test experiment.</h2>
+            <div class="protocol-flow reveal">
+              <div class="protocol-step"><span class="scope-label">01 · SPECIFY</span><h3>Requirement + glossary</h3><p>Authors provide the precondition and manually encode the expected output.</p><b>25 EVALUATION REQUIREMENTS</b></div>
+              <div class="protocol-step"><span class="scope-label">02 · FILTER</span><h3>Label original data</h3><p>Apply measurements, scene graphs, visual Q&amp;A, or human labels; retain precondition matches.</p><b>ONE MATCHING SUBSET</b></div>
+              <div class="protocol-step"><span class="scope-label">03 · ADAPT</span><h3>Train + prompt LoRA</h3><p>Pair images with a trigger phrase and precondition text, then sample candidate tests.</p><b>ONE LORA PER PRECONDITION</b></div>
+              <div class="protocol-step"><span class="scope-label">04 · VALIDATE INPUT</span><h3>Consistency + distributions</h3><p>Glossary classifiers, KID, and Jensen–Shannon divergence evaluate generated inputs.</p><b>RQ1: 100 × 10 · RQ3: 1,000</b></div>
+              <div class="protocol-step"><span class="scope-label">05 · TEST + AUDIT</span><h3>Run model + oracle</h3><p>Check the postcondition; independently assess sampled failures for realism and precondition match.</p><b>RQ4–RQ6: 1,000 × 10 · AUDIT: 330</b></div>
+            </div>
+            <p class="finding reveal"><strong>Important:</strong> RBT4DNN assumes the requirement and glossary already exist; it does not discover them automatically.</p>
+          </div>
+          <div class="footer"><span>[1] §3 and §4.1 · RQ2’s generated sample count is not clearly restated in §4.2.2</span><span>11 / 25</span></div>
+        </div>
+      </section>
+
+      <!-- === 12 / OPERATIONAL COST === -->
+      <section class="slide" role="group" aria-roledescription="slide" aria-label="Measured adapter time and unmeasured workflow cost">
+        <div class="frame">
+          <div class="topline reveal"><span>Operational feasibility</span><span>Measured compute versus unknown total cost</span></div>
+          <div class="content">
+            <h2 class="headline reveal" style="font-size:72px" data-edit>LoRA compute is measured; total workflow cost is not.</h2>
+            <div class="cost-hero reveal">
+              <div class="cost-number"><strong>≈24.7</strong><p>A100-hours if the 21 primary MNIST, CelebA-HQ, and SGSM adapters run serially.</p></div>
+              <div class="cost-scales">
+                <div class="cost-scale"><span>PER PRECONDITION</span><strong>LoRA training</strong><b>52.1–82.5 min</b></div>
+                <div class="cost-scale"><span>REUSABLE ACROSS REQUIREMENTS</span><strong>Glossary labels + classifiers</strong><b>cost not reported</b></div>
+                <div class="cost-scale"><span>PER GENERATED CAMPAIGN</span><strong>Sampling + model execution</strong><b>cost not reported</b></div>
+                <div class="cost-scale"><span>PER AUDIT SAMPLE</span><strong>Human validity review</strong><b>cost not reported</b></div>
+              </div>
+            </div>
+            <div class="assurance-boundary reveal"><span>Defensible conclusion</span><p>Per-precondition LoRA adds roughly linear adapter overhead; the paper cannot tell us whether compute, labeling, engineering, or human validation dominates total cost.</p></div>
+          </div>
+          <div class="footer"><span>[1] §4.1.4 · derived total excludes ImageNet, extra LoRAs, labeling, generation, evaluation, and engineering</span><span>12 / 25</span></div>
+        </div>
+      </section>
+
+      <!-- === 13 / RESEARCH QUESTIONS === -->
       <section class="slide" role="group" aria-roledescription="slide" aria-label="Research questions">
         <div class="frame">
           <div class="topline reveal"><span>04 · Current results</span><span>First validate the inputs; then evaluate the tests</span></div>
@@ -895,18 +969,18 @@
               </div>
             </div>
           </div>
-          <div class="footer"><span>[1] §4.1 · one slide per RQ keeps the evidence and its boundary together</span><span>11 / 29</span></div>
+          <div class="footer"><span>[1] §4.1 · one slide per RQ keeps the evidence and its boundary together</span><span>13 / 25</span></div>
         </div>
       </section>
 
-      <!-- === 12 / RQ1 === -->
+      <!-- === 14 / RQ1 === -->
       <section class="slide" role="group" aria-roledescription="slide" aria-label="RQ1: precondition consistency">
         <div class="frame">
           <div class="topline reveal"><span>RQ1 · Do generated images match the precondition?</span><span>Measured separately with glossary classifiers</span></div>
           <div class="content evidence-split">
             <div>
-              <h2 class="headline reveal" style="font-size:70px" data-edit>Targeted LoRA makes substantially more on-target tests.</h2>
-              <div class="answer-box reveal"><span class="scope-label">AUTHORS’ ANSWER</span><p>92.1% mean precondition consistency across 21 requirements and three datasets.</p></div>
+              <h2 class="headline reveal" style="font-size:68px" data-edit>Across 21 requirements, targeted LoRAs match preconditions 92.1% on average.</h2>
+              <div class="answer-box reveal"><span class="scope-label">MEASUREMENT</span><p>One binary glossary classifier per term; mean classifier accuracy: 94.5%.</p></div>
               <p class="finding reveal"><strong>Domain means differ:</strong> CelebA-HQ automated visual-question labels 95.8%; human labels 96.1%; SGSM is weaker at 82.3%.</p>
             </div>
             <div>
@@ -917,31 +991,34 @@
               <p class="diagram-note">MNIST Fig. 3 also includes DeepHyperion and image transformations: neither targets the requirement, and both achieve low match.</p>
             </div>
           </div>
-          <div class="footer"><span>[1] §4.2.1 and Fig. 3 · glossary-classifier mean accuracy 94.5%; it remains a proxy, not ground truth</span><span>12 / 29</span></div>
+          <div class="footer"><span>[1] §4.2.1 and Fig. 3 · glossary classifiers remain proxies, not ground truth</span><span>14 / 25</span></div>
         </div>
       </section>
 
-      <!-- === 13 / RQ2 === -->
+      <!-- === 15 / RQ2 === -->
       <section class="slide" role="group" aria-roledescription="slide" aria-label="RQ2: distributional plausibility">
         <div class="frame">
           <div class="topline reveal"><span>RQ2 · Are generated images realistic?</span><span>Kernel Inception Distance · lower is closer</span></div>
           <div class="content">
-            <h2 class="headline reveal" style="font-size:70px" data-edit>KID asks whether two image distributions occupy similar feature space.</h2>
-            <div class="metric-clouds reveal" role="img" aria-label="KID compares feature distributions for matching training images and generated images">
-              <div class="metric-cloud"><strong>Matching training subset</strong></div>
-              <div class="metric-distance"><strong>KID</strong><span>DISTRIBUTION DISTANCE</span></div>
-              <div class="metric-cloud generated"><strong>Generated tests</strong></div>
+            <h2 class="headline reveal" style="font-size:64px" data-edit>Targeted LoRA cuts KID by 77.09% for MNIST and SGSM; CelebA-HQ is mixed.</h2>
+            <div class="rq2-result reveal">
+              <div class="rq2-primary"><strong>77.09%</strong><span>average KID reduction across MNIST M1–M6 and SGSM S1–S7</span></div>
+              <div class="rq2-context">
+                <div><span>CELEBA · AUTOMATED LABELS</span><strong>12.9% average reduction</strong></div>
+                <div><span>CELEBA · HUMAN LABELS</span><strong>27% average reduction</strong></div>
+                <div><span>REFERENCE</span><strong>matching filtered subset</strong></div>
+              </div>
             </div>
-            <div class="scope-strip reveal" style="margin-top:30px">
-              <div class="scope-item"><span class="index">RESULT</span><p>All MNIST and SGSM LoRA rows beat prompt-only FLUX; average reported reduction: 77.09%.</p></div>
-              <div class="scope-item"><span class="index">BOUNDARY</span><p>CelebA-HQ is mixed. KID is a distributional proxy, and several reference subsets contain fewer than 300 images.</p></div>
+            <div class="kid-explainer reveal" role="img" aria-label="KID compares the feature distributions of the matching training subset and generated tests; lower values mean closer distributions">
+              <div class="kid-cloud">Matching training subset</div><div class="kid-operator"><strong>KID ↓</strong><span>lower = closer distributions</span></div><div class="kid-cloud">Generated tests</div>
             </div>
+            <p class="scope-note reveal"><strong>Boundary:</strong> KID is a distribution-level proxy—not an image-level realism score—and several CelebA-HQ reference subsets contain fewer than 300 images.</p>
           </div>
-          <div class="footer"><span>[1] §4.2.2 and Table 3 · lower KID is not an image-level probability or proof of semantic validity</span><span>13 / 29</span></div>
+          <div class="footer"><span>[1] §4.2.2 and Table 3 · same prompts; targeted LoRA compared with prompt-only FLUX</span><span>15 / 25</span></div>
         </div>
       </section>
 
-      <!-- === 14 / RQ3 === -->
+      <!-- === 16 / RQ3 === -->
       <section class="slide" role="group" aria-roledescription="slide" aria-label="RQ3: glossary-level variation">
         <div class="frame">
           <div class="topline reveal"><span>RQ3 · Are generated images diverse?</span><span>Jensen–Shannon divergence · lower is closer</span></div>
@@ -954,16 +1031,16 @@
             </div>
             <div class="scope-strip reveal" style="margin-top:28px"><div class="scope-item"><span class="index">RESULT</span><p>MNIST and SGSM targeted-LoRA distributions were more than three times closer on average than prompt-only FLUX; CelebA-HQ improved about 32%.</p></div><div class="scope-item"><span class="index">NOT MEASURED</span><p>Duplicates, memorization, pixel diversity, within-term mode collapse, and systematic latent-space coverage.</p></div></div>
           </div>
-          <div class="footer"><span>[1] §4.2.3 and Table 4 · schematic bars explain the metric; they are not reported measurements</span><span>14 / 29</span></div>
+          <div class="footer"><span>[1] §4.2.3 and Table 4 · schematic bars explain the metric; they are not reported measurements</span><span>16 / 25</span></div>
         </div>
       </section>
 
-      <!-- === 15 / RQ4 === -->
+      <!-- === 17 / RQ4 === -->
       <section class="slide" role="group" aria-roledescription="slide" aria-label="RQ4: requirement-specific comparison">
         <div class="frame">
           <div class="topline reveal"><span>RQ4 · Do targeted tests provide a better basis for confidence?</span><span>MNIST requirement M2 · very thick 3</span></div>
           <div class="content">
-            <h2 class="headline reveal" style="font-size:71px" data-edit>Check relevance before interpreting a pass or failure.</h2>
+            <h2 class="headline reveal" style="font-size:66px" data-edit>For M2, RBT4DNN reaches the precondition; both untargeted baselines largely do not.</h2>
             <div class="relevance-gate reveal">
               <div class="gate-node"><span class="scope-label">GATE 1 · INPUT</span><h3>Does this image actually show a very thick 3?</h3><p>DeepHyperion and transformations generate recognizable digits, but they are not conditioned on M2 and rarely reach its semantic precondition.</p></div>
               <div class="gate-arrow">→</div>
@@ -971,17 +1048,17 @@
             </div>
             <p class="finding reveal"><strong>Narrow conclusion:</strong> requirement-aware generation is a better basis for these MNIST requirements than the two tested untargeted baselines—not universally superior DNN testing.</p>
           </div>
-          <div class="footer"><span>[1] §4.3.1, Fig. 7 and Table 5 · no truly comparable requirement-targeted baseline was available</span><span>15 / 29</span></div>
+          <div class="footer"><span>[1] §4.3.1, Fig. 7 and Table 5 · no truly comparable requirement-targeted baseline was available</span><span>17 / 25</span></div>
         </div>
       </section>
 
-      <!-- === 16 / RQ5 === -->
+      <!-- === 18 / RQ5 === -->
       <section class="slide" role="group" aria-roledescription="slide" aria-label="RQ5: postcondition violations">
         <div class="frame">
           <div class="topline reveal"><span>RQ5 · Do generated tests reveal requirement violations?</span><span>Outcome results + conditional human audit</span></div>
           <div class="content cols-2 wide-left">
             <div>
-              <h2 class="headline reveal" style="font-size:70px" data-edit>Reported violations appeared in 19 of 21 requirements.</h2>
+              <h2 class="headline reveal" style="font-size:66px" data-edit>RBT4DNN found failures for 19 of 21 requirements; reviewed false positives averaged 3.3%.</h2>
               <div class="metric-pair reveal">
                 <div class="stat"><span class="stat-value accent-blue">330</span><span class="stat-label">failing images independently assessed by multiple authors and aggregated.</span></div>
                 <div class="stat"><span class="stat-value accent-orange">3.3%</span><span class="stat-label">mean estimated false-positive rate across the reviewed requirements.</span></div>
@@ -995,11 +1072,11 @@
               </div>
             </div>
           </div>
-          <div class="footer"><span>[1] §4.3.2 and Fig. 7 · postcondition violations are observed; internal model faults are not localized</span><span>16 / 29</span></div>
+          <div class="footer"><span>[1] §4.3.2 and Fig. 7 · postcondition violations are observed; internal model faults are not localized</span><span>18 / 25</span></div>
         </div>
       </section>
 
-      <!-- === 17 / RQ6 === -->
+      <!-- === 19 / RQ6 === -->
       <section class="slide" role="group" aria-roledescription="slide" aria-label="RQ6: exploratory ImageNet behavior">
         <div class="frame">
           <div class="topline reveal"><span>RQ6 · Can generated tests reveal decision behavior?</span><span>Four ImageNet requirements · three classifiers</span></div>
@@ -1017,11 +1094,11 @@
               <div class="rail-row"><span class="index">BOUNDARY</span><h3>Exploration, not causality</h3><p>The patterns motivate hypotheses about ImageNet’s single-label supervision; they do not prove causal mechanisms.</p></div>
             </div>
           </div>
-          <div class="footer"><span>[1] §4.3.3, Fig. 8 and Tables 6–7 · pass rates span approximately 93.5%–99.5%</span><span>17 / 29</span></div>
+          <div class="footer"><span>[1] §4.3.3, Fig. 8 and Tables 6–7 · pass rates span approximately 93.5%–99.5%</span><span>19 / 25</span></div>
         </div>
       </section>
 
-      <!-- === 18 / AUTHORS FUTURE === -->
+      <!-- === 20 / AUTHORS FUTURE === -->
       <section class="slide" role="group" aria-roledescription="slide" aria-label="Authors’ limitations and future work">
         <div class="frame">
           <div class="topline reveal"><span>Authors’ assessment</span><span>Limitations and stated future scope</span></div>
@@ -1034,16 +1111,16 @@
             </div>
             <div class="assurance-boundary reveal"><span>Assurance boundary</span><p>Automated labels, selected datasets, narrow baselines, and small KID subsets limit how far the evidence generalizes.</p></div>
           </div>
-          <div class="footer"><span>[1] §4.4 and §5 · author-stated scope kept separate from this seminar’s critique</span><span>18 / 29</span></div>
+          <div class="footer"><span>[1] §4.4 and §5 · author-stated scope kept separate from this seminar’s critique</span><span>20 / 25</span></div>
         </div>
       </section>
 
-      <!-- === 19 / CENTRAL CRITIQUE === -->
+      <!-- === 21 / CENTRAL CRITIQUE === -->
       <section class="slide" role="group" aria-roledescription="slide" aria-label="Central critique: the validity chain">
         <div class="frame">
           <div class="topline reveal"><span>05 · Critical review</span><span>Central thesis</span></div>
           <div class="content">
-            <h2 class="headline reveal" style="font-size:76px" data-edit>A reported model failure is evidence only when the input is valid.</h2>
+            <h2 class="headline reveal" style="font-size:69px" data-edit>The paper jointly validates 330 sampled failures—but not the full failure population.</h2>
             <div class="evidence-matrix reveal" role="img" aria-label="Two-by-two matrix of precondition validity and model outcome">
               <div class="evidence-cell"><span class="scope-label">PRECONDITION INVALID · MODEL PASSES</span><h3>Irrelevant pass</h3><p>The output says nothing about the stated requirement.</p></div>
               <div class="evidence-cell"><span class="scope-label">PRECONDITION INVALID · MODEL FAILS</span><h3>Off-target false positive</h3><p>A model error is not yet a requirement counterexample.</p></div>
@@ -1053,42 +1130,17 @@
             <div class="assurance-boundary reveal"><span>Sampled joint audit</span><p>30 failures × 11 low-pass requirements = 330 independently assessed samples.</p></div>
             <p class="scope-note reveal"><strong>Fair critique:</strong> the paper did perform joint validation. Its generalization remains limited by author assessment, fixed samples, no reported confidence intervals, and no external or blinded annotators.</p>
           </div>
-          <div class="footer"><span>Independent critical synthesis based on [1] §4.1.6, §4.3.2 and §4.4</span><span>19 / 29</span></div>
+          <div class="footer"><span>Independent critical synthesis based on [1] §4.1.6, §4.3.2 and §4.4</span><span>21 / 25</span></div>
         </div>
       </section>
 
-      <!-- === 20 / ARTIFACT COMPARISON === -->
-      <section class="slide" role="group" aria-roledescription="slide" aria-label="Artifact comparison">
-        <div class="frame">
-          <div class="topline reveal"><span>Additional analysis 1</span><span>Released MNIST artifact</span></div>
-          <div class="content">
-            <div class="artifact-summary reveal">
-              <h2 class="headline" style="font-size:72px" data-edit>The released MNIST fields closely track the paper table.</h2>
-              <div class="artifact-number"><strong>0.013</strong><span>largest absolute difference across M1–M7</span></div>
-            </div>
-            <div class="artifact-boundary reveal"><span>Artifact consistency audit</span><p>Seven stored fields were compared; inference, generation, and LoRA training were not rerun.</p><b>○ paper · ● released</b></div>
-            <div class="artifact-chart reveal" role="img" aria-label="Paper and released artifact pass-rate comparison for M1 through M7 on a scale from 0.70 to 1.00">
-              <div class="artifact-axis"><span></span><div><span>.70</span><span>.85</span><span>1.00</span></div><span>paper → released</span></div>
-              <div class="artifact-row" style="--paper-pos:99.7%;--local-pos:100%;--link-left:99.7%;--link-width:.3%"><strong>M1</strong><div class="artifact-track"><i class="artifact-link"></i></div><span>.999 → 1.000 · +.001</span></div>
-              <div class="artifact-row highlight" style="--paper-pos:92.3%;--local-pos:96.7%;--link-left:92.3%;--link-width:4.4%"><strong>M2</strong><div class="artifact-track"><i class="artifact-link"></i></div><span>.977 → .990 · +.013</span></div>
-              <div class="artifact-row" style="--paper-pos:8%;--local-pos:10%;--link-left:8%;--link-width:2%"><strong>M3</strong><div class="artifact-track"><i class="artifact-link"></i></div><span>.724 → .730 · +.006</span></div>
-              <div class="artifact-row" style="--paper-pos:94%;--local-pos:90%;--link-left:90%;--link-width:4%"><strong>M4</strong><div class="artifact-track"><i class="artifact-link"></i></div><span>.982 → .970 · −.012</span></div>
-              <div class="artifact-row" style="--paper-pos:98%;--local-pos:100%;--link-left:98%;--link-width:2%"><strong>M5</strong><div class="artifact-track"><i class="artifact-link"></i></div><span>.994 → 1.000 · +.006</span></div>
-              <div class="artifact-row" style="--paper-pos:92%;--local-pos:93.3%;--link-left:92%;--link-width:1.3%"><strong>M6</strong><div class="artifact-track"><i class="artifact-link"></i></div><span>.976 → .980 · +.004</span></div>
-              <div class="artifact-row" style="--paper-pos:93.7%;--local-pos:93.3%;--link-left:93.3%;--link-width:.4%"><strong>M7</strong><div class="artifact-track"><i class="artifact-link"></i></div><span>.981 → .980 · −.001</span></div>
-            </div>
-          </div>
-          <div class="footer"><span>Seminar analysis · experiments/replication · stored-field comparison only</span><span>20 / 29</span></div>
-        </div>
-      </section>
-
-      <!-- === 21 / VALIDITY EXTENSIONS === -->
+      <!-- === 22 / VALIDITY EXTENSIONS === -->
       <section class="slide" role="group" aria-roledescription="slide" aria-label="Precondition-validity and LLM-audit extensions">
         <div class="frame">
           <div class="topline reveal"><span>Additional analysis 2</span><span>From raw failures toward evidence quality</span></div>
           <div class="content cols-2">
             <div>
-              <h2 class="headline reveal" style="font-size:68px" data-edit>Use the proxy to prioritize audits—not to estimate valid failures.</h2>
+              <h2 class="headline reveal" style="font-size:66px" data-edit>The proxy and 42-image LLM check identify audit targets; neither estimates population validity.</h2>
               <div class="proxy-chart reveal" role="img" aria-label="Independence-proxy ranking by requirement">
                 <h3>Independence-proxy ranking</h3>
                 <div class="proxy-bars">
@@ -1109,11 +1161,11 @@
               <p class="audit-method">The product assumes independence. The paper’s conditional human audit among failures is methodologically stronger; this LLM check is only a second opinion.</p>
             </div>
           </div>
-          <div class="footer"><span>Seminar experiments · precondition-validity and llm-validity-audit</span><span>21 / 29</span></div>
+          <div class="footer"><span>Seminar experiments · precondition-validity and llm-validity-audit</span><span>22 / 25</span></div>
         </div>
       </section>
 
-      <!-- === 22 / SHARED GENERATOR === -->
+      <!-- === 23 / SHARED GENERATOR === -->
       <section class="slide" role="group" aria-roledescription="slide" aria-label="Shared-generator and scalability experiments">
         <div class="frame">
           <div class="topline reveal"><span>Additional analysis 3</span><span>Is one adapter per requirement necessary?</span></div>
@@ -1122,11 +1174,11 @@
               <figure class="figure contain reveal" style="height:350px"><img src="assets/mnist-shared-generator-samples.png" alt="MNIST samples from the shared conditional VAE"><figcaption class="figure-label">MNIST · shared conditional VAE · 3 seeds</figcaption></figure>
               <div class="metric-pair reveal" style="margin-top:34px">
                 <div class="stat"><span class="stat-value accent-blue">.945</span><span class="stat-label">mean classifier pass rate</span></div>
-                <div class="stat"><span class="stat-value">.942</span><span class="stat-label">paper v3 mean outcome rate, M1–M6</span></div>
+                <div class="stat"><span class="stat-value">.938</span><span class="stat-label">paper v3 repeated-run mean, M1–M6</span></div>
               </div>
             </div>
             <div>
-              <h2 class="headline reveal" style="font-size:68px" data-edit>A shared generator is promising on MNIST—but not yet a general replacement.</h2>
+              <h2 class="headline reveal" style="font-size:66px" data-edit>The shared VAE matches MNIST digit-pass rates, but precondition validity was not measured.</h2>
               <div class="mini-table reveal">
                 <div class="mini-row"><span>Weak case</span><strong>M3 performance</strong><b>.743</b></div>
                 <div class="mini-row"><span>CelebA</span><strong>generated-image alignment</strong><b>.613</b></div>
@@ -1135,11 +1187,11 @@
               <p class="scope-note reveal"><strong>Conclusion:</strong> the similar classifier pass rate is a promising pilot in a simple domain. Evaluation pipelines differ, and it says nothing yet about precondition validity, realism, diversity, FLUX + LoRA, or natural images.</p>
             </div>
           </div>
-          <div class="footer"><span>Seminar experiments · mnist-shared-generator and celeba-shared-generator</span><span>22 / 29</span></div>
+          <div class="footer"><span>Seminar experiments · mnist-shared-generator and celeba-shared-generator</span><span>23 / 25</span></div>
         </div>
       </section>
 
-      <!-- === 23 / CONCLUSION === -->
+      <!-- === 24 / CONCLUSION === -->
       <section class="slide statement-slide" role="group" aria-roledescription="slide" aria-label="Assessment and conclusion">
         <div class="frame">
           <div class="topline reveal"><span>06 · Assessment and future scope</span><span>Independent conclusion</span></div>
@@ -1150,114 +1202,14 @@
           </div>
           <p class="lead reveal" style="margin-top:36px" data-edit>Overall: a strong and original testing direction, with an incomplete assurance argument—and clear opportunities for the next study.</p>
           <div class="spacer"></div>
-          <div class="footer"><span>End of 20-minute main talk · technical appendix follows</span><span>23 / 29</span></div>
+          <div class="footer"><span>End of 20-minute talk · questions</span><span>24 / 25</span></div>
         </div>
       </section>
 
-      <!-- === TECHNICAL APPENDIX === -->
-
-      <!-- === 24 / FULL FORMALISM === -->
-      <section class="slide appendix-slide" role="group" aria-roledescription="slide" aria-label="Appendix: full requirement formalism">
+      <!-- === 25 / REFERENCES === -->
+      <section class="slide" role="group" aria-roledescription="slide" aria-label="References">
         <div class="frame">
-          <div class="topline reveal"><span>Appendix A</span><span>Formal requirement types</span></div>
-          <div class="content">
-            <h2 class="headline reveal" style="font-size:72px">CSFR and SFFR formalize two different expectations.</h2>
-            <div class="math-grid reveal">
-              <div class="math-block"><span class="index">CONDITIONAL SEMANTIC FEATURE ROBUSTNESS</span><div class="equation">∀x ∈ X: φ(x) ⇒ ∀i ∈ I: N(x) = N(x ⊕ i)</div><p>Inside scenario φ, varying a specified semantic feature within the condition must not change the output.</p></div>
-              <div class="math-block"><span class="index">SEMANTIC FEATURE FUNCTIONAL REQUIREMENT</span><div class="equation">∀x ∈ X: φ<sub>X</sub>(x) ⇒ φ<sub>Y</sub>(N(x))</div><p>Whenever the input precondition holds, the output must satisfy the postcondition.</p></div>
-            </div>
-            <div class="contract-legend reveal">
-              <div class="legend-item"><span class="legend-label">X / Y</span><strong>input / output spaces</strong></div><div class="legend-item"><span class="legend-label">I</span><strong>semantic variations</strong></div><div class="legend-item"><span class="legend-label">⊕</span><strong>apply a variation</strong></div><div class="legend-item"><span class="legend-label">∀</span><strong>for every</strong></div>
-            </div>
-          </div>
-          <div class="footer"><span>[1] Definitions 2–3, §3.1</span><span>24 / 29</span></div>
-        </div>
-      </section>
-
-      <!-- === 25 / ALL REQUIREMENTS === -->
-      <section class="slide appendix-slide" role="group" aria-roledescription="slide" aria-label="Appendix: all 25 requirements">
-        <div class="frame">
-          <div class="topline reveal"><span>Appendix B</span><span>Complete requirement set</span></div>
-          <div class="content cols-2 wide-left">
-            <div><h2 class="headline reveal" style="font-size:70px">The study operationalizes 25 structured requirements.</h2><div class="spec-list reveal"><div class="spec-row"><span>MNIST</span><strong>M1–M7 · digit class × height / thickness / lean</strong></div><div class="spec-row"><span>CelebA-HQ</span><strong>C1–C7 · eyeglasses × hair / hat / facial hair</strong></div><div class="spec-row"><span>SGSM</span><strong>S1–S7 · driving-code conditions → steering / acceleration</strong></div><div class="spec-row"><span>ImageNet</span><strong>I1–I4 · animal morphology → WordNet taxon</strong></div></div></div>
-            <div class="requirement-atlas reveal" aria-label="Requirement families and representative contracts">
-              <div class="requirement-family"><span class="index">M1–M7</span><h3>MNIST</h3><p>Digit identity plus height, thickness, or lean → preserve the digit label.</p></div>
-              <div class="requirement-family"><span class="index">C1–C7</span><h3>CelebA-HQ</h3><p>Eyeglasses plus a second facial attribute → preserve the eyeglasses decision.</p></div>
-              <div class="requirement-family"><span class="index">S1–S7</span><h3>SGSM</h3><p>Spatial driving relations → constrain steering or acceleration.</p></div>
-              <div class="requirement-family"><span class="index">I1–I4</span><h3>ImageNet</h3><p>Animal morphology → require an output inside a WordNet taxon.</p></div>
-            </div>
-          </div>
-          <div class="footer"><span>[1] Table 2 · requirement families redrawn for question-time legibility</span><span>25 / 29</span></div>
-        </div>
-      </section>
-
-      <!-- === 26 / METRICS === -->
-      <section class="slide appendix-slide" role="group" aria-roledescription="slide" aria-label="Appendix: evaluation metrics">
-        <div class="frame">
-          <div class="topline reveal"><span>Appendix C</span><span>Metric definitions</span></div>
-          <div class="content">
-            <h2 class="headline reveal" style="font-size:72px">Each metric supports a different link in the argument.</h2>
-            <div class="metric-grid reveal">
-              <div class="metric-cell"><span class="index">RQ1 · PRECONDITION MATCH</span><h3>Boolean glossary agreement</h3><p>All classifiers required by the precondition must return the expected terms.</p></div>
-              <div class="metric-cell"><span class="index">RQ2 · KID ↓</span><h3>Kernel Inception Distance</h3><p>Distribution distance between generated images and the matching training subset.</p></div>
-              <div class="metric-cell"><span class="index">RQ3 · JS ↓</span><h3>Jensen–Shannon divergence</h3><p>Distance between generated and training semantic-feature distributions.</p></div>
-              <div class="metric-cell"><span class="index">RQ4–RQ6 · OUTCOMES</span><h3>Pass / fail / false positive</h3><p>Postcondition result plus manual assessment of sampled failing inputs.</p></div>
-            </div>
-          </div>
-          <div class="footer"><span>[1] §4.1.6 · mean glossary-term classifier accuracy 94.5%; C4 outlier 70.8%</span><span>26 / 29</span></div>
-        </div>
-      </section>
-
-      <!-- === 27 / EXPERIMENT BOUNDARIES === -->
-      <section class="slide appendix-slide" role="group" aria-roledescription="slide" aria-label="Appendix: experiment boundaries">
-        <div class="frame">
-          <div class="topline reveal"><span>Appendix D</span><span>Seminar experiment claim boundaries</span></div>
-          <div class="content">
-            <h2 class="headline reveal" style="font-size:72px">What the additional experiments do—and do not—establish.</h2>
-            <div class="mini-table reveal">
-              <div class="mini-row"><span>Artifact</span><strong>Compares released fields with the paper table</strong><b>No pipeline rerun</b></div>
-              <div class="mini-row"><span>Valid failure</span><strong>Independence heuristic ranks evidence yield</strong><b>Not observed joint labels</b></div>
-              <div class="mini-row"><span>LLM audit</span><strong>Second-opinion semantic review</strong><b>Not ground truth</b></div>
-              <div class="mini-row"><span>Shared generator</span><strong>Postcondition pass-rate pilot with a conditional VAE</strong><b>Not a substitute</b></div>
-            </div>
-            <p class="finding reveal"><strong>Reason for explicit boundaries:</strong> scientific strength comes from matching each conclusion to the evidence actually produced.</p>
-          </div>
-          <div class="footer"><span>Independent seminar methodology</span><span>27 / 29</span></div>
-        </div>
-      </section>
-
-      <!-- === 28 / OPERATIONAL SCALE === -->
-      <section class="slide appendix-slide" role="group" aria-roledescription="slide" aria-label="Appendix: hardware, timing, and cost sensitivity">
-        <div class="frame">
-          <div class="topline reveal"><span>Appendix E</span><span>Operational scale and cost sensitivity</span></div>
-          <div class="content cols-2 wide-left">
-            <div>
-              <h2 class="headline reveal" style="font-size:70px">Adapter cost scales with the requirement set.</h2>
-              <div class="training-bars reveal" style="margin-top:46px">
-                <div class="training-row"><span>MNIST</span><div class="training-track"><div class="training-fill" style="--value:63%"></div></div><b>52.1 min</b></div>
-                <div class="training-row"><span>CelebA-HQ</span><div class="training-track"><div class="training-fill" style="--value:93%"></div></div><b>76.7 min</b></div>
-                <div class="training-row"><span>SGSM</span><div class="training-track"><div class="training-fill" style="--value:100%"></div></div><b>82.5 min</b></div>
-              </div>
-              <div class="answer-box reveal"><span class="scope-label">DERIVED SERIAL TOTAL</span><p>≈24.7 A100-hours for 21 primary adapters.</p></div>
-            </div>
-            <div>
-              <div class="spec-list reveal">
-                <div class="spec-row"><span>Measured</span><strong>Reported training times on one NVIDIA A100 with 80 GB</strong></div>
-                <div class="spec-row"><span>Excluded</span><strong>Image labeling, generation, evaluation, engineering, and ImageNet adapters</strong></div>
-                <div class="spec-row"><span>Illustrative only</span><strong>$3/GPU-hour · $25/engineer-hour · $0.03/validated image</strong></div>
-                <div class="spec-row"><span>Do not claim</span><strong>Dollar-per-failure rankings as measured economic results</strong></div>
-              </div>
-              <p class="finding reveal"><strong>Use in discussion:</strong> the pricing notebook is a sensitivity scenario. Its strongest conclusion is qualitative: per-requirement adaptation creates linear training and maintenance overhead.</p>
-            </div>
-          </div>
-          <div class="footer"><span>[1] §4.1.4 · seminar cost-analysis assumptions are illustrative, not invoices</span><span>28 / 29</span></div>
-        </div>
-      </section>
-
-      <!-- === 29 / REFERENCES === -->
-      <section class="slide appendix-slide" role="group" aria-roledescription="slide" aria-label="Appendix: references">
-        <div class="frame">
-          <div class="topline reveal"><span>Appendix F</span><span>Primary sources and provenance</span></div>
+          <div class="topline reveal"><span>References</span><span>Primary sources and provenance</span></div>
           <div class="content">
             <h2 class="headline reveal" style="font-size:72px">References.</h2>
             <div class="bibliography reveal">
@@ -1268,7 +1220,7 @@
             </div>
             <div class="source-links reveal"><a href="https://arxiv.org/abs/2504.02737">Original paper ↗</a><a href="https://github.com/less-lab-uva/RBT4DNN">Original artifact ↗</a></div>
           </div>
-          <div class="footer"><span>Independent seminar project · 2026</span><span>29 / 29</span></div>
+          <div class="footer"><span>Independent seminar project · 2026</span><span>25 / 25</span></div>
         </div>
       </section>
     </main>
@@ -1277,7 +1229,7 @@
   <!-- === PRESENTATION CONTROLS: one HTML file, hash fragments only === -->
   <nav class="deck-controls" aria-label="Presentation controls">
     <button id="previousSlide" type="button" aria-label="Previous slide">←</button>
-    <span class="counter" id="slideCounter">1 / 29</span>
+    <span class="counter" id="slideCounter">1 / 25</span>
     <button id="nextSlide" type="button" aria-label="Next slide">→</button>
   </nav>
   <div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
