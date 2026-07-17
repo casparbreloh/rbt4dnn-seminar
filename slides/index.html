@@ -235,6 +235,9 @@
       line-height: 1.35;
       color: var(--muted);
     }
+    .footer > span:last-child { display: inline-flex; align-items: center; gap: 14px; white-space: nowrap; }
+    .footer > span:last-child::before { content: ""; display: inline-block; width: 66px; height: 20px; background: url("assets/tum-logo.gif") center / contain no-repeat; }
+    .title-slide .footer > span:last-child::before { width: 79px; height: 24px; }
 
     /* === PRIMITIVE 2: OPEN GRID + SPLITS === */
     .content { flex: 1; padding-top: 28px; }

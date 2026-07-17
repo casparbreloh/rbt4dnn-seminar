@@ -49,3 +49,7 @@ instead of being redistributed. Their copyrights and terms remain with their res
 Names and marks such as GitHub, Google Colab, OpenRouter, Gemini, FLUX, CelebA-HQ, MNIST, and
 ImageNet belong to their respective owners. Dependencies, hosted services, model weights, and
 datasets are governed by their own licenses and terms. Their mention does not imply endorsement.
+
+The official TUM logo used in the seminar presentation remains a mark of the Technical University
+of Munich and is not covered by this repository's licenses. Its use identifies the institutional
+context of an independent student seminar presentation and does not imply official endorsement.

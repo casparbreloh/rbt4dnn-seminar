@@ -15,6 +15,7 @@ evidence being discussed; course-slide imagery is not copied.
 | `assets/paper-table-1.png` | Mozumder et al., *RBT4DNN: Requirements-based Testing of Neural Networks*, Table 1 | Visually compares filtered SGSM training data, prompt-only FLUX, and the targeted LoRA | Cropped for legibility from arXiv:2504.02737v3; the paper is licensed CC BY 4.0; attribution appears on-slide and in the references. |
 | `assets/paper-table-5.png` | Mozumder et al., *RBT4DNN: Requirements-based Testing of Neural Networks*, Table 5 | Uses the authors' actual RQ4 baseline samples instead of a visual reconstruction | Cropped for legibility from arXiv:2504.02737v3; the paper is licensed CC BY 4.0; attribution appears on-slide and in the references. |
 | `assets/paper-table-7.png` | Mozumder et al., *RBT4DNN: Requirements-based Testing of Neural Networks*, Table 7 | Shows the authors' original ImageNet failure/background examples for RQ6 | Cropped for legibility from arXiv:2504.02737v3; the paper is licensed CC BY 4.0; attribution appears on-slide and in the references. |
+| `assets/tum-logo.gif` | Technical University of Munich official logo download | Identifies the student seminar's institutional context in slide footers | Official institutional mark; all trademark and logo rights remain with TUM. It is not covered by this repository's MIT or CC BY 4.0 licenses. |
 
 SHA-256 checksums:
 
@@ -23,6 +24,7 @@ SHA-256 checksums:
 - `paper-table-1.png`: `0152d918cccda7d19e4bd81752c2ef1aa9a443aa6e24d530ced18a701ce0eec4`
 - `paper-table-5.png`: `cb4cc337d6af84aa03bc453202b41c7aea300a303cbb4b2917211586b05f730d`
 - `paper-table-7.png`: `7b3cc95dda39bcebf90947f14e0c4065981cdd46e7b7c6c1824dbdd8f604f8fa`
+- `tum-logo.gif`: `2205a7f0a80f97b0a845a109cfc40c640306ac1b6d210fbf641d4511500c782d`
 
 The two shared-generator sample files are exact copies of the committed experiment outputs. They are included because they
 are independently generated results of this repository's extension experiments, not copied
@@ -43,7 +45,7 @@ with `scripts/export_presentation_pdf.sh`.
 
 ## Deliberately excluded material
 
-- TUM marks and course-slide images: not republished.
+- Course-slide images: not republished. The official TUM mark is used only for institutional identification as documented above.
 - Full paper pages: only the three evidence-table crops listed above are reproduced, with CC BY 4.0
   attribution; other diagrams and tables remain native HTML reconstructions.
 - Images copied from the upstream RBT4DNN artifact: not republished; reviewers can restore the
