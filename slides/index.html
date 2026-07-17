@@ -783,6 +783,17 @@
     .evidence-cell h3 { margin-top: 44px; font-size: 31px; line-height: 1.05; font-weight: 540; }
     .evidence-cell p { margin-top: 10px; font-size: 18px; line-height: 1.3; color: var(--muted); }
     .evidence-cell.credible { background: rgba(240,90,56,.08); }
+    .critique-equation { display: grid; grid-template-columns: 1fr 80px 1fr 80px 1.2fr; align-items: stretch; margin-top: 48px; }
+    .critique-term { min-height: 205px; padding: 28px 30px; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
+    .critique-term.result { background: rgba(240,90,56,.08); }
+    .critique-term h3 { margin-top: 58px; font-size: 36px; line-height: 1.04; font-weight: 560; }
+    .critique-term p { margin-top: 12px; font-size: 18px; line-height: 1.3; color: var(--muted); }
+    .critique-symbol { align-self: center; text-align: center; font-size: 42px; color: var(--blue); }
+    .critique-audit { display: grid; grid-template-columns: 1fr 1fr; margin-top: 34px; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
+    .critique-audit > div { padding: 20px 30px 20px 0; }
+    .critique-audit > div + div { padding-left: 30px; border-left: 1px solid var(--ink); }
+    .critique-audit h3 { margin-top: 10px; font-size: 28px; font-weight: 560; }
+    .critique-audit p { margin-top: 8px; font-size: 18px; line-height: 1.3; color: var(--muted); }
 
     /* Public PDF exports replace linked upstream images that this repository may not redistribute. */
     .public-placeholder { grid-column: 1 / -1; display: grid; place-items: center; width: 100%; height: 100%; padding: 20px; text-align: center; font-family: var(--font-mono); font-size: 13px; line-height: 1.45; color: var(--muted); background: #e7e3da; }
@@ -1146,15 +1157,18 @@
         <div class="frame">
           <div class="topline reveal"><span>05 · Critical review</span><span>Central thesis</span></div>
           <div class="content">
-            <h2 class="headline reveal" style="font-size:69px">A model error counts as requirement evidence only if the generated image really satisfies the requirement.</h2>
-            <div class="evidence-matrix reveal" role="img" aria-label="Two-by-two matrix of precondition validity and model outcome">
-              <div class="evidence-cell"><span class="scope-label">PRECONDITION INVALID · MODEL PASSES</span><h3>Irrelevant pass</h3><p>The output says nothing about the stated requirement.</p></div>
-              <div class="evidence-cell"><span class="scope-label">PRECONDITION INVALID · MODEL FAILS</span><h3>Off-target false positive</h3><p>A model error is not yet a requirement counterexample.</p></div>
-              <div class="evidence-cell"><span class="scope-label">PRECONDITION VALID · MODEL PASSES</span><h3>Valid requirement pass</h3><p>Relevant evidence, but never proof of the universal property.</p></div>
-              <div class="evidence-cell credible"><span class="scope-label">PRECONDITION VALID · MODEL FAILS</span><h3>Credible counterexample</h3><p>This joint event is the paper’s strongest testing evidence.</p></div>
+            <h2 class="headline reveal" style="font-size:69px">A credible failure needs two things to be true.</h2>
+            <div class="critique-equation reveal" role="img" aria-label="A valid precondition plus a violated postcondition equals a credible counterexample">
+              <div class="critique-term"><span class="scope-label">INPUT</span><h3>Precondition is true</h3><p>The generated image really represents the requested scenario.</p></div>
+              <div class="critique-symbol">+</div>
+              <div class="critique-term"><span class="scope-label">OUTPUT</span><h3>Postcondition is false</h3><p>The tested neural network violates the expected behavior.</p></div>
+              <div class="critique-symbol">=</div>
+              <div class="critique-term result"><span class="scope-label">EVIDENCE</span><h3>Credible counterexample</h3><p>A relevant input exposes a requirement-specific model error.</p></div>
             </div>
-            <div class="assurance-boundary reveal"><span>Sampled joint audit</span><p>30 failures × 11 low-pass requirements = 330 independently assessed samples.</p></div>
-            <p class="scope-note reveal"><strong>Critique in one sentence:</strong> the authors manually verify 330 selected failures, but most reported results still depend on imperfect automated labels—so confidence is strongest for the audited sample, not the full failure population.</p>
+            <div class="critique-audit reveal">
+              <div><span class="scope-label">MOST RESULTS</span><h3>Input validity is automated</h3><p>Glossary classifiers are useful—but imperfect—semantic proxies.</p></div>
+              <div><span class="scope-label">STRONGEST EVIDENCE</span><h3>330 failures are manually audited</h3><p>Confidence is strongest for this selected sample, not automatically for every reported failure.</p></div>
+            </div>
           </div>
           <div class="footer"><span>Independent critical synthesis based on [1] §4.1.6, §4.3.2 and §4.4</span><span>18 / 22</span></div>
         </div>
