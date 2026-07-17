@@ -741,6 +741,11 @@
     .analysis-step h3 { margin-top: 52px; font-size: 32px; line-height: 1.06; font-weight: 560; }
     .analysis-step p { margin-top: 16px; font-size: 19px; line-height: 1.34; color: var(--muted); }
     .analysis-step strong { display: block; margin-top: 28px; font-size: 45px; line-height: 1; font-weight: 560; color: var(--blue); }
+    .replication-scope { display: grid; grid-template-columns: 220px 1fr auto; gap: 28px; align-items: baseline; margin-top: 20px; padding: 14px 0; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
+    .replication-scope span { font-family: var(--font-mono); font-size: 13px; color: var(--orange); }
+    .replication-scope p { font-size: 18px; line-height: 1.25; }
+    .replication-scope strong { font-size: 27px; font-weight: 560; color: var(--blue); }
+    .replication-scope + .analysis-steps { margin-top: 18px; }
     .vae-flow { display: grid; grid-template-columns: 1fr 60px 1.15fr 60px 1fr; align-items: stretch; margin-top: 34px; }
     .vae-node { min-height: 340px; padding: 28px 30px; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
     .vae-node h3 { margin-top: 62px; font-size: 32px; line-height: 1.06; font-weight: 560; }
@@ -1180,9 +1185,10 @@
       <!-- === 19 / VALIDITY EXTENSIONS === -->
       <section class="slide" role="group" aria-roledescription="slide" aria-label="Precondition-validity and LLM-audit extensions">
         <div class="frame">
-          <div class="topline reveal"><span>Additional analysis 1</span><span>Scalability reanalysis · must every requirement have its own LoRA?</span></div>
+          <div class="topline reveal"><span>Replication + extension</span><span>Scalability reanalysis · must every requirement have its own LoRA?</span></div>
           <div class="content">
             <h2 class="headline reveal" style="font-size:66px">Sharing one MNIST LoRA saves training—but sharply weakens targeting on the hardest requirements.</h2>
+            <div class="replication-scope reveal"><span>REPLICATION SCOPE</span><p>Recompute seven stored MNIST pass-rate fields against paper references · no retraining or new inference</p><strong>max |Δ| .013</strong></div>
             <div class="analysis-steps reveal">
               <div class="analysis-step"><span class="scope-label">METHOD</span><h3>Reuse the authors’ MNIST ablations</h3><p>Compare precondition-match rates for a targeted LoRA, one LoRA over six requirement subsets, and one LoRA over all MNIST data.</p><strong>6 requirements</strong></div>
               <div class="analysis-step"><span class="scope-label">EASY TO SHARE · M4</span><h3>Targeted 92.5% · shared 56.4%</h3><p>The shared requirement LoRA remains usable, though substantially less precise. The all-data LoRA reaches only 12.7%.</p><strong>training ↘ · targeting ↘</strong></div>
