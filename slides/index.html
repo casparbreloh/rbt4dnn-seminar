@@ -746,6 +746,28 @@
     .replication-scope p { font-size: 18px; line-height: 1.25; }
     .replication-scope strong { font-size: 27px; font-weight: 560; color: var(--blue); }
     .replication-scope + .analysis-steps { margin-top: 18px; }
+    .chart-legend { display: flex; justify-content: flex-end; gap: 30px; margin-top: 20px; font-family: var(--font-mono); font-size: 13px; color: var(--muted); }
+    .chart-legend span::before { content: ""; display: inline-block; width: 11px; height: 11px; margin-right: 8px; border-radius: 50%; background: var(--legend-color); }
+    .chart-legend .scale-note::before { display: none; }
+    .replication-chart { margin-top: 16px; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
+    .replication-row { display: grid; grid-template-columns: 90px 1fr 250px; gap: 24px; align-items: center; min-height: 67px; border-bottom: 1px solid var(--line); }
+    .replication-row:last-child { border-bottom: 0; }
+    .replication-row > span { font-family: var(--font-mono); font-size: 14px; }
+    .replication-track { position: relative; height: 18px; background: linear-gradient(to right, transparent 0 0), var(--line-soft); }
+    .replication-dot { position: absolute; top: 50%; left: var(--position); width: 18px; height: 18px; border-radius: 50%; transform: translate(-50%,-50%); background: var(--color); }
+    .replication-dot.local { width: 10px; height: 10px; outline: 3px solid var(--cream); }
+    .replication-values { display: flex; justify-content: space-between; gap: 20px; font-size: 18px; }
+    .replication-values b { font-weight: 560; color: var(--blue); }
+    .strategy-chart { margin-top: 28px; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
+    .strategy-row { display: grid; grid-template-columns: 90px 1fr; gap: 26px; align-items: center; min-height: 76px; border-bottom: 1px solid var(--line); }
+    .strategy-row:last-child { border-bottom: 0; }
+    .strategy-row > span { font-family: var(--font-mono); font-size: 14px; }
+    .strategy-bars { display: grid; gap: 7px; }
+    .strategy-bar { display: grid; grid-template-columns: 150px 1fr 78px; gap: 16px; align-items: center; font-size: 14px; }
+    .strategy-bar label { font-family: var(--font-mono); color: var(--muted); }
+    .strategy-track { height: 10px; background: var(--line-soft); }
+    .strategy-fill { width: var(--value); height: 100%; background: var(--bar-color); }
+    .strategy-bar b { text-align: right; font-size: 16px; font-weight: 560; }
     .vae-flow { display: grid; grid-template-columns: 1fr 60px 1.15fr 60px 1fr; align-items: stretch; margin-top: 34px; }
     .vae-node { min-height: 340px; padding: 28px 30px; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
     .vae-node h3 { margin-top: 62px; font-size: 32px; line-height: 1.06; font-weight: 560; }
@@ -1182,38 +1204,46 @@
         </div>
       </section>
 
-      <!-- === 19 / VALIDITY EXTENSIONS === -->
-      <section class="slide" role="group" aria-roledescription="slide" aria-label="Precondition-validity and LLM-audit extensions">
+      <!-- === 19 / REPLICATION === -->
+      <section class="slide" role="group" aria-roledescription="slide" aria-label="Artifact-level replication check">
         <div class="frame">
-          <div class="topline reveal"><span>Replication + extension</span><span>Scalability reanalysis · must every requirement have its own LoRA?</span></div>
+          <div class="topline reveal"><span>Replication</span><span>Artifact-level check · no retraining or new inference</span></div>
           <div class="content">
-            <h2 class="headline reveal" style="font-size:66px">Sharing one MNIST LoRA saves training—but sharply weakens targeting on the hardest requirements.</h2>
-            <div class="replication-scope reveal"><span>REPLICATION SCOPE</span><p>Recompute seven stored MNIST pass-rate fields against paper references · no retraining or new inference</p><strong>max |Δ| .013</strong></div>
-            <div class="analysis-steps reveal">
-              <div class="analysis-step"><span class="scope-label">METHOD</span><h3>Reuse the authors’ MNIST ablations</h3><p>Compare precondition-match rates for a targeted LoRA, one LoRA over six requirement subsets, and one LoRA over all MNIST data.</p><strong>6 requirements</strong></div>
-              <div class="analysis-step"><span class="scope-label">EASY TO SHARE · M4</span><h3>Targeted 92.5% · shared 56.4%</h3><p>The shared requirement LoRA remains usable, though substantially less precise. The all-data LoRA reaches only 12.7%.</p><strong>training ↘ · targeting ↘</strong></div>
-              <div class="analysis-step"><span class="scope-label">HARD TO SHARE · M3</span><h3>Targeted 95.8% · shared 27.5%</h3><p>The all-data LoRA reaches 7.4%. A single generator does not preserve difficult semantic regions automatically.</p><strong>targeting matters</strong></div>
+            <h2 class="headline reveal" style="font-size:68px">Recomputed MNIST pass rates closely match the paper’s stored references.</h2>
+            <div class="chart-legend reveal"><span class="scale-note">Scale 65–100%</span><span style="--legend-color:var(--orange)">Paper reference</span><span style="--legend-color:var(--blue)">Recomputed field</span></div>
+            <div class="replication-chart reveal" role="img" aria-label="Paper and recomputed pass rates for MNIST requirements M1 to M7 on a 65 to 100 percent scale">
+              <div class="replication-row"><span>M1</span><div class="replication-track"><i class="replication-dot" style="--position:99.7%;--color:var(--orange)"></i><i class="replication-dot local" style="--position:100%;--color:var(--blue)"></i></div><div class="replication-values"><span>.999 → <b>1.000</b></span><em>Δ +.001</em></div></div>
+              <div class="replication-row"><span>M2</span><div class="replication-track"><i class="replication-dot" style="--position:93.4%;--color:var(--orange)"></i><i class="replication-dot local" style="--position:97.1%;--color:var(--blue)"></i></div><div class="replication-values"><span>.977 → <b>.990</b></span><em>Δ +.013</em></div></div>
+              <div class="replication-row"><span>M3</span><div class="replication-track"><i class="replication-dot" style="--position:21.1%;--color:var(--orange)"></i><i class="replication-dot local" style="--position:22.9%;--color:var(--blue)"></i></div><div class="replication-values"><span>.724 → <b>.730</b></span><em>Δ +.006</em></div></div>
+              <div class="replication-row"><span>M4</span><div class="replication-track"><i class="replication-dot" style="--position:94.9%;--color:var(--orange)"></i><i class="replication-dot local" style="--position:91.4%;--color:var(--blue)"></i></div><div class="replication-values"><span>.982 → <b>.970</b></span><em>Δ −.012</em></div></div>
+              <div class="replication-row"><span>M5</span><div class="replication-track"><i class="replication-dot" style="--position:98.3%;--color:var(--orange)"></i><i class="replication-dot local" style="--position:100%;--color:var(--blue)"></i></div><div class="replication-values"><span>.994 → <b>1.000</b></span><em>Δ +.006</em></div></div>
+              <div class="replication-row"><span>M6</span><div class="replication-track"><i class="replication-dot" style="--position:93.1%;--color:var(--orange)"></i><i class="replication-dot local" style="--position:94.3%;--color:var(--blue)"></i></div><div class="replication-values"><span>.976 → <b>.980</b></span><em>Δ +.004</em></div></div>
+              <div class="replication-row"><span>M7</span><div class="replication-track"><i class="replication-dot" style="--position:94.6%;--color:var(--orange)"></i><i class="replication-dot local" style="--position:94.3%;--color:var(--blue)"></i></div><div class="replication-values"><span>.981 → <b>.980</b></span><em>Δ −.001</em></div></div>
             </div>
-            <div class="assurance-boundary reveal"><span>Extension message</span><p>Per-requirement LoRAs are not merely an implementation detail: they buy semantic precision. The open design question is whether conditioning can recover that precision in one shared model.</p></div>
+            <div class="assurance-boundary reveal"><span>Scope boundary</span><p>Maximum absolute difference .013 · this verifies stored result consistency, not the original LoRA training or FLUX sampling pipeline.</p></div>
           </div>
-          <div class="footer"><span>Seminar reanalysis · authors’ targeted, all-requirements, and all-data MNIST ablations</span><span>19 / 22</span></div>
+          <div class="footer"><span>Seminar replication · experiments/replication · seven copied MNIST result fields</span><span>19 / 22</span></div>
         </div>
       </section>
 
-      <!-- === 20 / COST–PRECISION EXTENSION === -->
-      <section class="slide" role="group" aria-roledescription="slide" aria-label="Illustrative LoRA cost and targeting comparison">
+      <!-- === 20 / ADAPTER EXTENSION === -->
+      <section class="slide" role="group" aria-roledescription="slide" aria-label="MNIST LoRA targeting extension">
         <div class="frame">
-          <div class="topline reveal"><span>Additional analysis 2</span><span>Illustrative cost model · training compute only</span></div>
+          <div class="topline reveal"><span>Extending analysis</span><span>Must every requirement have its own LoRA?</span></div>
           <div class="content">
-            <h2 class="headline reveal" style="font-size:65px">Sharing can cut assumed training compute by 75%—but loses the targeting that makes tests relevant.</h2>
-            <div class="scaling-compare reveal" role="img" aria-label="Illustrative comparison of six per-requirement LoRAs, one shared-requirements LoRA, and one all-data LoRA">
-              <div class="scaling-case"><span class="scope-label">6 TARGETED LORAS</span><h3>One adapter per requirement</h3><p>Six assumed 1-hour training runs. Each adapter sees only images matching its own precondition.</p><strong>$18 · M3 95.8%</strong></div>
-              <div class="scaling-case"><span class="scope-label">1 SHARED-REQUIREMENTS LORA</span><h3>Union of six filtered subsets</h3><p>One assumed 1.5-hour run. Cheaper, but the requirement signal competes inside one adapter.</p><strong>$4.50 · M3 27.5%</strong></div>
-              <div class="scaling-case"><span class="scope-label">1 ALL-DATA LORA</span><h3>All annotated MNIST data</h3><p>One assumed 1.5-hour run. Cheapest model count, but no requirement-specific filtering.</p><strong>$4.50 · M3 7.4%</strong></div>
+            <h2 class="headline reveal" style="font-size:65px">Across all six MNIST requirements, sharing one adapter sharply reduces precondition match.</h2>
+            <div class="chart-legend reveal"><span style="--legend-color:var(--blue)">Targeted LoRA</span><span style="--legend-color:var(--orange)">Shared requirements</span><span style="--legend-color:#77756f">All data</span></div>
+            <div class="strategy-chart reveal" role="img" aria-label="Precondition match rates for targeted, shared-requirements, and all-data LoRAs across MNIST M1 to M6">
+              <div class="strategy-row"><span>M1</span><div class="strategy-bars"><div class="strategy-bar"><label>targeted</label><div class="strategy-track"><div class="strategy-fill" style="--value:96.8%;--bar-color:var(--blue)"></div></div><b>96.8%</b></div><div class="strategy-bar"><label>shared</label><div class="strategy-track"><div class="strategy-fill" style="--value:52.3%;--bar-color:var(--orange)"></div></div><b>52.3%</b></div><div class="strategy-bar"><label>all data</label><div class="strategy-track"><div class="strategy-fill" style="--value:2.8%;--bar-color:#77756f"></div></div><b>2.8%</b></div></div></div>
+              <div class="strategy-row"><span>M2</span><div class="strategy-bars"><div class="strategy-bar"><label>targeted</label><div class="strategy-track"><div class="strategy-fill" style="--value:98%;--bar-color:var(--blue)"></div></div><b>98.0%</b></div><div class="strategy-bar"><label>shared</label><div class="strategy-track"><div class="strategy-fill" style="--value:11.2%;--bar-color:var(--orange)"></div></div><b>11.2%</b></div><div class="strategy-bar"><label>all data</label><div class="strategy-track"><div class="strategy-fill" style="--value:.4%;--bar-color:#77756f"></div></div><b>0.4%</b></div></div></div>
+              <div class="strategy-row"><span>M3</span><div class="strategy-bars"><div class="strategy-bar"><label>targeted</label><div class="strategy-track"><div class="strategy-fill" style="--value:95.8%;--bar-color:var(--blue)"></div></div><b>95.8%</b></div><div class="strategy-bar"><label>shared</label><div class="strategy-track"><div class="strategy-fill" style="--value:27.5%;--bar-color:var(--orange)"></div></div><b>27.5%</b></div><div class="strategy-bar"><label>all data</label><div class="strategy-track"><div class="strategy-fill" style="--value:7.4%;--bar-color:#77756f"></div></div><b>7.4%</b></div></div></div>
+              <div class="strategy-row"><span>M4</span><div class="strategy-bars"><div class="strategy-bar"><label>targeted</label><div class="strategy-track"><div class="strategy-fill" style="--value:92.5%;--bar-color:var(--blue)"></div></div><b>92.5%</b></div><div class="strategy-bar"><label>shared</label><div class="strategy-track"><div class="strategy-fill" style="--value:56.4%;--bar-color:var(--orange)"></div></div><b>56.4%</b></div><div class="strategy-bar"><label>all data</label><div class="strategy-track"><div class="strategy-fill" style="--value:12.7%;--bar-color:#77756f"></div></div><b>12.7%</b></div></div></div>
+              <div class="strategy-row"><span>M5</span><div class="strategy-bars"><div class="strategy-bar"><label>targeted</label><div class="strategy-track"><div class="strategy-fill" style="--value:90%;--bar-color:var(--blue)"></div></div><b>90.0%</b></div><div class="strategy-bar"><label>shared</label><div class="strategy-track"><div class="strategy-fill" style="--value:22.9%;--bar-color:var(--orange)"></div></div><b>22.9%</b></div><div class="strategy-bar"><label>all data</label><div class="strategy-track"><div class="strategy-fill" style="--value:.5%;--bar-color:#77756f"></div></div><b>0.5%</b></div></div></div>
+              <div class="strategy-row"><span>M6</span><div class="strategy-bars"><div class="strategy-bar"><label>targeted</label><div class="strategy-track"><div class="strategy-fill" style="--value:95.7%;--bar-color:var(--blue)"></div></div><b>95.7%</b></div><div class="strategy-bar"><label>shared</label><div class="strategy-track"><div class="strategy-fill" style="--value:29.9%;--bar-color:var(--orange)"></div></div><b>29.9%</b></div><div class="strategy-bar"><label>all data</label><div class="strategy-track"><div class="strategy-fill" style="--value:2.9%;--bar-color:#77756f"></div></div><b>2.9%</b></div></div></div>
             </div>
-            <div class="assurance-boundary reveal"><span>Defensible use of the model</span><p>Targeting rates come from the authors’ ablations; costs are scenario assumptions, not invoices. Absolute “cost per valid failure” is not claimed—the model is useful only for relative prioritization under identical assumptions.</p></div>
+            <div class="assurance-boundary reveal"><span>Extension result</span><p>Naive sharing reduces model count, but not without semantic cost. These are authors’ saved ablations reanalyzed here—not newly trained LoRAs.</p></div>
           </div>
-          <div class="footer"><span>[1] Fig. 3 · seminar mnist-lora-ablation and cost-analysis · illustrative training assumptions documented in the artifact</span><span>20 / 22</span></div>
+          <div class="footer"><span>[1] Fig. 3 · seminar mnist-lora-ablation · targeting comparison across M1–M6</span><span>20 / 22</span></div>
         </div>
       </section>
 
