@@ -986,7 +986,7 @@
           <div class="topline reveal"><span>04 · Current results</span><span>First validate the inputs; then evaluate the tests</span></div>
           <div class="content">
             <h2 class="headline reveal" style="font-size:80px">The six research questions validate inputs before interpreting model outcomes.</h2>
-            <div class="definition-line reveal"><strong>RQ = Research Question.</strong> The numbered requirements themselves are M1–M7, C1–C7, S1–S7, and I1–I4.</div>
+            <div class="definition-line reveal"><strong>A credible failure is a joint event:</strong> the generated input satisfies the precondition, but the model output violates the postcondition. RQ = Research Question.</div>
             <div class="evidence-stages reveal">
               <div class="evidence-stage">
                 <div class="evidence-stage-head"><h3>Validate the generated inputs</h3><span>RQ1–RQ3</span></div>
@@ -1017,11 +1017,13 @@
               <div class="match-bars">
                 <div class="match-row"><h3>M3 · targeted LoRA<span>filtered images: very thick 7</span></h3><div class="match-track"><div class="match-fill" style="--value:95.8%"></div></div><b>95.8%</b></div>
                 <div class="match-row weak"><h3>M3 · one all-data LoRA<span>all annotated MNIST training images; not plain FLUX</span></h3><div class="match-track"><div class="match-fill" style="--value:7.4%"></div></div><b>7.4%</b></div>
+                <div class="match-row weak"><h3>M3 · DeepHyperion<span>untargeted search baseline</span></h3><div class="match-track"><div class="match-fill" style="--value:1%"></div></div><b>≈0%</b></div>
+                <div class="match-row weak"><h3>M3 · image transforms<span>rotation, blur, brightness, translation</span></h3><div class="match-track"><div class="match-fill" style="--value:1%"></div></div><b>≈0%</b></div>
               </div>
             </div>
             <div class="rq-method reveal"><div><span>Comparison</span><p>Precondition-specific LoRA vs one LoRA trained on all annotated data, plus DeepHyperion and transformations · 100 images × 10.</p></div><div><span>Boundary</span><p>Glossary classifiers average 94.5% accuracy; they are measurement proxies, not semantic ground truth.</p></div></div>
           </div>
-          <div class="footer"><span>[1] §4.1.4, §4.2.1 and Fig. 3 · prompt-only FLUX is not part of RQ1</span><span>11 / 22</span></div>
+          <div class="footer"><span>[1] §4.1.4, §4.2.1 and Fig. 3 · baseline values are graphical approximations; exact values are not published</span><span>11 / 22</span></div>
         </div>
       </section>
 
@@ -1031,17 +1033,14 @@
           <div class="topline reveal"><span>RQ2 · Distributional plausibility</span><span class="rq-question">Are generated tests close to real images that satisfy the same precondition?</span></div>
           <div class="content">
             <h2 class="headline reveal" style="font-size:66px">Targeted LoRA is much closer for MNIST and SGSM; CelebA-HQ gains are smaller and mixed.</h2>
-            <div class="rq2-result reveal">
-              <div class="rq2-primary"><strong>77.09%</strong><span>reported average KID reduction across Table 3’s MNIST M1–M7 and SGSM S1–S7 rows.</span></div>
-              <div class="rq2-context">
-                <div><span>COMPARE</span><strong>targeted LoRA ↔ prompt-only FLUX</strong></div>
-                <div><span>SAME INPUT</span><strong>identical precondition prompt</strong></div>
-                <div><span>CELEBA-HQ</span><strong>12.9% automated · 27% human labels</strong></div>
-              </div>
+            <div class="rq3-means reveal" role="img" aria-label="Example Table 3 KID comparisons between prompt-only FLUX and targeted LoRA; both are measured against training images satisfying the same precondition">
+              <div class="rq3-domain"><span class="scope-label">MNIST · M3</span><h3>.308 → .039</h3><div class="js-pair"><div class="js-value"><span>PROMPT-ONLY FLUX</span><strong>.308</strong></div><div class="js-value targeted"><span>TARGETED LORA</span><strong>.039</strong></div></div></div>
+              <div class="rq3-domain"><span class="scope-label">SGSM · S2</span><h3>.242 → .038</h3><div class="js-pair"><div class="js-value"><span>PROMPT-ONLY FLUX</span><strong>.242</strong></div><div class="js-value targeted"><span>TARGETED LORA</span><strong>.038</strong></div></div></div>
+              <div class="rq3-domain"><span class="scope-label">CELEBA-HQ · C1</span><h3>.123 → .097</h3><div class="js-pair"><div class="js-value"><span>PROMPT-ONLY FLUX</span><strong>.123</strong></div><div class="js-value targeted"><span>TARGETED LORA</span><strong>.097</strong></div></div></div>
             </div>
             <div class="rq-method reveal"><div><span>KID · Kernel Inception Distance</span><p>A distance between two image sets in a learned feature space · lower means the distributions are closer.</p></div><div><span>Boundary</span><p>KID is not an image-level realism probability; several reference subsets contain fewer than 300 images.</p></div></div>
           </div>
-          <div class="footer"><span>[1] §4.2.2 and Table 3 · paper prose says M1–M6, but 77.09% matches M1–M7 arithmetic</span><span>12 / 22</span></div>
+          <div class="footer"><span>[1] §4.2.2 and Table 3 · examples show KID(reference, prompt-only FLUX) → KID(reference, targeted LoRA)</span><span>12 / 22</span></div>
         </div>
       </section>
 
@@ -1056,7 +1055,7 @@
               <div class="rq3-domain"><span class="scope-label">CELEBA-HQ · MEAN JS</span><h3>1.4× closer</h3><div class="js-pair"><div class="js-value"><span>PROMPT-ONLY FLUX</span><strong>.1150</strong></div><div class="js-value targeted"><span>TARGETED LORA</span><strong>.0831</strong></div></div></div>
               <div class="rq3-domain"><span class="scope-label">SGSM · MEAN JS</span><h3>5.5× closer</h3><div class="js-pair"><div class="js-value"><span>PROMPT-ONLY FLUX</span><strong>.1960</strong></div><div class="js-value targeted"><span>TARGETED LORA</span><strong>.0355</strong></div></div></div>
             </div>
-            <div class="rq-method reveal"><div><span>JS · Jensen–Shannon divergence</span><p>Compare frequencies of the other glossary terms with the matching training subset · lower means closer.</p></div><div><span>Boundary</span><p>Means derived from Table 4; JS does not measure pixel diversity, memorization, or latent-space coverage.</p></div></div>
+            <div class="rq-method reveal"><div><span>What “feature frequency” means</span><p>Example: among thick 7s, how often are images also left-leaning, right-leaning, tall, or short? Compare those label proportions with the filtered training subset.</p></div><div><span>JS · Jensen–Shannon divergence</span><p>One distance between those two label distributions · lower means closer. It does not measure pixel diversity, memorization, or latent-space coverage.</p></div></div>
           </div>
           <div class="footer"><span>[1] §4.2.3 and Table 4 · displayed domain means are calculated from the seven reported rows</span><span>13 / 22</span></div>
         </div>
@@ -1072,7 +1071,7 @@
               <img src="assets/paper-table-5.png" alt="Original paper Table 5 comparing passing and failing digit threes from DeepHyperion, image transformations, and RBT4DNN">
               <figcaption>Original paper evidence · Table 5 · cropped only for legibility · CC BY 4.0.</figcaption>
             </figure>
-            <div class="rq-method reveal"><div><span>DeepHyperion</span><p>Searches a user-defined feature map for diverse, boundary-region tests; it is not conditioned on M2’s “very thick” term.</p></div><div><span>Interpretation rule</span><p>Both baseline rows mostly miss thickness; only after input relevance is established does pass/fail address M2.</p></div></div>
+            <div class="rq-method reveal"><div><span>What pass / fail means here</span><p>For M2, pass = the MNIST classifier predicts “3”; fail = it predicts another digit. The rows separate those outputs for each generator.</p></div><div><span>Interpretation rule</span><p>DeepHyperion and transformations mostly miss “very thick”; therefore neither their passes nor failures are evidence about M2.</p></div></div>
           </div>
           <div class="footer"><span>[1] §4.3.1 and Table 5 · reproduced from Mozumder et al. under CC BY 4.0</span><span>14 / 22</span></div>
         </div>
@@ -1102,7 +1101,7 @@
         <div class="frame">
           <div class="topline reveal"><span>RQ6 · Exploratory decision behavior</span><span class="rq-question">Can failures reveal repeatable patterns in model decisions?</span></div>
           <div class="content">
-            <h2 class="headline reveal" style="font-size:68px">Backgrounds and partial animals align with repeated wrong labels—but do not prove causation.</h2>
+            <h2 class="headline reveal" style="font-size:68px">Across four animal requirements and three classifiers, failures reveal recurring model-specific patterns.</h2>
             <div class="rq6-evidence reveal">
               <figure class="rq6-paper">
                 <img src="assets/paper-table-7.png" alt="Original paper Table 7 showing generated animal failure cases with model outputs and representative ImageNet training images">
@@ -1158,17 +1157,17 @@
       <!-- === 19 / VALIDITY EXTENSIONS === -->
       <section class="slide" role="group" aria-roledescription="slide" aria-label="Precondition-validity and LLM-audit extensions">
         <div class="frame">
-          <div class="topline reveal"><span>Additional analysis 1</span><span>From raw failures toward evidence quality</span></div>
+          <div class="topline reveal"><span>Additional analysis 1</span><span>Scalability reanalysis · must every requirement have its own LoRA?</span></div>
           <div class="content">
-            <h2 class="headline reveal" style="font-size:66px">Three lightweight checks test reproducibility and prioritize stronger human validation.</h2>
+            <h2 class="headline reveal" style="font-size:66px">Sharing one MNIST LoRA saves training—but sharply weakens targeting on the hardest requirements.</h2>
             <div class="analysis-steps reveal">
-              <div class="analysis-step"><span class="scope-label">01 · ARTIFACT CONSISTENCY</span><h3>Recalculate stored MNIST results</h3><p>Compare seven published fields with the authors’ saved result files. No model inference, generation, or retraining.</p><strong>max Δ · .013</strong></div>
-              <div class="analysis-step"><span class="scope-label">02 · AUDIT PRIORITY</span><h3>Combine match and failure rates</h3><p>Compute P(match) × P(fail) as an independence-based triage score—not an observed joint probability.</p><strong>S2 · 73.6%</strong></div>
-              <div class="analysis-step"><span class="scope-label">03 · EXTERNAL SPOT-CHECK</span><h3>Ask one multimodal model</h3><p>Sample two images per requirement and judge only precondition validity: 42 images in total.</p><strong>31/42 · .738</strong></div>
+              <div class="analysis-step"><span class="scope-label">METHOD</span><h3>Reuse the authors’ MNIST ablations</h3><p>Compare precondition-match rates for a targeted LoRA, one LoRA over six requirement subsets, and one LoRA over all MNIST data.</p><strong>6 requirements</strong></div>
+              <div class="analysis-step"><span class="scope-label">EASY TO SHARE · M4</span><h3>Targeted 92.5% · shared 56.4%</h3><p>The shared requirement LoRA remains usable, though substantially less precise. The all-data LoRA reaches only 12.7%.</p><strong>training ↘ · targeting ↘</strong></div>
+              <div class="analysis-step"><span class="scope-label">HARD TO SHARE · M3</span><h3>Targeted 95.8% · shared 27.5%</h3><p>The all-data LoRA reaches 7.4%. A single generator does not preserve difficult semantic regions automatically.</p><strong>targeting matters</strong></div>
             </div>
-            <div class="assurance-boundary reveal"><span>What this establishes</span><p>The stored numbers are internally consistent and some requirements deserve priority review. It does not estimate the population-wide valid-failure rate.</p></div>
+            <div class="assurance-boundary reveal"><span>Extension message</span><p>Per-requirement LoRAs are not merely an implementation detail: they buy semantic precision. The open design question is whether conditioning can recover that precision in one shared model.</p></div>
           </div>
-          <div class="footer"><span>Seminar experiments · replication, precondition-validity, and llm-validity-audit</span><span>19 / 22</span></div>
+          <div class="footer"><span>Seminar reanalysis · authors’ targeted, all-requirements, and all-data MNIST ablations</span><span>19 / 22</span></div>
         </div>
       </section>
 
@@ -1186,7 +1185,7 @@
               <div class="vae-arrow">→</div>
               <div class="vae-node"><span class="scope-label">EVALUATION</span><h3>Generate and classify digits</h3><p>Three seeds × 100 images per requirement; evaluate only the digit postcondition with a classifier.</p><strong>mean .945 · M3 .743</strong></div>
             </div>
-            <div class="measured-cost reveal"><span>Critical comparison</span><p>Paper’s all-data LoRA: M3 match 7.4% · next study: one conditional FLUX adapter on original data with RQ1–RQ3 metrics</p><b>≈24.7 serial A100-hours motivate sharing</b></div>
+            <div class="measured-cost reveal"><span>Only the common metric can be compared</span><p>Mean digit pass: per-requirement LoRAs .942 ↔ conditional VAE .945 · M3: .724 ↔ .743. VAE precondition match was not measured, so this is a feasibility signal—not evidence that it replaces LoRA.</p><b>≈24.7 serial A100-hours motivate a controlled shared-generator study</b></div>
           </div>
           <div class="footer"><span>[1] Fig. 3 · seminar mnist-shared-generator · no direct precondition, KID, JS, or human-validity evaluation</span><span>20 / 22</span></div>
         </div>
@@ -1200,7 +1199,6 @@
           <div class="scope-strip reveal" style="margin-top:52px">
             <div class="scope-item"><span class="index">What the paper establishes</span><p>Structured requirements can guide distributionally plausible, glossary-diverse, scenario-specific test generation across four domains.</p></div>
             <div class="scope-item"><span class="index">What limits the claim</span><p>Semantic labels and glossary classifiers are useful proxies; credible failures still depend on joint input-and-output validation.</p></div>
-            <div class="scope-item"><span class="index">Most valuable next study</span><p>Compare conditional shared and per-requirement adapters with identical RQ1–RQ3 metrics and independent human audits.</p></div>
           </div>
           <div class="spacer"></div>
           <div class="footer"><span>End of 20-minute talk · questions</span><span>21 / 22</span></div>
