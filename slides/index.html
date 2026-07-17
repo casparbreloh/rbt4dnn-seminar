@@ -334,6 +334,7 @@
     .scope-item { min-height: 114px; padding: 22px 34px 22px 0; }
     .scope-item + .scope-item { padding-left: 34px; border-left: 1px solid currentColor; }
     .scope-item p { margin-top: 12px; font-size: 20px; line-height: 1.32; color: var(--muted); }
+    .statement-slide .scope-item p { color: var(--ink); font-size: 23px; }
     .chart-kicker { margin-bottom: 24px; display: flex; justify-content: space-between; }
     .large-bars { gap: 34px; }
     .large-bars .bar-row { grid-template-columns: 170px 1fr 108px; }
@@ -355,10 +356,14 @@
     .figure-label { position: absolute; left: 20px; bottom: 18px; padding: 8px 10px; background: var(--paper); font-family: var(--font-mono); font-size: 13px; }
 
     /* === COMPOSITIONS: variations made only from primitives === */
-    .title-copy { margin-top: 52px; }
+    .title-copy { margin-top: 42px; }
     .title-copy .display { max-width: 1380px; }
-    .title-copy .lead { margin-top: 44px; }
-    .title-mark { position: absolute; right: var(--pad-x); bottom: 100px; font-family: var(--font-mono); font-size: 15px; writing-mode: vertical-rl; transform: rotate(180deg); }
+    .title-copy .lead { margin-top: 30px; }
+    .title-meta-grid { display: grid; grid-template-columns: 1.35fr 1fr 1fr; margin-top: 58px; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
+    .title-meta { min-height: 126px; padding: 22px 30px 20px 0; }
+    .title-meta + .title-meta { padding-left: 30px; border-left: 1px solid var(--ink); }
+    .title-meta span { display: block; font-family: var(--font-mono); font-size: 13px; line-height: 1.35; letter-spacing: .04em; text-transform: uppercase; color: var(--blue); }
+    .title-meta p { margin-top: 10px; font-size: 20px; line-height: 1.32; }
     .statement-slide .statement { margin-top: 48px; }
     .statement-slide .lead { margin-top: 42px; }
     .syntax { margin-top: 58px; border-top: 1px solid currentColor; }
@@ -706,6 +711,40 @@
     .measured-cost span { font-family: var(--font-mono); font-size: 13px; text-transform: uppercase; color: var(--muted); }
     .measured-cost p { font-size: 22px; line-height: 1.25; }
     .measured-cost b { font-size: 30px; font-weight: 560; color: var(--blue); }
+    .paper-evidence { margin-top: 30px; padding: 18px 22px; border: 1px solid var(--ink); background: #fff; }
+    .paper-evidence img { display: block; width: 100%; height: 360px; object-fit: contain; }
+    .paper-evidence figcaption { margin-top: 12px; font-family: var(--font-mono); font-size: 13px; line-height: 1.35; color: var(--muted); }
+    .rq3-means { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 38px; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
+    .rq3-domain { min-height: 310px; padding: 26px 34px 26px 0; }
+    .rq3-domain + .rq3-domain { padding-left: 34px; border-left: 1px solid var(--ink); }
+    .rq3-domain h3 { margin-top: 8px; font-size: 31px; font-weight: 560; }
+    .js-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 60px; }
+    .js-value { padding-top: 14px; border-top: 8px solid var(--orange); }
+    .js-value.targeted { border-color: var(--blue); }
+    .js-value span { display: block; font-family: var(--font-mono); font-size: 12px; color: var(--muted); }
+    .js-value strong { display: block; margin-top: 8px; font-size: 45px; line-height: 1; font-weight: 560; }
+    .rq6-evidence { display: grid; grid-template-columns: .95fr 1.05fr; gap: 46px; margin-top: 34px; align-items: stretch; }
+    .rq6-paper { padding: 16px; border: 1px solid var(--ink); background: #fff; }
+    .rq6-paper img { display: block; width: 100%; height: 420px; object-fit: cover; object-position: top; }
+    .rq6-paper figcaption { margin-top: 10px; font-family: var(--font-mono); font-size: 12px; line-height: 1.35; color: var(--muted); }
+    .rq6-reading { display: grid; align-content: start; border-top: 1px solid var(--ink); }
+    .rq6-point { min-height: 134px; padding: 20px 0; border-bottom: 1px solid var(--ink); }
+    .rq6-point span { font-family: var(--font-mono); font-size: 13px; color: var(--blue); }
+    .rq6-point h3 { margin-top: 8px; font-size: 28px; line-height: 1.08; font-weight: 560; }
+    .rq6-point p { margin-top: 8px; font-size: 18px; line-height: 1.3; color: var(--muted); }
+    .analysis-steps { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 34px; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
+    .analysis-step { min-height: 390px; padding: 26px 34px 28px 0; }
+    .analysis-step + .analysis-step { padding-left: 34px; border-left: 1px solid var(--ink); }
+    .analysis-step h3 { margin-top: 52px; font-size: 32px; line-height: 1.06; font-weight: 560; }
+    .analysis-step p { margin-top: 16px; font-size: 19px; line-height: 1.34; color: var(--muted); }
+    .analysis-step strong { display: block; margin-top: 28px; font-size: 45px; line-height: 1; font-weight: 560; color: var(--blue); }
+    .vae-flow { display: grid; grid-template-columns: 1fr 60px 1.15fr 60px 1fr; align-items: stretch; margin-top: 34px; }
+    .vae-node { min-height: 340px; padding: 28px 30px; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
+    .vae-node h3 { margin-top: 62px; font-size: 32px; line-height: 1.06; font-weight: 560; }
+    .vae-node p { margin-top: 16px; font-size: 19px; line-height: 1.33; color: var(--muted); }
+    .vae-node strong { display: block; margin-top: 24px; font-size: 43px; line-height: 1; color: var(--blue); }
+    .vae-arrow { align-self: center; text-align: center; font-size: 32px; color: var(--blue); }
+    .definition-line { margin-top: 18px; padding: 16px 0; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); font-size: 19px; line-height: 1.35; }
     .metric-clouds { display: grid; grid-template-columns: 1fr 150px 1fr; align-items: center; margin-top: 48px; }
     .metric-cloud { position: relative; height: 300px; border: 1px solid var(--line); background: var(--paper); }
     .metric-cloud::before { content: ""; position: absolute; inset: 48px 70px; background: radial-gradient(circle at 20% 30%, var(--blue) 0 8px, transparent 9px), radial-gradient(circle at 55% 18%, var(--blue) 0 7px, transparent 8px), radial-gradient(circle at 70% 55%, var(--blue) 0 9px, transparent 10px), radial-gradient(circle at 32% 68%, var(--blue) 0 8px, transparent 9px), radial-gradient(circle at 58% 80%, var(--blue) 0 7px, transparent 8px); }
@@ -759,19 +798,23 @@
   <div class="deck-viewport">
     <main class="deck-stage" id="deckStage" aria-label="RBT4DNN seminar presentation">
 
-      <!-- === MAIN TALK · 20 MINUTES / 23 SPOKEN SLIDES + REFERENCES === -->
+      <!-- === MAIN TALK · 20 MINUTES / 21 SPOKEN SLIDES + REFERENCES === -->
 
       <!-- === 01 / TITLE === -->
       <section class="slide title-slide active" role="group" aria-roledescription="slide" aria-label="RBT4DNN">
         <div class="frame">
-          <div class="topline reveal"><span>AI Testing Landscape · SS 2026</span><span>Chair of Software and Systems Engineering · TUM</span></div>
+          <div class="topline reveal"><span>AI Testing Landscape · Summer Semester 2026</span><span>Chair IV · Software and Systems Engineering · TUM</span></div>
           <div class="title-copy">
 <h1 class="display reveal">Requirements-based<br>testing of neural networks.</h1>
             <p class="lead reveal">A critical review of RBT4DNN, its empirical evidence, and two focused additional analyses.</p>
+            <div class="title-meta-grid reveal">
+              <div class="title-meta"><span>Seminar</span><p>AI Testing Landscape: Ensuring Robustness through Advanced Testing Methods</p></div>
+              <div class="title-meta"><span>Course leadership</span><p>Prof. Dr. Alexander Pretschner<br>Supervisors: Vivek V. Vekariya · Simon Speth</p></div>
+              <div class="title-meta"><span>Presentation</span><p>Caspar Breloh<br>17 July 2026</p></div>
+            </div>
           </div>
-          <div class="title-mark">CASPAR BRELOH · 17 JULY 2026 / SUPERVISION: VIVEK V. VEKARIYA · SIMON SPETH</div>
           <div class="spacer"></div>
-          <div class="footer"><span>Mozumder, Toledo, Dola &amp; Dwyer · arXiv:2504.02737v3 · 2025</span><span>01 / 23</span></div>
+          <div class="footer"><span>Mozumder, Toledo, Dola &amp; Dwyer · arXiv:2504.02737v3 · 2025</span><span>01 / 22</span></div>
         </div>
       </section>
 
@@ -787,7 +830,7 @@
               <div class="question-item"><span class="index">03 · EVIDENCE</span><h3>How convincing—and scalable—is the resulting evidence?</h3><p>CRITIQUE + ADDITIONAL ANALYSES</p></div>
             </div>
           </div>
-          <div class="footer"><span>These questions follow the seminar brief while keeping one continuous evidence argument.</span><span>02 / 23</span></div>
+          <div class="footer"><span>These questions follow the seminar brief while keeping one continuous evidence argument.</span><span>02 / 22</span></div>
         </div>
       </section>
 
@@ -808,7 +851,7 @@
               <div class="ladder-step"><span class="scope-label">Requirement verdict</span><strong>Does the model satisfy this specific contract?</strong></div>
             </div>
           </div>
-          <div class="footer"><span>[1] §1–§2.5 · “model under test” means the evaluated neural network</span><span>03 / 23</span></div>
+          <div class="footer"><span>[1] §1–§2.5 · “model under test” means the evaluated neural network</span><span>03 / 22</span></div>
         </div>
       </section>
 
@@ -827,7 +870,7 @@
               <div class="rail-row"><span class="index">OUTPUT</span><h3>Targeted tests</h3><p>Run the learned component and evaluate the requirement-specific oracle.</p></div>
             </div>
           </div>
-          <div class="footer"><span>[1] §1, §2.5 and §3 · authors claim the first requirement-driven DNN test-input generator</span><span>04 / 23</span></div>
+          <div class="footer"><span>[1] §1, §2.5 and §3 · authors claim the first requirement-driven DNN test-input generator</span><span>04 / 22</span></div>
         </div>
       </section>
 
@@ -838,13 +881,13 @@
           <div class="content">
             <h2 class="headline reveal" style="font-size:72px">Four domains test whether one workflow survives increasingly ambiguous semantics.</h2>
             <div class="dataset-grid reveal">
-              <div class="dataset-card"><span class="meta">MNIST · 7 requirements</span><figure><div class="remote-grid mnist" data-upstream-path="M3" data-files="0.png,1.png,10.png,11.png" data-label="Generated MNIST digit"></div></figure><h3>Digits</h3><p>Measured height, thickness, and lean. A controlled starting point.</p><div class="req"><strong>Output:</strong> digit class</div></div>
-              <div class="dataset-card"><span class="meta">CelebA-HQ · 7 requirements</span><figure><div class="remote-grid" data-upstream-path="C1" data-files="0.png,1.png,10.png,11.png" data-label="Generated CelebA-HQ face"></div></figure><h3>Faces</h3><p>Ambiguous attributes labeled by visual question answering or humans.</p><div class="req"><strong>Output:</strong> eyeglasses decision</div></div>
-              <div class="dataset-card"><span class="meta">Synthetic driving (SGSM) · 7</span><figure><div class="remote-grid" data-upstream-path="S2" data-files="1_1.png.png,1_10.png.png,1_100.png.png,1_11.png.png" data-label="Generated autonomous-driving scene"></div></figure><h3>Driving</h3><p>Scene relations linked to steering and acceleration constraints.</p><div class="req"><strong>Output:</strong> numeric control</div></div>
-              <div class="dataset-card"><span class="meta">ImageNet · 4 requirements</span><figure><div class="remote-grid" data-upstream-path="I1" data-files="0.png,1.png,10.png,11.png" data-label="Generated bird image"></div></figure><h3>Animals</h3><p>Morphology linked to allowed classes in the WordNet taxonomy.</p><div class="req"><strong>Output:</strong> class set</div></div>
+              <div class="dataset-card"><span class="meta">MNIST · 7 requirements</span><figure><div class="remote-grid mnist" data-upstream-path="M3" data-files="0.png,1.png,10.png,11.png" data-label="Generated MNIST digit"></div></figure><h3>MNIST</h3><p>Measured height, thickness, and lean. A controlled starting point.</p><div class="req"><strong>Output:</strong> digit class</div></div>
+              <div class="dataset-card"><span class="meta">CelebA-HQ · 7 requirements</span><figure><div class="remote-grid" data-upstream-path="C1" data-files="0.png,1.png,10.png,11.png" data-label="Generated CelebA-HQ face"></div></figure><h3>CelebA-HQ</h3><p>Ambiguous attributes labeled by visual question answering or humans.</p><div class="req"><strong>Output:</strong> eyeglasses decision</div></div>
+              <div class="dataset-card"><span class="meta">SGSM · 7 requirements</span><figure><div class="remote-grid" data-upstream-path="S2" data-files="1_1.png.png,1_10.png.png,1_100.png.png,1_11.png.png" data-label="Generated autonomous-driving scene"></div></figure><h3>SGSM</h3><p>Synthetic driving scenes with spatial relations linked to steering and acceleration.</p><div class="req"><strong>Output:</strong> numeric control</div></div>
+              <div class="dataset-card"><span class="meta">ImageNet · 4 requirements</span><figure><div class="remote-grid" data-upstream-path="I1" data-files="0.png,1.png,10.png,11.png" data-label="Generated bird image"></div></figure><h3>ImageNet</h3><p>Animal morphology linked to allowed classes in the WordNet taxonomy.</p><div class="req"><strong>Output:</strong> class set</div></div>
             </div>
           </div>
-          <div class="footer"><span>[1] Table 2 and §4.1.1–§4.1.3 · samples linked from the pinned public artifact</span><span>05 / 23</span></div>
+          <div class="footer"><span>[1] Table 2 and §4.1.1–§4.1.3 · samples linked from the pinned public artifact</span><span>05 / 22</span></div>
         </div>
       </section>
 
@@ -865,7 +908,7 @@
               </div>
             </div>
           </div>
-          <div class="footer"><span>[1] Table 2, M3 · a finite passing suite cannot prove the universal requirement</span><span>06 / 23</span></div>
+          <div class="footer"><span>[1] Table 2, M3 · a finite passing suite cannot prove the universal requirement</span><span>06 / 22</span></div>
         </div>
       </section>
 
@@ -888,7 +931,7 @@
               <div class="trace-cell"><span class="scope-label">Evidence</span><strong>precondition match + output pass or fail</strong></div>
             </div>
           </div>
-          <div class="footer"><span>[1] Fig. 2 and §3 · symbols are translated into an explicit input/output contract</span><span>07 / 23</span></div>
+          <div class="footer"><span>[1] Fig. 2 and §3 · symbols are translated into an explicit input/output contract</span><span>07 / 22</span></div>
         </div>
       </section>
 
@@ -908,7 +951,7 @@
             </div>
             <p class="scope-note reveal"><strong>Boundary:</strong> separate training labels and evaluation classifiers reduce direct reuse, but neither constitutes independent semantic ground truth.</p>
           </div>
-          <div class="footer"><span>[1] §3.2 and §4.1.6 · mean glossary-classifier accuracy 94.5%; C4 is 70.8%</span><span>08 / 23</span></div>
+          <div class="footer"><span>[1] §3.2 and §4.1.6 · mean glossary-classifier accuracy 94.5%; C4 is 70.8%</span><span>08 / 22</span></div>
         </div>
       </section>
 
@@ -933,33 +976,17 @@
               </div>
             </div>
           </div>
-          <div class="footer"><span>[1] §3.3 and §4.1.4 · LoRA equation simplified; latent-space coverage remains future work</span><span>09 / 23</span></div>
+          <div class="footer"><span>[1] §3.3 and §4.1.4 · LoRA equation simplified; latent-space coverage remains future work</span><span>09 / 22</span></div>
         </div>
       </section>
 
-      <!-- === 10 / COMPARISONS === -->
-      <section class="slide" role="group" aria-roledescription="slide" aria-label="Experimental configurations and baselines">
-        <div class="frame">
-          <div class="topline reveal"><span>Experimental setup</span><span>Each comparison answers a different question</span></div>
-          <div class="content">
-            <h2 class="headline reveal" style="font-size:76px">Three comparisons isolate three different effects.</h2>
-            <div class="baseline-board reveal">
-              <div class="baseline-row"><span>FILTERING · RQ1</span><strong>Targeted LoRA ↔ all-data LoRA</strong><b>Does selecting precondition-matching images matter?</b></div>
-              <div class="baseline-row"><span>ADAPTATION · RQ2–RQ3</span><strong>Targeted LoRA ↔ prompt-only FLUX</strong><b>Does fine-tuning improve distributional quality?</b></div>
-              <div class="baseline-row"><span>TARGETING · RQ1 + RQ4</span><strong>RBT4DNN ↔ DeepHyperion + transformations</strong><b>Does requirement guidance improve relevance?</b></div>
-            </div>
-            <p class="finding reveal"><strong>Important:</strong> prompt-only FLUX is not an RQ1 comparator; the all-data LoRA and untargeted baselines are dropped after their poor RQ1 precondition match.</p>
-          </div>
-          <div class="footer"><span>[1] §4.1.4–§4.1.6 · no truly comparable requirement-targeted baseline existed</span><span>10 / 23</span></div>
-        </div>
-      </section>
-
-      <!-- === 11 / RESEARCH QUESTIONS === -->
+      <!-- === 10 / RESEARCH QUESTIONS === -->
       <section class="slide" role="group" aria-roledescription="slide" aria-label="Research questions">
         <div class="frame">
           <div class="topline reveal"><span>04 · Current results</span><span>First validate the inputs; then evaluate the tests</span></div>
           <div class="content">
-            <h2 class="headline reveal" style="font-size:80px">The six RQs validate generated inputs before interpreting model outcomes.</h2>
+            <h2 class="headline reveal" style="font-size:80px">The six research questions validate inputs before interpreting model outcomes.</h2>
+            <div class="definition-line reveal"><strong>RQ = Research Question.</strong> The numbered requirements themselves are M1–M7, C1–C7, S1–S7, and I1–I4.</div>
             <div class="evidence-stages reveal">
               <div class="evidence-stage">
                 <div class="evidence-stage-head"><h3>Validate the generated inputs</h3><span>RQ1–RQ3</span></div>
@@ -975,11 +1002,11 @@
               </div>
             </div>
           </div>
-          <div class="footer"><span>[1] §4.1 · input validity is established before model outcomes are interpreted</span><span>11 / 23</span></div>
+          <div class="footer"><span>[1] §4.1 · input validity is established before model outcomes are interpreted</span><span>10 / 22</span></div>
         </div>
       </section>
 
-      <!-- === 12 / RQ1 === -->
+      <!-- === 11 / RQ1 === -->
       <section class="slide rq-slide" role="group" aria-roledescription="slide" aria-label="RQ1: precondition consistency">
         <div class="frame">
           <div class="topline reveal"><span>RQ1 · Input consistency</span><span class="rq-question">Do generated images satisfy the requested precondition?</span></div>
@@ -989,12 +1016,12 @@
               <div class="match-overall"><strong>92.1%</strong><p>mean across 21 requirements in MNIST, CelebA-HQ, and SGSM.</p></div>
               <div class="match-bars">
                 <div class="match-row"><h3>M3 · targeted LoRA<span>filtered images: very thick 7</span></h3><div class="match-track"><div class="match-fill" style="--value:95.8%"></div></div><b>95.8%</b></div>
-                <div class="match-row weak"><h3>M3 · all-data LoRA<span>all MNIST images; same requirement prompt</span></h3><div class="match-track"><div class="match-fill" style="--value:7.4%"></div></div><b>7.4%</b></div>
+                <div class="match-row weak"><h3>M3 · one all-data LoRA<span>all annotated MNIST training images; not plain FLUX</span></h3><div class="match-track"><div class="match-fill" style="--value:7.4%"></div></div><b>7.4%</b></div>
               </div>
             </div>
-            <div class="rq-method reveal"><div><span>Method</span><p>Every glossary term in the precondition must pass its binary classifier · 100 images × 10 repetitions.</p></div><div><span>Boundary</span><p>The classifiers average 94.5% accuracy; they are measurement proxies, not semantic ground truth.</p></div></div>
+            <div class="rq-method reveal"><div><span>Comparison</span><p>Precondition-specific LoRA vs one LoRA trained on all annotated data, plus DeepHyperion and transformations · 100 images × 10.</p></div><div><span>Boundary</span><p>Glossary classifiers average 94.5% accuracy; they are measurement proxies, not semantic ground truth.</p></div></div>
           </div>
-          <div class="footer"><span>[1] §4.2.1 and Fig. 3 · prompt-only FLUX is not part of RQ1</span><span>12 / 23</span></div>
+          <div class="footer"><span>[1] §4.1.4, §4.2.1 and Fig. 3 · prompt-only FLUX is not part of RQ1</span><span>11 / 22</span></div>
         </div>
       </section>
 
@@ -1012,84 +1039,87 @@
                 <div><span>CELEBA-HQ</span><strong>12.9% automated · 27% human labels</strong></div>
               </div>
             </div>
-            <div class="rq-method reveal"><div><span>Method</span><p>KID compares each generated set with the original training subset matching that precondition · lower means closer.</p></div><div><span>Boundary</span><p>KID is not an image-level realism probability; several reference subsets contain fewer than 300 images.</p></div></div>
+            <div class="rq-method reveal"><div><span>KID · Kernel Inception Distance</span><p>A distance between two image sets in a learned feature space · lower means the distributions are closer.</p></div><div><span>Boundary</span><p>KID is not an image-level realism probability; several reference subsets contain fewer than 300 images.</p></div></div>
           </div>
-          <div class="footer"><span>[1] §4.2.2 and Table 3 · paper prose says M1–M6, but 77.09% matches M1–M7 arithmetic</span><span>13 / 23</span></div>
+          <div class="footer"><span>[1] §4.2.2 and Table 3 · paper prose says M1–M6, but 77.09% matches M1–M7 arithmetic</span><span>12 / 22</span></div>
         </div>
       </section>
 
-      <!-- === 14 / RQ3 === -->
+      <!-- === 13 / RQ3 === -->
       <section class="slide rq-slide" role="group" aria-roledescription="slide" aria-label="RQ3: glossary-level variation">
         <div class="frame">
           <div class="topline reveal"><span>RQ3 · Glossary-level variation</span><span class="rq-question">Do generated tests retain variation beyond the targeted feature?</span></div>
           <div class="content">
-            <h2 class="headline reveal" style="font-size:70px">Generated tests broadly preserve the measured glossary-feature mix.</h2>
-            <div class="diversity-route reveal" role="img" aria-label="Glossary-feature distributions in the filtered training subset and generated tests">
-              <div class="diversity-panel"><span class="scope-label">FILTERED TRAINING SUBSET</span><h3>Other glossary features</h3><div class="feature-bars"><div class="feature-row"><span>very thin</span><div class="feature-track"><div class="feature-fill" style="--value:34%"></div></div></div><div class="feature-row"><span>right leaning</span><div class="feature-track"><div class="feature-fill" style="--value:62%"></div></div></div><div class="feature-row"><span>very tall</span><div class="feature-track"><div class="feature-fill" style="--value:43%"></div></div></div></div></div>
-              <div class="diversity-arrow">↔</div>
-              <div class="diversity-panel generated"><span class="scope-label">GENERATED TESTS</span><h3>Glossary-classifier frequencies</h3><div class="feature-bars"><div class="feature-row"><span>very thin</span><div class="feature-track"><div class="feature-fill" style="--value:31%"></div></div></div><div class="feature-row"><span>right leaning</span><div class="feature-track"><div class="feature-fill" style="--value:58%"></div></div></div><div class="feature-row"><span>very tall</span><div class="feature-track"><div class="feature-fill" style="--value:47%"></div></div></div></div></div>
+            <h2 class="headline reveal" style="font-size:70px">Targeted LoRA stays closer to the filtered feature mix in all three domains.</h2>
+            <div class="rq3-means reveal" role="img" aria-label="Mean Jensen-Shannon divergence from Table 4 for prompt-only FLUX and targeted LoRA; lower is closer">
+              <div class="rq3-domain"><span class="scope-label">MNIST · MEAN JS</span><h3>7.2× closer</h3><div class="js-pair"><div class="js-value"><span>PROMPT-ONLY FLUX</span><strong>.1765</strong></div><div class="js-value targeted"><span>TARGETED LORA</span><strong>.0244</strong></div></div></div>
+              <div class="rq3-domain"><span class="scope-label">CELEBA-HQ · MEAN JS</span><h3>1.4× closer</h3><div class="js-pair"><div class="js-value"><span>PROMPT-ONLY FLUX</span><strong>.1150</strong></div><div class="js-value targeted"><span>TARGETED LORA</span><strong>.0831</strong></div></div></div>
+              <div class="rq3-domain"><span class="scope-label">SGSM · MEAN JS</span><h3>5.5× closer</h3><div class="js-pair"><div class="js-value"><span>PROMPT-ONLY FLUX</span><strong>.1960</strong></div><div class="js-value targeted"><span>TARGETED LORA</span><strong>.0355</strong></div></div></div>
             </div>
-            <div class="rq-method reveal"><div><span>Result + method</span><p>JS divergence over other glossary-term frequencies: more than 3× closer for MNIST/SGSM; about 32% better for CelebA-HQ.</p></div><div><span>Boundary</span><p>This does not measure pixel-level diversity, memorization, or systematic coverage inside the requirement region.</p></div></div>
+            <div class="rq-method reveal"><div><span>JS · Jensen–Shannon divergence</span><p>Compare frequencies of the other glossary terms with the matching training subset · lower means closer.</p></div><div><span>Boundary</span><p>Means derived from Table 4; JS does not measure pixel diversity, memorization, or latent-space coverage.</p></div></div>
           </div>
-          <div class="footer"><span>[1] §4.2.3 and Table 4 · schematic bars explain the metric; they are not reported values</span><span>14 / 23</span></div>
+          <div class="footer"><span>[1] §4.2.3 and Table 4 · displayed domain means are calculated from the seven reported rows</span><span>13 / 22</span></div>
         </div>
       </section>
 
-      <!-- === 15 / RQ4 === -->
+      <!-- === 14 / RQ4 === -->
       <section class="slide rq-slide" role="group" aria-roledescription="slide" aria-label="RQ4: requirement-specific comparison">
         <div class="frame">
           <div class="topline reveal"><span>RQ4 · Requirement-specific comparison</span><span class="rq-question">Do targeted tests provide more relevant evidence than existing baselines?</span></div>
           <div class="content">
             <h2 class="headline reveal" style="font-size:67px">High pass rates are uninformative when generated images miss the requirement.</h2>
-            <div class="baseline-samples reveal" role="img" aria-label="Schematic reconstruction of paper Table 5: DeepHyperion and transformations generate ordinary or altered threes while RBT4DNN generates very thick threes">
-              <div class="baseline-sample"><span class="scope-label">DEEPHYPERION</span><h3>Feature-space search</h3><div class="digit-strip thin"><span class="digit-tile">3</span><span class="digit-tile">3</span><span class="digit-tile">3</span><span class="digit-tile">3</span><span class="digit-tile">3</span></div><p>Recognizable digits, but the search is not conditioned on “very thick.”</p></div>
-              <div class="baseline-sample"><span class="scope-label">IMAGE TRANSFORMATIONS</span><h3>Rotate · blur · translate</h3><div class="digit-strip transformed"><span class="digit-tile">3</span><span class="digit-tile">3</span><span class="digit-tile">3</span><span class="digit-tile">3</span><span class="digit-tile">3</span></div><p>Changes existing images without explicitly targeting the named semantic region.</p></div>
-              <div class="baseline-sample targeted"><span class="scope-label">RBT4DNN</span><h3>Requirement-targeted</h3><div class="digit-strip targeted"><span class="digit-tile">3</span><span class="digit-tile">3</span><span class="digit-tile">3</span><span class="digit-tile">3</span><span class="digit-tile">3</span></div><p>Generation reaches M2’s “digit 3 and very thick” precondition.</p></div>
-            </div>
-            <div class="rq-method reveal"><div><span>What the visual shows</span><p>DeepHyperion and transformations create recognizable 3s, but not thick 3s; RBT4DNN reaches the named scenario.</p></div><div><span>Interpretation rule</span><p>First establish input relevance; only then does a classifier pass or failure address M2.</p></div></div>
+            <figure class="paper-evidence reveal">
+              <img src="assets/paper-table-5.png" alt="Original paper Table 5 comparing passing and failing digit threes from DeepHyperion, image transformations, and RBT4DNN">
+              <figcaption>Original paper evidence · Table 5 · cropped only for legibility · CC BY 4.0.</figcaption>
+            </figure>
+            <div class="rq-method reveal"><div><span>DeepHyperion</span><p>Searches a user-defined feature map for diverse, boundary-region tests; it is not conditioned on M2’s “very thick” term.</p></div><div><span>Interpretation rule</span><p>Both baseline rows mostly miss thickness; only after input relevance is established does pass/fail address M2.</p></div></div>
           </div>
-          <div class="footer"><span>[1] §4.3.1, Fig. 3, Fig. 7 and Table 5 · DeepHyperion and transformations are untargeted</span><span>15 / 23</span></div>
+          <div class="footer"><span>[1] §4.3.1 and Table 5 · reproduced from Mozumder et al. under CC BY 4.0</span><span>14 / 22</span></div>
         </div>
       </section>
 
-      <!-- === 16 / RQ5 === -->
+      <!-- === 15 / RQ5 === -->
       <section class="slide rq-slide" role="group" aria-roledescription="slide" aria-label="RQ5: postcondition violations">
         <div class="frame">
           <div class="topline reveal"><span>RQ5 · Credible requirement violations</span><span class="rq-question">Do targeted tests expose credible postcondition violations?</span></div>
           <div class="content">
             <h2 class="headline reveal" style="font-size:68px">RBT4DNN exposed failures broadly, and the audited subset was mostly valid.</h2>
             <div class="failure-funnel reveal" role="img" aria-label="Nineteen of twenty-one requirements had failures; eleven low-pass requirements contributed 330 audited failures; mean estimated false positives were 3.3 percent">
-              <div class="funnel-node"><span class="scope-label">OBSERVED FAILURES</span><strong>19/21</strong><h3>requirements</h3><p>At least one postcondition violation was found.</p></div>
+              <div class="funnel-node"><span class="scope-label">AUTOMATED OUTPUT CHECK</span><strong>19/21</strong><h3>requirements</h3><p>The model under test violated the encoded postcondition at least once.</p></div>
               <div class="funnel-arrow">→</div>
-              <div class="funnel-node"><span class="scope-label">AUDIT RULE</span><strong>11 × 30</strong><h3>sampled failures</h3><p>Requirements below 90% pass rate received multi-author review.</p></div>
+              <div class="funnel-node"><span class="scope-label">HUMAN INPUT AUDIT</span><strong>11 × 30</strong><h3>sampled failures</h3><p>Multiple authors checked realism and precondition validity.</p></div>
               <div class="funnel-arrow">→</div>
               <div class="funnel-node"><span class="scope-label">AUDITED QUALITY</span><strong>3.3%</strong><h3>mean false positives</h3><p>330 images total; 11.5% worst case.</p></div>
             </div>
-            <div class="rq-method reveal"><div><span>Method</span><p>Run the learned component, apply the postcondition oracle, then jointly assess realism and precondition match.</p></div><div><span>Boundary</span><p>The audit supports the reviewed samples—not every generated failure or an internal model-fault localization.</p></div></div>
+            <div class="rq-method reveal"><div><span>Who decides what?</span><p>Code checks the model output against the postcondition; humans inspect 330 selected failing images for realism and precondition match.</p></div><div><span>Where VQA/GTCs enter</span><p>Automated semantic labels support the broader pipeline, but the reported RQ5 false-positive audit is multi-author human assessment.</p></div></div>
           </div>
-          <div class="footer"><span>[1] §4.3.2 and Fig. 7 · assessor disagreement on precondition consistency was 1.7%</span><span>16 / 23</span></div>
+          <div class="footer"><span>[1] §4.1.6 and §4.3.2 · assessor disagreement on precondition consistency was 1.7%</span><span>15 / 22</span></div>
         </div>
       </section>
 
-      <!-- === 17 / RQ6 === -->
+      <!-- === 16 / RQ6 === -->
       <section class="slide rq-slide" role="group" aria-roledescription="slide" aria-label="RQ6: exploratory ImageNet behavior">
         <div class="frame">
           <div class="topline reveal"><span>RQ6 · Exploratory decision behavior</span><span class="rq-question">Can failures reveal repeatable patterns in model decisions?</span></div>
           <div class="content">
-            <h2 class="headline reveal" style="font-size:74px">Failures reveal repeatable patterns—but not their causes.</h2>
-            <div class="pattern-chain reveal" role="img" aria-label="RQ6 analysis from ImageNet failures to concentrated predictions and hypotheses">
-              <div class="pattern-step"><span class="index">01</span><h3>Generate and run</h3><p>Four zoological requirements against three high-accuracy ImageNet classifiers.</p></div>
-              <div class="pattern-step"><span class="index">02</span><h3>Collect 1,486 failures</h3><p>Postconditions ask for a taxonomically compatible prediction, not one exact class.</p></div>
-              <div class="pattern-step"><span class="index">03</span><h3>Find prediction clusters</h3><p>Wrong outputs concentrate in a few repeated labels and differ across models.</p></div>
-              <div class="pattern-step"><span class="index">04</span><h3>Inspect associated images</h3><p>Background objects, partial animals, and multi-object scenes motivate hypotheses.</p></div>
+            <h2 class="headline reveal" style="font-size:68px">Backgrounds and partial animals align with repeated wrong labels—but do not prove causation.</h2>
+            <div class="rq6-evidence reveal">
+              <figure class="rq6-paper">
+                <img src="assets/paper-table-7.png" alt="Original paper Table 7 showing generated animal failure cases with model outputs and representative ImageNet training images">
+                <figcaption>Original paper Table 7 · generated failure cases and training examples · cropped for legibility · CC BY 4.0.</figcaption>
+              </figure>
+              <div class="rq6-reading">
+                <div class="rq6-point"><span>METHOD</span><h3>4 requirements × 3 classifiers × repeated generation</h3><p>Collect 1,486 postcondition failures, rank frequent wrong labels, then manually inspect associated images.</p></div>
+                <div class="rq6-point"><span>EXAMPLE</span><h3>A bird near a fence → “worm fence”</h3><p>Other cases align with insects, horses, or snakes that resemble frequent training classes or backgrounds.</p></div>
+                <div class="rq6-point"><span>BOUNDARY</span><h3>Association, not causal diagnosis</h3><p>The study does not change only the background while holding the animal fixed.</p></div>
+              </div>
             </div>
-            <div class="rq-method reveal"><div><span>Evidence</span><p>Prediction frequencies plus manual comparison with generated and training images.</p></div><div><span>Boundary</span><p>These associations suggest failure modes and dataset issues; they do not establish causal mechanisms.</p></div></div>
           </div>
-          <div class="footer"><span>[1] §4.3.3, Figs. 8–9 and Table 7 · pass rates span approximately 93.5%–99.5%</span><span>17 / 23</span></div>
+          <div class="footer"><span>[1] §4.3.3 and Table 7 · image reproduced under CC BY 4.0 · pass rates 93.5%–99.5%</span><span>16 / 22</span></div>
         </div>
       </section>
 
-      <!-- === 18 / AUTHORS FUTURE === -->
+      <!-- === 17 / AUTHORS FUTURE === -->
       <section class="slide" role="group" aria-roledescription="slide" aria-label="Authors’ limitations and future work">
         <div class="frame">
           <div class="topline reveal"><span>Authors’ assessment</span><span>Limitations and stated future scope</span></div>
@@ -1097,16 +1127,16 @@
             <h2 class="headline reveal" style="font-size:76px">The paper demonstrates feasibility—not a complete assurance process.</h2>
             <div class="concept-grid reveal">
               <div class="concept"><span class="scope-label">Generative training</span><h3>Better tests</h3><p>Improve generator training and adaptation to reveal more observed failures and reduce false positives.</p></div>
-              <div class="concept"><span class="scope-label">Coverage evidence</span><h3>Latent coverage</h3><p>Adapt systematic latent-space coverage when test generation does not reveal a failure.</p></div>
+              <div class="concept"><span class="scope-label">Coverage evidence</span><h3>Latent-space coverage</h3><p>Map the model’s internal feature space and deliberately search regions that generated tests have not exercised.</p></div>
               <div class="concept"><span class="scope-label">Generalization</span><h3>More domains</h3><p>Expand driving-like safety datasets and explore broader robustness and functional requirements.</p></div>
             </div>
             <div class="assurance-boundary reveal"><span>Assurance boundary</span><p>Automated labels, selected datasets, narrow baselines, and small KID subsets limit how far the evidence generalizes.</p></div>
           </div>
-          <div class="footer"><span>[1] §4.4 and §5 · author-stated scope kept separate from this seminar’s critique</span><span>18 / 23</span></div>
+          <div class="footer"><span>[1] §4.4 and §5 · author-stated scope kept separate from this seminar’s critique</span><span>17 / 22</span></div>
         </div>
       </section>
 
-      <!-- === 19 / CENTRAL CRITIQUE === -->
+      <!-- === 18 / CENTRAL CRITIQUE === -->
       <section class="slide" role="group" aria-roledescription="slide" aria-label="Central critique: the validity chain">
         <div class="frame">
           <div class="topline reveal"><span>05 · Critical review</span><span>Central thesis</span></div>
@@ -1119,89 +1149,79 @@
               <div class="evidence-cell credible"><span class="scope-label">PRECONDITION VALID · MODEL FAILS</span><h3>Credible counterexample</h3><p>This joint event is the paper’s strongest testing evidence.</p></div>
             </div>
             <div class="assurance-boundary reveal"><span>Sampled joint audit</span><p>30 failures × 11 low-pass requirements = 330 independently assessed samples.</p></div>
-            <p class="scope-note reveal"><strong>Fair critique:</strong> the paper did perform joint validation. Its generalization remains limited by author assessment, fixed samples, no reported confidence intervals, and no external or blinded annotators.</p>
+            <p class="scope-note reveal"><strong>Most defensible critique:</strong> semantic validity is both the method’s key input and its main measurement risk. The 330-image human audit is a real strength; the remaining gap is independent, blinded, population-wide joint validation.</p>
           </div>
-          <div class="footer"><span>Independent critical synthesis based on [1] §4.1.6, §4.3.2 and §4.4</span><span>19 / 23</span></div>
+          <div class="footer"><span>Independent critical synthesis based on [1] §4.1.6, §4.3.2 and §4.4</span><span>18 / 22</span></div>
         </div>
       </section>
 
-      <!-- === 20 / VALIDITY EXTENSIONS === -->
+      <!-- === 19 / VALIDITY EXTENSIONS === -->
       <section class="slide" role="group" aria-roledescription="slide" aria-label="Precondition-validity and LLM-audit extensions">
         <div class="frame">
           <div class="topline reveal"><span>Additional analysis 1</span><span>From raw failures toward evidence quality</span></div>
-          <div class="content cols-2">
-            <div>
-              <h2 class="headline reveal" style="font-size:66px">The proxy and 42-image LLM check identify audit targets; neither estimates population validity.</h2>
-              <div class="proxy-chart reveal" role="img" aria-label="Independence-proxy ranking by requirement">
-                <h3>Independence-proxy ranking</h3>
-                <div class="proxy-bars">
-                  <div class="proxy-row"><span>SGSM S2</span><div class="proxy-track"><div class="proxy-fill" style="--value:92%"></div></div><b>73.6%</b></div>
-                  <div class="proxy-row"><span>MNIST M3</span><div class="proxy-track"><div class="proxy-fill" style="--value:37%"></div></div><b>29.3%</b></div>
-                  <div class="proxy-row"><span>SGSM S1</span><div class="proxy-track"><div class="proxy-fill" style="--value:33%"></div></div><b>26.3%</b></div>
-                  <div class="proxy-row"><span>CelebA C6</span><div class="proxy-track"><div class="proxy-fill" style="--value:25%"></div></div><b>20.0%</b></div>
-                  <div class="proxy-row"><span>CelebA C2</span><div class="proxy-track"><div class="proxy-fill" style="--value:15%"></div></div><b>11.7%</b></div>
-                </div>
-                <p class="proxy-note">Diagnostic only · unconditional P(match) × P(fail) · not an observed joint rate</p>
-              </div>
+          <div class="content">
+            <h2 class="headline reveal" style="font-size:66px">Three lightweight checks test reproducibility and prioritize stronger human validation.</h2>
+            <div class="analysis-steps reveal">
+              <div class="analysis-step"><span class="scope-label">01 · ARTIFACT CONSISTENCY</span><h3>Recalculate stored MNIST results</h3><p>Compare seven published fields with the authors’ saved result files. No model inference, generation, or retraining.</p><strong>max Δ · .013</strong></div>
+              <div class="analysis-step"><span class="scope-label">02 · AUDIT PRIORITY</span><h3>Combine match and failure rates</h3><p>Compute P(match) × P(fail) as an independence-based triage score—not an observed joint probability.</p><strong>S2 · 73.6%</strong></div>
+              <div class="analysis-step"><span class="scope-label">03 · EXTERNAL SPOT-CHECK</span><h3>Ask one multimodal model</h3><p>Sample two images per requirement and judge only precondition validity: 42 images in total.</p><strong>31/42 · .738</strong></div>
             </div>
-            <div class="audit-summary reveal">
-              <span class="scope-label">Small external semantic check</span>
-              <strong class="audit-number">.738</strong>
-              <p>31 of 42 sampled images were judged precondition-valid by one multimodal model.</p>
-              <div class="audit-rule"><strong>Use:</strong> decide where independent joint review is most valuable.</div>
-              <p class="audit-method">The product assumes independence. The paper’s conditional human audit among failures is methodologically stronger; this LLM check is only a second opinion.</p>
-            </div>
+            <div class="assurance-boundary reveal"><span>What this establishes</span><p>The stored numbers are internally consistent and some requirements deserve priority review. It does not estimate the population-wide valid-failure rate.</p></div>
           </div>
-          <div class="footer"><span>Seminar experiments · precondition-validity and llm-validity-audit</span><span>20 / 23</span></div>
+          <div class="footer"><span>Seminar experiments · replication, precondition-validity, and llm-validity-audit</span><span>19 / 22</span></div>
         </div>
       </section>
 
-      <!-- === 21 / SCALABILITY EXTENSION === -->
+      <!-- === 20 / SCALABILITY EXTENSION === -->
       <section class="slide" role="group" aria-roledescription="slide" aria-label="Shared-generator and scalability experiments">
         <div class="frame">
-          <div class="topline reveal"><span>Additional analysis 2 · Scalability</span><span>Did the paper already test one shared adapter?</span></div>
+          <div class="topline reveal"><span>Additional analysis 2</span><span>Scalability · can one conditional generator replace many LoRAs?</span></div>
           <div class="content">
-            <h2 class="headline reveal" style="font-size:68px">Yes—but our shared VAE asks a different, still unresolved question.</h2>
-            <div class="scaling-compare reveal">
-              <div class="scaling-case"><span class="scope-label">PAPER · ALL-DATA LORA</span><h3>One FLUX LoRA sees every MNIST training image.</h3><p>It is tested in RQ1, misses rare preconditions, and is dropped from later RQs.</p><strong>M3 match · 7.4%</strong></div>
-              <div class="scaling-case"><span class="scope-label">SEMINAR · SHARED VAE</span><h3>One new conditional VAE sees copied RBT4DNN outputs.</h3><p>Its digit-pass pattern is similar on MNIST, but it is neither FLUX nor LoRA and lacks RQ1–RQ3 validation.</p><strong>mean pass · .945</strong></div>
-              <div class="scaling-case"><span class="scope-label">NEXT CONTROLLED STUDY</span><h3>One shared conditional FLUX adapter on original data.</h3><p>Compare with per-precondition LoRAs using the same prompts, GTCs, KID, JS, and independent human audit.</p><strong>open question</strong></div>
+            <h2 class="headline reveal" style="font-size:65px">One conditional VAE matched digit-pass rates—but did not test requirement validity.</h2>
+            <div class="definition-line reveal"><strong>VAE = Variational Autoencoder:</strong> an encoder compresses images into a probabilistic latent space; a decoder samples that space to generate images.</div>
+            <div class="vae-flow reveal" role="img" aria-label="Methodology of the shared conditional VAE experiment">
+              <div class="vae-node"><span class="scope-label">TRAINING DATA</span><h3>Copy upstream RBT4DNN outputs</h3><p>Use per-requirement generated MNIST images and attach the requirement ID M1–M6.</p></div>
+              <div class="vae-arrow">→</div>
+              <div class="vae-node"><span class="scope-label">ONE NEW MODEL</span><h3>Train one conditional VAE</h3><p>The requirement ID conditions generation. This model is neither FLUX nor LoRA and does not use original MNIST directly.</p><strong>shared generator</strong></div>
+              <div class="vae-arrow">→</div>
+              <div class="vae-node"><span class="scope-label">EVALUATION</span><h3>Generate and classify digits</h3><p>Three seeds × 100 images per requirement; evaluate only the digit postcondition with a classifier.</p><strong>mean .945 · M3 .743</strong></div>
             </div>
-            <div class="measured-cost reveal"><span>Why scalability matters</span><p>21 primary adapters × reported 52.1–82.5 minutes each</p><b>≈24.7 serial A100-hours</b></div>
+            <div class="measured-cost reveal"><span>Critical comparison</span><p>Paper’s all-data LoRA: M3 match 7.4% · next study: one conditional FLUX adapter on original data with RQ1–RQ3 metrics</p><b>≈24.7 serial A100-hours motivate sharing</b></div>
           </div>
-          <div class="footer"><span>[1] Fig. 3 and artifact · seminar mnist-shared-generator · total excludes unreported workflow costs</span><span>21 / 23</span></div>
+          <div class="footer"><span>[1] Fig. 3 · seminar mnist-shared-generator · no direct precondition, KID, JS, or human-validity evaluation</span><span>20 / 22</span></div>
         </div>
       </section>
 
-      <!-- === 22 / CONCLUSION === -->
+      <!-- === 21 / CONCLUSION === -->
       <section class="slide statement-slide" role="group" aria-roledescription="slide" aria-label="Assessment and conclusion">
         <div class="frame">
           <div class="topline reveal"><span>06 · Assessment and future scope</span><span>Independent conclusion</span></div>
-          <p class="statement reveal" style="font-size:101px">Requirements make tests <span class="accent-blue">relevant.</span><br>Validity makes failures <span class="accent-orange">credible.</span></p>
+          <p class="statement reveal" style="font-size:92px">Requirements make tests <span class="accent-blue">relevant.</span><br>Validity makes failures <span class="accent-orange">credible.</span></p>
           <div class="scope-strip reveal" style="margin-top:52px">
             <div class="scope-item"><span class="index">What the paper establishes</span><p>Structured requirements can guide distributionally plausible, glossary-diverse, scenario-specific test generation across four domains.</p></div>
-            <div class="scope-item"><span class="index">What remains open</span><p>Broader independent joint audits, shared generators, alternative adaptation methods, and end-to-end replication at larger scale.</p></div>
+            <div class="scope-item"><span class="index">What limits the claim</span><p>Semantic labels and glossary classifiers are useful proxies; credible failures still depend on joint input-and-output validation.</p></div>
+            <div class="scope-item"><span class="index">Most valuable next study</span><p>Compare conditional shared and per-requirement adapters with identical RQ1–RQ3 metrics and independent human audits.</p></div>
           </div>
           <div class="spacer"></div>
-          <div class="footer"><span>End of 20-minute talk · questions</span><span>22 / 23</span></div>
+          <div class="footer"><span>End of 20-minute talk · questions</span><span>21 / 22</span></div>
         </div>
       </section>
 
-      <!-- === 23 / REFERENCES === -->
+      <!-- === 22 / REFERENCES === -->
       <section class="slide" role="group" aria-roledescription="slide" aria-label="References">
         <div class="frame">
           <div class="topline reveal"><span>References</span><span>Primary sources and provenance</span></div>
           <div class="content">
             <h2 class="headline reveal" style="font-size:72px">References.</h2>
             <div class="bibliography reveal">
-              <div class="bib-row"><span class="index">[1]</span><p><strong>N. J. Mozumder, F. Toledo, S. Dola, and M. B. Dwyer.</strong> “RBT4DNN: Requirements-based Testing of Neural Networks.” arXiv:2504.02737, v3, 2025.</p></div>
+              <div class="bib-row"><span class="index">[1]</span><p><strong>N. J. Mozumder, F. Toledo, S. Dola, and M. B. Dwyer.</strong> “RBT4DNN: Requirements-based Testing of Neural Networks.” arXiv:2504.02737, v3, 2025. CC BY 4.0.</p></div>
               <div class="bib-row"><span class="index">[2]</span><p><strong>E. J. Hu et al.</strong> “LoRA: Low-Rank Adaptation of Large Language Models.” ICLR, 2022.</p></div>
               <div class="bib-row"><span class="index">[3]</span><p><strong>RBT4DNN artifact.</strong> github.com/less-lab-uva/RBT4DNN · seminar provenance pinned to commit c3deff871ed41043d83a05289faab84c41706586.</p></div>
               <div class="bib-row"><span class="index">[4]</span><p><strong>Seminar experiments.</strong> Reproducible notebooks, results, summaries, and provenance in this repository.</p></div>
             </div>
             <div class="source-links reveal"><a href="https://arxiv.org/abs/2504.02737">Original paper ↗</a><a href="https://github.com/less-lab-uva/RBT4DNN">Original artifact ↗</a></div>
           </div>
-          <div class="footer"><span>Independent seminar project · 2026</span><span>23 / 23</span></div>
+          <div class="footer"><span>Independent seminar project · 2026</span><span>22 / 22</span></div>
         </div>
       </section>
     </main>
@@ -1210,7 +1230,7 @@
   <!-- === PRESENTATION CONTROLS: one HTML file, hash fragments only === -->
   <nav class="deck-controls" aria-label="Presentation controls">
     <button id="previousSlide" type="button" aria-label="Previous slide">←</button>
-    <span class="counter" id="slideCounter">1 / 23</span>
+    <span class="counter" id="slideCounter">1 / 22</span>
     <button id="nextSlide" type="button" aria-label="Next slide">→</button>
   </nav>
   <div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
